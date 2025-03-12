@@ -18,6 +18,7 @@ WGR-V-MAX/tb_sim/work/
 WGR-V-MAX/tb_sim/modelsim.ini
 WGR-V-MAX/tb_sim/sim_log.txt
 WGR-V-MAX/tb_sim/db/
+build/
 *wgr_flat.hex
 *wgr_fram.hex
 .cdb/
