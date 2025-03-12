@@ -10,7 +10,7 @@ Dieses Repository enthält einen RISC-V Prozessor und Peripherie in Verilog, sow
 
 ### 📂 `/WGR-V-MAX`
 
-Hier befindet sich das Quartus-Projekt inklusive FPGA-Beschreibung und Simulationen.
+Hier befinden sich die nötige Ordnerstruktur, um das Projekt mit Quartus zu verwendet.
 - **IP**: Enthält FPGA-RAM Dateien (`altsyncram`).
 - **mem**: Speicherinitialisierungs Datei (`wgr_flat.hex`)
 - **tb_sim**: Testbench für die Simulation mit Questa.
@@ -63,6 +63,12 @@ Enthält den Kern des RISC-V Prozessors.
 - `seq_divider.v`: Sequentieller 32 Bit Ganzzahl-Dividierer
   - Noch nicht fertig
 
+### 📂 `/asic` (Noch nicht fertig)
+
+Skripte und Testbench, um den Prozessor als ASIC zu synthetisieren
+- Synthese per Openlane2, Simulation mit Verilator + cocotb.
+- Verwendung von 130nm SkyWater PDK.
+
 ### 📂 `/scripts`
 
 Skripte zur Automatisierung von Kompilierung, Hex-Konvertierung und Simulation.
@@ -103,13 +109,13 @@ src\project_asm\
 ```
 
 ### 📦 Hex-Dateien generieren
-Eine altsyncram RAM Initialisierungs `.hex` Datei wird erstellt mir:
+Eine altsyncram RAM Initialisierungs `.hex` Datei wird erstellt mit:
 ```batch
-python scripts/hex_conv/conv_hex.py <input.hex> <output.hex> <shift_amount in hex> <memory_depth>
+python scripts/hex_conv/conv_hex.py [input.hex] [output.hex] [shift_amount in hex] [<memory_depth]
 ```
 Die für den FRAM benötigte Datei wird aus der mit `.conv_hex.py` erstellten Datei generiert:
 ```batch
-python scripts/hex_conv/conv_fram.py <input.hex> <output.hex> <memory_size>
+python scripts/hex_conv/conv_fram.py [input.hex] [output.hex] [memory_size]
 ```
 Die Skripte zum Kompilieren tun diese Schritte automatisch und legen die Dateien in die richtigen Ordner.
 
