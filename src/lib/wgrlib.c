@@ -1,6 +1,6 @@
 #include "wgrtypes.h"
 
-#define HARDWAREDIVISION
+//#define HARDWAREDIVISION
 
 typedef union
 {

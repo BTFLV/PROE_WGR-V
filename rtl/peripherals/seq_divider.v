@@ -70,12 +70,12 @@ module seq_divider (
 
       if (busy)
       begin
-        dvdend_tmp = dvdend_tmp << 1;
-        quotient = quotient << 1;
+        dvdend_tmp <= dvdend_tmp << 1;
+        quotient   <= quotient << 1;
 
         if (dvdend_tmp[63:32] >= divisor)
         begin
-          dvdend_tmp[63:32] = dvdend_tmp[63:32] - divisor;
+          dvdend_tmp[63:32] <= dvdend_tmp[63:32] - divisor;
           quotient[0] = 1;
         end
 

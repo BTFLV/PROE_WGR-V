@@ -52,7 +52,6 @@ module uart #(
   reg [DIV_WIDTH - 1:0] rx_bd_cntr;
   reg [DIV_WIDTH - 1:0] bd_div_cnt;
 
-  reg [31:0] uart_ctrl;
   reg [ 7:0] tx_shift;
   reg [ 7:0] rx_shift;
   reg [ 3:0] baud_sel;
@@ -67,6 +66,7 @@ module uart #(
   reg rx_sync_1;
   reg rx_sync_2;
   reg rx_last;
+  reg new_active;
   reg active;
 
   wire [7:0] tx_fifo_dout;
@@ -117,7 +117,7 @@ module uart #(
   
   assign rx_fall_edge = (rx_last == 1'b1) && (rx_sync_2 == 1'b0);
 
-  assign read_data    = (address[7:0] == CTRL_OFFSET)   ? uart_ctrl :
+  assign read_data    = (address[7:0] == CTRL_OFFSET)   ? {31'd0, active} :
                         (address[7:0] == BAUD_OFFSET)   ? {28'd0, baud_sel} :
                         (address[7:0] == STATUS_OFFSET) ? {26'd0, status_bits} :
                         (address[7:0] == RX_OFFSET)     ? {23'd0, !rx_fifo_empty, rx_data} :
@@ -335,6 +335,7 @@ module uart #(
     if (!rst_n)
     begin
       active       <= 1'b1;
+      new_active   <= 1'b1;
       baud_sel     <= 4'd0;
       new_baud_sel <= 4'd0;
     end
@@ -345,7 +346,7 @@ module uart #(
 
         CTRL_OFFSET:
         begin
-          //active    <= write_data[0];
+          new_active   <= write_data[0];
         end
 
         BAUD_OFFSET:
@@ -357,7 +358,10 @@ module uart #(
     end
     else
     if (uart_ready)
+    begin
       baud_sel <= new_baud_sel;
+      active   <= new_active;
+    end
   end
 
 endmodule

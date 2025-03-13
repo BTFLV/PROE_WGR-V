@@ -63,11 +63,40 @@ Enthält den Kern des RISC-V Prozessors.
 - `seq_divider.v`: Sequentieller 32 Bit Ganzzahl-Dividierer
   - Noch nicht fertig
 
-### 📂 `/asic` (Noch nicht fertig)
+### 📂 `/asic`
 
-Skripte und Testbench, um den Prozessor als ASIC zu synthetisieren
-- Synthese per Openlane2, Simulation mit Verilator + cocotb.
-- Verwendung von 130nm SkyWater PDK.
+Die ASIC-Version von WGR-V befindet sich aktuell in einem separaten Repository mit automatisierten CI/CD-Synthese- und Test-Skripten:
+
+[**WGR-V ASIC**](https://github.com/BTFLV/BTFLV-PROE_WGR-V-ASIC)
+
+#### Tools und Prozess
+- **Synthese:** Openlane2
+- **Simulation:** Verilator + cocotb
+- **Technologie:** SkyWater 130nm PDK
+
+#### Speicheranbindung
+- SPI-FRAM als RAM/ROM angeschlossen (über die sonst von `spi.v` verwendeten Pins).
+- Die CPU verwendet diesen wie einen normalen RAM, da `fram_ram.v` die Kommunikation zwischen der CPU und `fram_spi.v` brückt.
+
+#### Chip-Layout
+![WGR-V-ASIC GDS Render](asic/WGR-V-ASIC_gds_render.jpg)
+
+- **Gesamtfläche:** 0,192 mm²
+- **Effektive Nutzung:** ca. 41%
+- **Transistoren:** ca. 80.000
+
+#### Enthaltene Peripherie
+| Peripherie-Modul   |
+|--------------------|
+| ✅ debug_module    |
+| ✅ uart            |
+| ✅ pwm_timer       |
+| ✅ system_timer    |
+| ❌ spi             |
+| ❌ gpio            |
+| ❌ ws2812b         |
+| ❌ seq_multiplier  |
+| ❌ seq_divider     |
 
 ### 📂 `/scripts`
 

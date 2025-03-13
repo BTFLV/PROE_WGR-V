@@ -3,7 +3,7 @@
 
 #define MALLOC
 #define PWM_NOTES
-#define SSD1306
+#define SSD1351
 
 #include "wgrtypes.h"
 
@@ -39,8 +39,10 @@
 
 #define GPIO_BASE_ADDR    0x00000800
 #define GPIO_DIR_OFFSET   0x0000
-#define GPIO_OUT_OFFSET   0x0004
-#define GPIO_IN_OFFSET    0x0008
+#define GPIO_IN_OFFSET    0x0004
+#define GPIO_OUT_OFFSET   0x0008
+#define GPIO_OUT_STEP     0x04
+#define GPIO_PIN_COUNT    8
 
 #define DEFAULT_TIMEOUT    10
 
@@ -111,11 +113,10 @@ void pwm_set_pre_counter(uint16_t pre_counter);
 uint32_t pwm_get_pre_counter(void);
 
 // GPIO Functions
-void gpio_set_pin_direction(uint8_t pin, uint8_t is_input);
 void gpio_write_pin(uint8_t pin, uint8_t value);
+uint8_t gpio_read_all_pins(void);
 uint8_t gpio_read_pin(uint8_t pin);
-void gpio_set_direction(uint32_t dir_mask);
-void gpio_write(uint32_t value);
-uint32_t gpio_read(void);
+void gpio_set_direction(uint8_t pin, uint8_t direction);
+uint8_t gpio_read_direction(uint8_t pin);
 
 #endif /* WGRHAL_H */

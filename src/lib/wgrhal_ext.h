@@ -121,18 +121,7 @@ uint32_t heap_free_space(void);
 
 #endif
 
-#ifdef SSD1306
-//SSD1306 Display with Scroll Function
-#define SSD1306_WIDTH 128
-#define SSD1306_HEIGHT 64
-
-#define TERM_ROWS 4
-#define TERM_COLS 23
-
-#define CHAR_WIDTH 6
-#define CHAR_HEIGHT 8
-
-#define SSD1306_SPI_TIMEOUT 100
+#ifdef SSD1351
 
 static const uint8_t font5x7[96][5] = {
     {0x00, 0x00, 0x00, 0x00, 0x00}, // ' ' (32)
@@ -233,14 +222,45 @@ static const uint8_t font5x7[96][5] = {
     {0x00, 0x06, 0x09, 0x09, 0x06}  // DEL (127)
 };
 
-void ssd1306_set_position(uint8_t page, uint8_t col);
-void ssd1306_init(void);
-void draw_char_cell(uint8_t row, uint8_t col, char c);
-void clear_terminal_row(uint8_t row);
-void terminal_native_scroll(void);
-void terminal_put_char(char c);
-void terminal_print(const char *str);
+#define SSD1351_WIDTH   128
+#define SSD1351_HEIGHT  128
+#define CHAR_WIDTH       6
+#define CHAR_HEIGHT      8
+#define STATUS_BAR_ROWS  1
+#define TOTAL_ROWS       (SSD1351_HEIGHT / CHAR_HEIGHT)
+#define TERM_COLS        (SSD1351_WIDTH / CHAR_WIDTH)
+#define TERM_ROWS        (TOTAL_ROWS)
+#define SSD1351_SPI_TIMEOUT 10
+
+#define COLOR_BLACK    0x0000
+#define COLOR_WHITE    0xFFFF
+#define COLOR_RED      0xF800
+#define COLOR_GREEN    0x07E0
+#define COLOR_BLUE     0x001F
+#define COLOR_YELLOW   0xFFE0
+#define COLOR_MAGENTA  0xF81F
+#define COLOR_CYAN     0x07FF
+
+void ssd1351_send_data(const uint8_t *data, size_t len);
+void ssd1351_send_command(uint8_t cmd);
+void ssd1351_send_command_with_data(uint8_t cmd, const uint8_t *data, size_t len);
+void ssd1351_send_commands(const uint8_t *buf, size_t len);
+void ssd1351_init(void);
+void ssd1351_set_position(uint8_t x, uint8_t y, uint8_t w, uint8_t h);
+void ssd1351_fill_screen(uint16_t color);
+void ssd1351_draw_pixel(uint8_t x, uint8_t y, uint16_t color);
 void terminal_init(void);
+void terminal_print(const char *str);
+void terminal_put_char(char c);
+void terminal_set_text_color(uint16_t color);
+void terminal_set_bg_color(uint16_t color);
+void terminal_draw_text(uint8_t row, uint8_t col, const char *str, uint16_t fg_color, uint16_t bg_color);
+void terminal_draw_text_default(uint8_t row, uint8_t col, const char *str);
+void terminal_native_scroll(void);
+void clear_terminal_row(uint8_t row);
+void draw_status_bar(const char *text, uint16_t bg_color, uint16_t fg_color);
+void draw_char_cell(uint8_t row, uint8_t col, char c);
+
 
 #endif
 

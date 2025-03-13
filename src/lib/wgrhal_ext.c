@@ -638,115 +638,211 @@ void *calloc(uint32_t nmemb, uint32_t size)
 
 #endif
 
-#ifdef SSD1306
+#ifdef SSD1351
 
 // ----------------------- WGR-V -----------------------
 //
-//        SSD1306 Display with Scroll Function
+//         SSD1351 Display with Scroll Function
 //
 //------------------------------------------------------
 
-const uint8_t init_cmds[] = {
-    0xAE, 0xD5, 0x80, 0xA8, SSD1306_HEIGHT - 1,
-    0xD3, 0x00, 0x40, 0x8D, 0x14, 0x20, 0x00,
-    0xA1, 0xC8, 0xDA, 0x12, 0x81, 0xCF, 0xD9,
-    0xF1, 0xDB, 0x40, 0xA4, 0xA6, 0xAF};
+// SSD1351 Init Sequence
+static const uint8_t ssd1351_init_cmds[] = {
+    0xFD, 1, 0x12,
+    0xFD, 1, 0xB1,
+    0xAE, 0,
+    0xB3, 1, 0xF1,
+    0xCA, 1, 0x7F,
+    0xA0, 1, 0x74,
+    0xA1, 1, 0x00,
+    0xA2, 1, 0x00,
+    0xA6, 0,
+    0xAB, 1, 0x01,
+    0xB1, 1, 0x32,
+    0xB2, 3, 0xA4, 0x00, 0x00,
+    0xB4, 3, 0xA0, 0xB5, 0x55,
+    0xB6, 1, 0x01,
+    0xC1, 3, 0xC8, 0x80, 0xC8,
+    0xC7, 1, 0x0F,
+    0xBE, 1, 0x05,
+    0x15, 2, 0x00, 0x7F,
+    0x75, 2, 0x00, 0x7F,
+    0xAF, 0};
 
-void ssd1306_send_command(uint8_t cmd)
+static uint8_t scroll_offset = 0;
+static uint8_t term_cursor_x = 0;
+static uint8_t term_cursor_y = TOTAL_ROWS - 1;
+static uint16_t term_text_color = COLOR_WHITE;
+static uint16_t term_bg_color = COLOR_BLACK;
+
+void ssd1351_send_data(const uint8_t *data, size_t len)
+{
+    gpio_write_pin(0, 1);
+    spi_cs(1);
+    spi_write_buffer(data, len, SSD1351_SPI_TIMEOUT);
+    spi_cs(0);
+}
+
+void ssd1351_send_command(uint8_t cmd)
+{
+    gpio_write_pin(0, 0);
+    spi_cs(1);
+    spi_write_byte(cmd, SSD1351_SPI_TIMEOUT);
+    spi_cs(0);
+}
+
+void ssd1351_send_command_with_data(uint8_t cmd, const uint8_t *data, size_t len)
 {
     spi_cs(1);
-    spi_write_byte(cmd, SSD1306_SPI_TIMEOUT);
+    gpio_write_pin(0, 0);
+    spi_write_byte(cmd, SSD1351_SPI_TIMEOUT);
+    if (len > 0)
+    {
+        gpio_write_pin(0, 1);
+        spi_write_buffer(data, len, SSD1351_SPI_TIMEOUT);
+    }
     spi_cs(0);
 }
 
-void ssd1306_send_commands(const uint8_t *cmds, size_t len)
+void ssd1351_send_commands(const uint8_t *buf, size_t len)
 {
-    spi_cs(1);
-    spi_write_buffer(cmds, len, SSD1306_SPI_TIMEOUT);
-    spi_cs(0);
+    size_t i = 0;
+    while (i < len)
+    {
+        uint8_t cmd = buf[i++];
+        uint8_t dataLen = buf[i++];
+        ssd1351_send_command_with_data(cmd, &buf[i], dataLen);
+        i += dataLen;
+    }
 }
 
-void ssd1306_send_data(uint8_t *data, size_t len)
-{
-    spi_cs(1);
-    spi_write_buffer(data, len, SSD1306_SPI_TIMEOUT);
-    spi_cs(0);
-}
-
-void ssd1306_set_position(uint8_t page, uint8_t col)
-{
-    ssd1306_send_command(0xB0 | page);
-    ssd1306_send_command(0x00 | (col & 0x0F));
-    ssd1306_send_command(0x10 | (col >> 4));
-}
-
-void ssd1306_init(void)
+void ssd1351_init(void)
 {
     spi_cs(0);
-    spi_automatic_cs(0);
-    ssd1306_send_commands(init_cmds, sizeof(init_cmds));
+
+    gpio_write_pin(1, 0);
+    delay(100);
+    gpio_write_pin(1, 1);
+    delay(100);
+
+    ssd1351_send_commands(ssd1351_init_cmds, sizeof(ssd1351_init_cmds));
+    delay(100);
+
+    uint8_t scroll_area[2] = {CHAR_HEIGHT, (uint8_t)(SSD1351_HEIGHT - CHAR_HEIGHT)};
+    ssd1351_send_command(0xA3);
+    ssd1351_send_data(scroll_area, 2);
+
+    scroll_offset = 0;
+    uint8_t scroll_start = scroll_offset + CHAR_HEIGHT;
+    ssd1351_send_command(0xA1);
+    ssd1351_send_data(&scroll_start, 1);
+}
+
+void ssd1351_set_position(uint8_t x, uint8_t y, uint8_t w, uint8_t h)
+{
+    uint8_t colArgs[2] = {x, (uint8_t)(x + w - 1)};
+    uint8_t rowArgs[2] = {y, (uint8_t)(y + h - 1)};
+
+    ssd1351_send_command(0x15);
+    ssd1351_send_data(colArgs, 2);
+
+    ssd1351_send_command(0x75);
+    ssd1351_send_data(rowArgs, 2);
+
+    ssd1351_send_command(0x5C);
+}
+
+void draw_char_cell_custom(uint8_t row, uint8_t col, char c, uint16_t fg, uint16_t bg)
+{
+    if (c < 32 || c > 127)
+    {
+        c = '?';
+    }
+    const uint8_t *glyph = font5x7[c - 32];
+    uint8_t x = col * CHAR_WIDTH;
+    uint8_t y = row * CHAR_HEIGHT;
+
+    ssd1351_set_position(x, y, CHAR_WIDTH, CHAR_HEIGHT);
+
+    uint16_t cell[CHAR_WIDTH * CHAR_HEIGHT];
+    for (int i = 0; i < CHAR_WIDTH * CHAR_HEIGHT; i++)
+    {
+        cell[i] = bg;
+    }
+    for (uint8_t cx = 0; cx < 5; cx++)
+    {
+        uint8_t bits = glyph[cx];
+        for (uint8_t cy = 0; cy < 7; cy++)
+        {
+            if (bits & (1 << cy))
+            {
+                cell[cy * CHAR_WIDTH + cx] = fg;
+            }
+        }
+    }
+    ssd1351_send_data((uint8_t *)cell, sizeof(cell));
 }
 
 void draw_char_cell(uint8_t row, uint8_t col, char c)
 {
-    uint8_t page = row;
-    uint8_t x = col * CHAR_WIDTH;
-    uint8_t cell[CHAR_WIDTH] = {0};
-    if (c < 32 || c > 127)
-        c = '?';
-    const uint8_t *glyph = font5x7[c - 32];
-    for (uint8_t i = 0; i < 5; i++)
-    {
-        cell[i] = glyph[i];
-    }
-    cell[5] = 0x00;
-    ssd1306_set_position(page, x);
-    ssd1306_send_data(cell, CHAR_WIDTH);
+    draw_char_cell_custom(row, col, c, COLOR_WHITE, COLOR_BLACK);
 }
 
 void clear_terminal_row(uint8_t row)
 {
     for (uint8_t col = 0; col < TERM_COLS; col++)
     {
-        draw_char_cell(row, col, ' ');
+        draw_char_cell_custom(row, col, ' ', term_text_color, term_bg_color);
+    }
+}
+
+void draw_status_bar(const char *text, uint16_t bg_color, uint16_t fg_color)
+{
+    ssd1351_set_position(0, 0, SSD1351_WIDTH, CHAR_HEIGHT);
+
+    uint16_t lineBuf[SSD1351_WIDTH * CHAR_HEIGHT];
+    for (int i = 0; i < SSD1351_WIDTH * CHAR_HEIGHT; i++)
+    {
+        lineBuf[i] = bg_color;
+    }
+    ssd1351_send_data((uint8_t *)lineBuf, sizeof(lineBuf));
+
+    uint8_t col = 0;
+    while (*text && col < TERM_COLS)
+    {
+        draw_char_cell_custom(0, col, *text++, fg_color, bg_color);
+        col++;
     }
 }
 
 void terminal_native_scroll(void)
 {
-    ssd1306_send_command(0x29);
-    ssd1306_send_command(0x00);
-    ssd1306_send_command(0x00);
-    ssd1306_send_command(0x00);
-    ssd1306_send_command(TERM_ROWS - 1);
-    ssd1306_send_command(CHAR_HEIGHT);
-    ssd1306_send_command(0x2F);
+    scroll_offset += CHAR_HEIGHT;
+    if (scroll_offset >= (SSD1351_HEIGHT - CHAR_HEIGHT))
+    {
+        scroll_offset = 0;
+    }
+    uint8_t scroll_start = scroll_offset + CHAR_HEIGHT;
+    ssd1351_send_command(0xA1);
+    ssd1351_send_data(&scroll_start, 1);
 
-    delay(100);
-
-    ssd1306_send_command(0x2E);
-
-    clear_terminal_row(TERM_ROWS - 1);
+    clear_terminal_row(TOTAL_ROWS - 1);
+    term_cursor_y = TOTAL_ROWS - 1;
+    term_cursor_x = 0;
 }
-
-static uint8_t term_cursor_x = 0;
 
 void terminal_put_char(char c)
 {
     if (c == '\n')
     {
         terminal_native_scroll();
-        term_cursor_x = 0;
+        return;
     }
-    else
+    draw_char_cell_custom(term_cursor_y, term_cursor_x, c, term_text_color, term_bg_color);
+    term_cursor_x++;
+    if (term_cursor_x >= TERM_COLS)
     {
-        draw_char_cell(TERM_ROWS - 1, term_cursor_x, c);
-        term_cursor_x++;
-        if (term_cursor_x >= TERM_COLS)
-        {
-            terminal_native_scroll();
-            term_cursor_x = 0;
-        }
+        terminal_native_scroll();
     }
 }
 
@@ -758,14 +854,59 @@ void terminal_print(const char *str)
     }
 }
 
+void terminal_set_text_color(uint16_t color)
+{
+    term_text_color = color;
+}
+
+void terminal_set_bg_color(uint16_t color)
+{
+    term_bg_color = color;
+}
+
+void terminal_draw_text(uint8_t row, uint8_t col, const char *str, uint16_t fg, uint16_t bg)
+{
+    while (*str && col < TERM_COLS)
+    {
+        draw_char_cell_custom(row, col, *str++, fg, bg);
+        col++;
+    }
+}
+
+void terminal_draw_text_default(uint8_t row, uint8_t col, const char *str)
+{
+    terminal_draw_text(row, col, str, COLOR_WHITE, COLOR_BLACK);
+}
+
+void ssd1351_fill_screen(uint16_t color)
+{
+    ssd1351_set_position(0, 0, SSD1351_WIDTH, SSD1351_HEIGHT);
+    uint16_t lineBuf[SSD1351_WIDTH];
+    for (int i = 0; i < SSD1351_WIDTH; i++)
+    {
+        lineBuf[i] = color;
+    }
+    for (int r = 0; r < SSD1351_HEIGHT; r++)
+    {
+        ssd1351_send_data((uint8_t *)lineBuf, sizeof(lineBuf));
+    }
+}
+
+void ssd1351_draw_pixel(uint8_t x, uint8_t y, uint16_t color)
+{
+    ssd1351_set_position(x, y, 1, 1);
+    ssd1351_send_data((uint8_t *)&color, 2);
+}
+
 void terminal_init(void)
 {
-    ssd1306_init();
-    for (uint8_t r = 0; r < TERM_ROWS; r++)
+    ssd1351_init();
+    for (uint8_t r = STATUS_BAR_ROWS; r < TOTAL_ROWS; r++)
     {
         clear_terminal_row(r);
     }
     term_cursor_x = 0;
+    term_cursor_y = TOTAL_ROWS - 1;
 }
 
 #endif

@@ -39,7 +39,7 @@ module system_timer (
                      (address == MS_H_OFFSET)  ? sys_tim_ms [63:32] : 
                      (address == MIK_L_OFFSET) ? sys_tim_mik[31: 0] : 
                      (address == MIK_H_OFFSET) ? sys_tim_mik[63:32] : 
-                     (address == SYS_CLOCK)    ? sys_clk    [31: 0]  : 
+                     (address == SYS_CLOCK)    ? sys_clk    [31: 0] : 
                      32'd0;
 
   always @(posedge clk or negedge rst_n)

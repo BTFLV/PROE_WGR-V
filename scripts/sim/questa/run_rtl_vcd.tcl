@@ -53,8 +53,8 @@ vcd add /wgr_v_max_tb/tb_spi_mosi
 vcd add /wgr_v_max_tb/tb_spi_miso
 vcd add /wgr_v_max_tb/tb_uart_tx
 vcd add /wgr_v_max_tb/tb_uart_rx
-vcd add /wgr_v_max_tb/tb_gpio_out[1:0]
-vcd add /wgr_v_max_tb/tb_gpio_dir[1:0]
+vcd add /wgr_v_max_tb/tb_gpio_out[7:0]
+vcd add /wgr_v_max_tb/tb_gpio_dir[7:0]
 
 run 10000000ns
 

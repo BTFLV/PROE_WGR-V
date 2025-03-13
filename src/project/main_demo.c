@@ -16,19 +16,18 @@ const char systime[] = "systime ";
 
 // pwm_precompute_notes_malloc 2ms
 
-void set_note();
-
 void setup()
 {
-    setup();
-    uart_enable();
     uart_set_baud(BAUD_115200);
-    spi_enable();
-    spi_automatic_cs(1);
-    spi_set_clock_divider(1);
-    terminal_init();
-    pwm_precompute_notes_malloc();
+    uart_enable();
+    //spi_enable();
+    //spi_automatic_cs(1);
+    //spi_set_clock_divider(1);
+    //terminal_init();
+    //pwm_precompute_notes_malloc();
+    gpio_write(0x0F);
     buffer = (char *)malloc(TEXT_BUFFER * sizeof(char));
+    gpio_write(0x02);
 }
 
 int32_t read_cmd()
@@ -40,12 +39,20 @@ int32_t read_cmd()
         {
             return -1;
         }
-        char data = uart_getchar(10);
+        
+        char data = -1;
+        while(uart_read_byte(&data, 10))
+        {
+            
+        }
         buffer[cursor] = data;
-        terminal_print(buffer + cursor);
+        //gpio_write(data);
+        //terminal_print(buffer + cursor);
+        //uart_putchar(data, 10);
+        cursor++;
         if(data == '\n')
         {
-            buffer[cursor + 1] = '\0';
+            buffer[cursor] = '\0';
             return 0;
         }
     }
@@ -53,64 +60,70 @@ int32_t read_cmd()
 
 int32_t interpret_cmd()
 {
-    if(strncmp(buffer, setpwm, sizeof(setpwm)) == 0)
+    if(strncmp(buffer, setpwm, strlen(setpwm)) == 0)
     {
-        int32_t parameter = parse_integer(buffer + sizeof(setpwm));
+        int32_t parameter = parse_integer(buffer + strlen(setpwm));
+        uart_print("\nPWM: ");
+        uart_print_int(parameter);
         return 1;
     }
-    if(strncmp(buffer, spibaud, sizeof(spibaud)) == 0)
+    if(strncmp(buffer, spibaud, strlen(spibaud)) == 0)
     {
-        int32_t parameter = parse_integer(buffer + sizeof(spibaud));
+        int32_t parameter = parse_integer(buffer + strlen(spibaud));
         if(parameter != -1)
         {
-            uart_set_baud(parameter);
-            terminal_print("SPI Baud set\n");
+            uart_print("\nBAUD: ");
+            uart_print_int(parameter);
         }
         return 2;
     }
-    if(strncmp(buffer, note, sizeof(note)) == 0)
+    if(strncmp(buffer, note, strlen(note)) == 0)
     {
-        int32_t parameter = parse_integer(buffer + sizeof(note));
+        int32_t parameter = parse_integer(buffer + strlen(note));
         if(parameter != -1)
         {
-            pwm_play_note_malloc(parameter, current_octave);
+            uart_print("\nNOTE: ");
+            uart_print_int(parameter);
             current_note = parameter;
-            terminal_print("Note changed\n");
         }
         return 3;
     }
-    if(strncmp(buffer, octave, sizeof(octave)) == 0)
+    if(strncmp(buffer, octave, strlen(octave)) == 0)
     {
-        int32_t parameter = parse_integer(buffer + sizeof(octave));
+        int32_t parameter = parse_integer(buffer + strlen(octave));
         if(parameter != -1)
         {
-            pwm_play_note_malloc(current_note, parameter);
+            uart_print("\nOCTAVE: ");
+            uart_print_int(parameter);
             current_octave = parameter;
-            terminal_print("Octave changed\n");
         }
         return 4;
     }
-    if(strncmp(buffer, systime, sizeof(systime)) == 0)
+    if(strncmp(buffer, systime, strlen(systime)) == 0)
     {
         uint32_t current_time = millis();
-        char time_buffer[11];
-        int_to_str(current_time, 10, time_buffer);
-        terminal_print("Time: ");
-        terminal_print(time_buffer);
-        terminal_print("ms\n");
+        uart_print("\nTIME: ");
+        uart_print_uint(current_time, 10);
+        uart_print("ms");
         return 5;
     }
+    uart_print("\nWat?");
+    return 0xF0;
 }
 
 int main()
 {
+    int32_t last_cmd = 0;
     setup();
+    uart_print("WGR\n");
 
     while(1)
     {
         if(read_cmd() != -1)
         {
-            interpret_cmd();
+            uart_putchar('\n', 10);
+            last_cmd = interpret_cmd();
+            gpio_write(last_cmd);
         }
     }
 }

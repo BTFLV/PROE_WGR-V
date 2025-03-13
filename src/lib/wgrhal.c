@@ -104,9 +104,15 @@ char *strcpy(char *dest, const char *src)
 
 void int_to_str(int32_t num, int base, char *str)
 {
-    char temp[16];
+    char temp[35];
     int i = 0, j = 0;
     int is_negative = 0;
+
+    if (base < 2 || base > 16)
+    {
+        str[0] = '\0';
+        return;
+    }
 
     if (num == 0)
     {
@@ -117,7 +123,6 @@ void int_to_str(int32_t num, int base, char *str)
 
     if (num < 0 && base == 10)
     {
-        is_negative = 1;
         num = -num;
     }
 
@@ -125,7 +130,7 @@ void int_to_str(int32_t num, int base, char *str)
     {
         int rem = num % base;
         temp[i++] = (rem > 9) ? (rem - 10) + 'A' : rem + '0';
-        num = num / base;
+        num /= base;
     }
 
     if (is_negative)
@@ -143,22 +148,40 @@ void int_to_str(int32_t num, int base, char *str)
 int32_t parse_integer(const char *str)
 {
     int result = 0;
-    
-    if (*str == '\0' || *str == '\n' || *str == ' ') {
+    int sign = 1;
+
+    while (*str == ' ')
+    {
+        str++;
+    }
+
+    if (*str == '-')
+    {
+        sign = -1;
+        str++;
+    }
+
+    if (*str < '0' || *str > '9')
+    {
         return -1;
     }
 
-    while (*str != '\0' && *str != '\n' && *str != ' ')
+    while (*str >= '0' && *str <= '9')
     {
-        if (*str < '0' || *str > '9')
-        {
-            return -1;
-        }
         result = result * 10 + (*str - '0');
         str++;
     }
 
-    return result;
+    while (*str == ' ' || *str == '\n')
+    {
+        str++;
+    }
+
+    if (*str != '\0') {
+        return -1;
+    }
+
+    return result * sign;
 }
 
 // ----------------------- WGR-V -----------------------
@@ -368,9 +391,21 @@ void uart_print_uint(uint32_t num, int32_t base)
         return;
     }
 
-    int_to_str(num, base, buffer);
+    if (num == 0)
+    {
+        uart_putchar_default_timeout('0');
+        return;
+    }
 
-    for (int i = 0; buffer[i] != '\0'; i++)
+    int i = 0;
+    while (num > 0)
+    {
+        uint32_t digit = num % base;
+        buffer[i++] = (digit < 10) ? ('0' + digit) : ('A' + (digit - 10));
+        num /= base;
+    }
+
+    while (i--)
     {
         uart_putchar_default_timeout(buffer[i]);
     }
@@ -383,6 +418,7 @@ void uart_print_int(int32_t num)
         uart_putchar_default_timeout('-');
         num = -num;
     }
+
     uart_print_uint((uint32_t)num, 10);
 }
 
@@ -467,7 +503,7 @@ void delay_micro(uint32_t microsec)
     uint32_t start_time = micros();
     while ((micros() - start_time) < microsec)
     {
-        __asm__ volatile("nop");
+        //__asm__ volatile("nop");
     }
 }
 
@@ -551,60 +587,42 @@ uint32_t pwm_get_pre_counter(void)
 //
 //------------------------------------------------------
 
-void gpio_set_pin_direction(uint8_t pin, uint8_t is_input)
-{
-    volatile uint32_t *const gpio_dir = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_DIR_OFFSET);
-    uint32_t dir = *gpio_dir;
-
-    if (is_input)
-    {
-        dir |= (1 << pin);
-    }
-    else
-    {
-        dir &= ~(1 << pin);
-    }
-
-    *gpio_dir = dir;
-}
-
 void gpio_write_pin(uint8_t pin, uint8_t value)
 {
-    volatile uint32_t *const gpio_out = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_OUT_OFFSET);
-    uint32_t out = *gpio_out;
-
-    if (value)
+    if (pin < GPIO_PIN_COUNT)
     {
-        out |= (1 << pin);
+        HWREG32(GPIO_BASE_ADDR + GPIO_OUT_OFFSET + (pin * GPIO_OUT_STEP)) = value;
     }
-    else
-    {
-        out &= ~(1 << pin);
-    }
+}
 
-    *gpio_out = out;
+uint8_t gpio_read_all_pins(void)
+{
+    return (uint8_t)(HWREG32(GPIO_BASE_ADDR + GPIO_IN_OFFSET) & 0xFF);
 }
 
 uint8_t gpio_read_pin(uint8_t pin)
 {
-    volatile uint32_t *const gpio_in = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_IN_OFFSET);
-    return ((*gpio_in) & (1 << pin)) ? 1 : 0;
+    if (pin < GPIO_PIN_COUNT) {
+        return (gpio_read_all_pins() >> pin) & 0x01;
+    }
+    return 0;
 }
 
-void gpio_set_direction(uint32_t dir_mask)
+void gpio_set_direction(uint8_t pin, uint8_t direction)
 {
-    volatile uint32_t *const gpio_dir = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_DIR_OFFSET);
-    *gpio_dir = dir_mask;
+    uint32_t dir = HWREG32(GPIO_BASE_ADDR + GPIO_DIR_OFFSET);
+    
+    if (direction) {
+        dir |= (1 << pin);
+    } else {
+        dir &= ~(1 << pin);
+    }
+
+    HWREG32(GPIO_BASE_ADDR + GPIO_DIR_OFFSET) = dir;
 }
 
-void gpio_write(uint32_t value)
+uint8_t gpio_read_direction(uint8_t pin)
 {
-    volatile uint32_t *const gpio_out = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_OUT_OFFSET);
-    *gpio_out = value;
-}
-
-uint32_t gpio_read(void)
-{
-    volatile uint32_t *const gpio_in = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_IN_OFFSET);
-    return *gpio_in;
+    uint32_t dir = HWREG32(GPIO_BASE_ADDR + GPIO_DIR_OFFSET);
+    return (dir >> pin) & 0x01;
 }

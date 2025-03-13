@@ -26,6 +26,23 @@ module wgr_v_max (
   wire        mem_busy;
   wire        we;
   wire        re;
+  
+  //assign gpio_out = gpio_shift;
+  
+  reg [ 7:0]  gpio_shift;
+  
+  reg [22:0] counter = 0;
+  reg [2:0] position = 0;
+
+  always @(posedge clk) begin
+      if (counter >= 23'd6000000 - 1) begin
+          counter <= 0;
+          gpio_shift <= 8'b00000001 << position;
+          position <= (position == 3'd7) ? 0 : position + 1;
+      end else begin
+          counter <= counter + 1;
+      end
+  end
 
   cpu cpu_inst (
     .clk        (clk),
