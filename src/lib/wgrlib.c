@@ -1,5 +1,7 @@
 #include "wgrtypes.h"
 
+#define HARDWAREDIVISION
+
 typedef union
 {
     float f;
@@ -11,6 +13,90 @@ typedef union
 #define FLOAT_MANT(x) ((x) & 0x7FFFFF)
 #define FLOAT_BIAS 127
 #define FLOAT_RECONSTRUCT(sign, exp, mant) (((sign) << 31) | ((exp) << 23) | (mant))
+
+#ifdef HARDWAREDIVISION
+
+#ifndef HWREG32
+#define HWREG32(addr) (*((volatile uint32_t *)(addr)))
+#endif
+
+#define MULT_BASE_ADDR    0x00000500
+#define MULT_INFO_OFFSET  0x0000
+#define MUL1_OFFSET       0x0004
+#define MUL2_OFFSET       0x0008
+#define RESH_OFFSET       0x000C
+#define RESL_OFFSET       0x0010
+
+#define DIV_BASE_ADDR     0x00000600
+#define DIV_INFO_OFFSET   0x00
+#define DIV_END_OFFSET    0x04
+#define DIV_SOR_OFFSET    0x08
+#define DIV_QUO_OFFSET    0x0C
+#define DIV_REM_OFFSET    0x10
+
+static inline uint64_t mult_calc_64(uint32_t multiplicand, uint32_t multiplier)
+{
+    HWREG32(MULT_BASE_ADDR + MUL1_OFFSET) = multiplicand;
+    HWREG32(MULT_BASE_ADDR + MUL2_OFFSET) = multiplier;
+
+    while (HWREG32(MULT_BASE_ADDR + MULT_INFO_OFFSET));
+
+    uint64_t high = (uint64_t)HWREG32(MULT_BASE_ADDR + RESH_OFFSET);
+    uint64_t low  = (uint64_t)HWREG32(MULT_BASE_ADDR + RESL_OFFSET);
+    return (high << 32) | low;
+}
+
+static inline uint32_t mult_calc_32(uint32_t multiplicand, uint32_t multiplier)
+{
+    HWREG32(MULT_BASE_ADDR + MUL1_OFFSET) = multiplicand;
+    HWREG32(MULT_BASE_ADDR + MUL2_OFFSET) = multiplier;
+
+    while (HWREG32(MULT_BASE_ADDR + MULT_INFO_OFFSET));
+
+    return HWREG32(MULT_BASE_ADDR + RESL_OFFSET);
+}
+
+static inline uint32_t div_calc_quotient(uint32_t dividend, uint32_t divisor)
+{
+    if (divisor == 0)
+    {
+        return 0xFFFFFFFF;
+    }
+
+    HWREG32(DIV_BASE_ADDR + DIV_END_OFFSET) = dividend;
+    HWREG32(DIV_BASE_ADDR + DIV_SOR_OFFSET) = divisor;
+
+    while (HWREG32(DIV_BASE_ADDR + DIV_INFO_OFFSET));
+
+    return HWREG32(DIV_BASE_ADDR + DIV_QUO_OFFSET);
+}
+
+static inline uint32_t div_calc_remainder(uint32_t dividend, uint32_t divisor)
+{
+    if (divisor == 0)
+    {
+        return 0xFFFFFFFF;
+    }
+
+    HWREG32(DIV_BASE_ADDR + DIV_END_OFFSET) = dividend;
+    HWREG32(DIV_BASE_ADDR + DIV_SOR_OFFSET) = divisor;
+
+    while (HWREG32(DIV_BASE_ADDR + DIV_INFO_OFFSET));
+
+    return HWREG32(DIV_BASE_ADDR + DIV_REM_OFFSET);
+}
+
+static inline uint32_t div_get_quotient()
+{
+    return HWREG32(DIV_BASE_ADDR + DIV_QUO_OFFSET);
+}
+
+static inline uint32_t div_get_remainder()
+{
+    return HWREG32(DIV_BASE_ADDR + DIV_REM_OFFSET);
+}
+
+#endif
 
 float __floatsisf(int32_t x)
 {
@@ -503,20 +589,34 @@ typedef struct
     uint32_t remainder;
 } divmod_result;
 
-divmod_result __divmodsi4(uint32_t dividend, uint32_t divisor)
-{
+divmod_result __divmodsi4(uint32_t dividend, uint32_t divisor) {
     divmod_result res = {0, 0};
-    uint32_t temp = 0;
-    for (int32_t i = 31; i >= 0; i--)
-    {
-        temp = (temp << 1) | ((dividend >> i) & 1);
-        if (temp >= divisor)
-        {
-            temp -= divisor;
-            res.quotient |= (1U << i);
-        }
+
+#ifdef HARDWAREDIVISION
+    if (divisor == 0) {
+        res.quotient = 0xFFFFFFFF;
+        res.remainder = 0xFFFFFFFF;
+    } else {
+        res.quotient = div_calc_quotient(dividend, divisor);
+        res.remainder = div_get_remainder();
     }
-    res.remainder = temp;
+#else
+    if (divisor == 0) {
+        res.quotient = 0;
+        res.remainder = 0;
+    } else {
+        uint32_t temp = 0;
+        for (int32_t i = 31; i >= 0; i--) {
+            temp = (temp << 1) | ((dividend >> i) & 1);
+            if (temp >= divisor) {
+                temp -= divisor;
+                res.quotient |= (1U << i);
+            }
+        }
+        res.remainder = temp;
+    }
+#endif
+
     return res;
 }
 
@@ -707,6 +807,9 @@ uint64_t __lshrdi3(uint64_t a, int32_t b)
 
 uint32_t __mulsi3(uint32_t a, uint32_t b)
 {
+#ifdef HARDWAREDIVISION
+    return mult_calc_32(a, b);
+#else
     uint32_t result = 0;
     while (b)
     {
@@ -718,33 +821,42 @@ uint32_t __mulsi3(uint32_t a, uint32_t b)
         b >>= 1;
     }
     return result;
+#endif
 }
 
 uint32_t __udivsi3(uint32_t dividend, uint32_t divisor)
 {
+#ifdef HARDWAREDIVISION
+    return div_calc_quotient(dividend, divisor);
+#else
     if (divisor == 0)
     {
         return 0;
     }
+
     uint32_t quotient = 0, temp = 0;
     for (int32_t i = 31; i >= 0; i--)
     {
         temp = (temp << 1) | ((dividend >> i) & 1);
-        if (temp >= divisor)
-        {
+        if (temp >= divisor) {
             temp -= divisor;
             quotient |= (1U << i);
         }
     }
     return quotient;
+#endif
 }
 
 uint32_t __umodsi3(uint32_t dividend, uint32_t divisor)
 {
+#ifdef HARDWAREDIVISION
+    return div_calc_remainder(dividend, divisor);
+#else
     if (divisor == 0)
     {
         return 0;
     }
+
     uint32_t temp = 0;
     for (int32_t i = 31; i >= 0; i--)
     {
@@ -755,6 +867,68 @@ uint32_t __umodsi3(uint32_t dividend, uint32_t divisor)
         }
     }
     return temp;
+#endif
+}
+
+int32_t __divsi3(int32_t dividend, int32_t divisor)
+{
+#ifdef HARDWAREDIVISION
+    uint32_t abs_dividend = (dividend < 0) ? -dividend : dividend;
+    uint32_t abs_divisor = (divisor < 0) ? -divisor : divisor;
+    uint32_t result = div_calc_quotient(abs_dividend, abs_divisor);
+    return ((dividend < 0) ^ (divisor < 0)) ? -(int32_t)result : (int32_t)result;
+#else
+    if (divisor == 0)
+    {
+        return 0;
+    }
+
+    uint32_t abs_dividend = (dividend < 0) ? -dividend : dividend;
+    uint32_t abs_divisor = (divisor < 0) ? -divisor : divisor;
+    uint32_t quotient = 0, temp = 0;
+
+    for (int32_t i = 31; i >= 0; i--)
+    {
+        temp = (temp << 1) | ((abs_dividend >> i) & 1);
+        if (temp >= abs_divisor)
+        {
+            temp -= abs_divisor;
+            quotient |= (1U << i);
+        }
+    }
+
+    return ((dividend < 0) ^ (divisor < 0)) ? -(int32_t)quotient : (int32_t)quotient;
+#endif
+}
+
+int32_t __modsi3(int32_t dividend, int32_t divisor)
+{
+#ifdef HARDWAREDIVISION
+    uint32_t abs_dividend = (dividend < 0) ? -dividend : dividend;
+    uint32_t abs_divisor = (divisor < 0) ? -divisor : divisor;
+    uint32_t result = div_calc_remainder(abs_dividend, abs_divisor);
+    return (dividend < 0) ? -(int32_t)result : (int32_t)result;
+#else
+    if (divisor == 0)
+    {
+        return 0;
+    }
+
+    uint32_t abs_dividend = (dividend < 0) ? -dividend : dividend;
+    uint32_t abs_divisor = (divisor < 0) ? -divisor : divisor;
+    uint32_t temp = 0;
+
+    for (int32_t i = 31; i >= 0; i--)
+    {
+        temp = (temp << 1) | ((abs_dividend >> i) & 1);
+        if (temp >= abs_divisor)
+        {
+            temp -= abs_divisor;
+        }
+    }
+
+    return (dividend < 0) ? -(int32_t)temp : (int32_t)temp;
+#endif
 }
 
 float __negsf2(float a)
@@ -809,6 +983,17 @@ uint32_t __fixunssfsi(float x)
 
 uint64_t __umuldi3(uint64_t a, uint64_t b)
 {
+#ifdef HARDWAREDIVISION
+    uint32_t a_low   = (uint32_t)(a & 0xFFFFFFFF);
+    uint32_t a_high  = (uint32_t)(a >> 32);
+    uint32_t b_low   = (uint32_t)(b & 0xFFFFFFFF);
+    uint32_t b_high  = (uint32_t)(b >> 32);
+    uint64_t low_low = mult_calc_64(a_low, b_low);
+    uint64_t cross1  = mult_calc_64(a_low, b_high);
+    uint64_t cross2  = mult_calc_64(a_high, b_low);
+    uint64_t cross   = cross1 + cross2;
+    return   low_low + (cross << 32);
+#else
     uint64_t result = 0;
     while (b)
     {
@@ -820,4 +1005,5 @@ uint64_t __umuldi3(uint64_t a, uint64_t b)
         b >>= 1;
     }
     return result;
+#endif
 }

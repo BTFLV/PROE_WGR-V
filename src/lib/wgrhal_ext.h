@@ -7,64 +7,51 @@
 #define HWREG32(addr) (*((volatile uint32_t *)(addr)))
 #endif
 
-#define I2C_BASE_ADDR 0x00000500
-#define I2C_CTRL_OFFSET 0x0
-#define I2C_DATA_OFFSET 0x4
-#define I2C_ADDR_OFFSET 0x8
-#define ADC_BASE_ADDR 0x00000600
-#define ADC_CTRL_OFFSET 0x0000
-#define ADC_DATA_OFFSET 0x0004
-#define ADC_TEMP_OFFSET 0x0008
-#define CONV_START_BIT 0
-#define CONV_DONE_BIT 8
-#define ADC_VREF 3.3
-#define TEMP_SENSOR_GAIN 503.975
-#define TEMP_SENSOR_OFFSET 273.15
-#define SPI_BASE_ADDR 0x00000700
-#define SPI_CTRL_OFFSET 0x0000
-#define SPI_CLK_OFFSET 0x0004
+#define MULT_BASE_ADDR    0x00000500
+#define MULT_INFO_OFFSET  0x0000
+#define MUL1_OFFSET       0x0004
+#define MUL2_OFFSET       0x0008
+#define RESH_OFFSET       0x000C
+#define RESL_OFFSET       0x0010
+
+#define DIV_BASE_ADDR     0x00000600
+#define DIV_INFO_OFFSET   0x00
+#define DIV_END_OFFSET    0x04
+#define DIV_SOR_OFFSET    0x08
+#define DIV_QUO_OFFSET    0x0C
+#define DIV_REM_OFFSET    0x10
+
+#define SPI_BASE_ADDR     0x00000700
+#define SPI_CTRL_OFFSET   0x0000
+#define SPI_CLK_OFFSET    0x0004
 #define SPI_STATUS_OFFSET 0x0008
-#define SPI_TX_OFFSET 0x000C
-#define SPI_RX_OFFSET 0x0010
-#define SPI_CS_OFFSET 0x0014
-#define GPIO_BASE_ADDR 0x00000800
-#define GPIO_DIR_OFFSET 0x0000
-#define GPIO_OUT_OFFSET 0x0004
-#define GPIO_IN_OFFSET 0x0008
-#define FM_BASE_ADDR 0x00000900
-#define FM_CARRIER_FREQ_OFFSET 0x00
-#define FM_MODULATOR_FREQ_OFFSET 0x04
-#define FM_MOD_INDEX_OFFSET 0x08
-#define FM_AMPLITUDE_OFFSET 0x0C
-#define FM_CONTROL_OFFSET 0x10
-#define FM_SAMPLE_OFFSET 0x14
-#define ADSR_ATTACK_RATE_OFFSET 0x18
-#define ADSR_DECAY_RATE_OFFSET 0x1C
-#define ADSR_SUSTAIN_LEVEL_OFFSET 0x20
-#define ADSR_RELEASE_RATE_OFFSET 0x24
-#define LFO_FREQ_OFFSET 0x28
-#define LFO_DEPTH_OFFSET 0x2C
-#define LP_COEFF_OFFSET 0x30
-#define HP_COEFF_OFFSET 0x34
-#define FM_ENABLE_BIT (1 << 0)
-#define ADSR_GATE_BIT (1 << 1)
-#define FILTER_SEL_BIT (1 << 2)
+#define SPI_TX_OFFSET     0x000C
+#define SPI_RX_OFFSET     0x0010
+#define SPI_CS_OFFSET     0x0014
 
-void i2c_set_slave_address(uint8_t slave_addr);
-int32_t i2c_write_byte(uint8_t slave_addr, uint8_t data);
-int32_t i2c_read_byte(uint8_t slave_addr, uint8_t *data);
+#define WS_BASE_ADDR      0x00000900
 
-void adc_start_conversion(void);
-uint8_t adc_is_conversion_done(void);
-void adc_wait_for_conversion(void);
-uint16_t adc_get_value(void);
-uint16_t adc_read(void);
+typedef struct {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+} rgb_color_t;
 
-void adc_start_temp_conversion(void);
-uint16_t adc_get_temperature_raw(void);
-float adc_convert_to_celsius(uint16_t raw_value);
-float adc_read_temp(void);
+typedef struct {
+    uint32_t dividend;
+    uint32_t divisor;
+    uint32_t quotient;
+    uint32_t remainder;
+} div_result_t;
 
+// Hardware Multiplication and Division
+uint64_t mult_calc_64(uint32_t multiplicand, uint32_t multiplier);
+uint32_t mult_calc(uint32_t multiplicand, uint32_t multiplier);
+int32_t div_calc(uint32_t dividend, uint32_t divisor, div_result_t *result);
+uint32_t div_calc_quotient(uint32_t dividend, uint32_t divisor);
+uint32_t div_calc_remainder(uint32_t dividend, uint32_t divisor);
+
+// SPI Functions
 void spi_enable(void);
 void spi_disable(void);
 void spi_automatic_cs(bool active);
@@ -86,15 +73,56 @@ int32_t spi_write_buffer(const uint8_t *buf, uint32_t length, uint32_t timeout_m
 int32_t spi_write_uint32(uint32_t value, uint32_t timeout_ms);
 int32_t spi_read_buffer(uint8_t *buf, uint32_t length, uint32_t timeout_ms);
 
-void gpio_set_pin_direction(uint8_t pin, uint8_t is_input);
-void gpio_write_pin(uint8_t pin, uint8_t value);
-uint8_t gpio_read_pin(uint8_t pin);
-void gpio_set_direction(uint32_t dir_mask);
-void gpio_write(uint32_t value);
-uint32_t gpio_read(void);
+// WS2812B Functions
+int32_t ws2812_set_color(uint8_t led, rgb_color_t color);
+rgb_color_t ws2812_get_color(uint8_t led);
+int32_t ws2812_write_all(const rgb_color_t colors[8]);
+int32_t ws2812_fill(rgb_color_t color);
+void ws2812_clear(void);
+
+#ifdef PWM_NOTES
+// Play Frequencies with the PWM Module
+typedef enum
+{
+    NOTE_C = 0,
+    NOTE_Cs = 1,
+    NOTE_D = 2,
+    NOTE_Ds = 3,
+    NOTE_E = 4,
+    NOTE_F = 5,
+    NOTE_Fs = 6,
+    NOTE_G = 7,
+    NOTE_Gs = 8,
+    NOTE_A = 9,
+    NOTE_As = 10,
+    NOTE_B = 11
+} note_t;
+
+extern const uint8_t note_freq_halfbase[12];
+
+int pwm_precompute_notes(void);
+void pwm_play_note(note_t note, uint32_t octave);
+void pwm_free_note_buffer(void);
+
+#endif
+
+#ifdef MALLOC
+// malloc
+extern char _heap_start;
+extern char _heap_end;
+extern char _sstack;
+extern char _estack;
+
+void *malloc(uint32_t size);
+void free(void *ptr);
+void *realloc(void *ptr, uint32_t size);
+void *calloc(uint32_t nmemb, uint32_t size);
+uint32_t heap_free_space(void);
+
+#endif
 
 #ifdef SSD1306
-
+//SSD1306 Display with Scroll Function
 #define SSD1306_WIDTH 128
 #define SSD1306_HEIGHT 64
 

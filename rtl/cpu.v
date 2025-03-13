@@ -9,7 +9,6 @@ module cpu (
   input  wire [31:0] read_data,
   output reg         we,
   output reg         re,
-  output reg         halt,
   input  wire        mem_busy
 );
 
@@ -243,7 +242,6 @@ localparam [6:0]
       state       <= FETCH;
       PC          <= 32'h00004000;
       inst        <= 32'h00000013;
-      halt        <= 1'b0;
       reg_we      <= 1'b0;
       re          <= 1'b0;
       we          <= 1'b0;
@@ -256,7 +254,6 @@ localparam [6:0]
       state      <= next_state;
       reg_we     <= 1'b0;
       write_data <= 32'd0;
-      halt       <= 1'b0;
       re         <= 1'b0;
       we         <= 1'b0;
 
@@ -265,14 +262,12 @@ localparam [6:0]
         FETCH:
         begin
           re          <= 1'b1;
-          halt        <= 1'b1;
           address_reg <= PC;
         end
 
         WAIT:
         begin
           re   <= 1'b0;
-          halt <= 1'b1;
         end
 
         DECODE:
@@ -426,7 +421,6 @@ localparam [6:0]
           if (opcode == OPCODE_LOAD)
           begin
             re          <= 1'b1;
-            halt        <= 1'b1;
             address_reg <= alu_result & 32'hFFFFFFFC;
             mem_offset  <= alu_result[1: 0];
           end
@@ -437,14 +431,12 @@ localparam [6:0]
               begin
                 write_data  <= rs2_data;
                 we          <= 1'b1;
-                halt        <= 1'b1;
                 address_reg <= alu_result;
               end
               else
                 if (funct3 == F3_SB || funct3 == F3_SH)
                 begin
                   re          <= 1'b1;
-                  halt        <= 1'b1;
                   address_reg <= alu_result & 32'hFFFFFFFC;
                   mem_offset  <= alu_result[1:0];
                 end
@@ -452,7 +444,9 @@ localparam [6:0]
         end
 
         RMW_WAIT:
-          halt <= 1'b1;
+        begin
+          // wait
+        end
 
         STORE_RMW:
         begin
@@ -489,11 +483,12 @@ localparam [6:0]
               write_data <= read_data;
 
           we <= 1'b1;
-          halt <= 1'b1;
         end
 
         MEMHALT:
-          halt <= 1'b1;
+        begin
+          // wait
+        end
 
         WRITEBACK:
         begin
@@ -625,8 +620,6 @@ localparam [6:0]
               end
               else
                 PC <= PC + 4;
-
-          halt <= 1'b0;
         end
 
         default: ;

@@ -28,16 +28,20 @@ module peripheral_bus (
   localparam UART_BASE   = 6'h02;
   localparam TIME_BASE   = 6'h03;
   localparam PWM_BASE    = 6'h04;
-  localparam WS_BASE     = 6'h05;
+  localparam MULT_BASE   = 6'h05;
   localparam DIV_BASE    = 6'h06;
   localparam SPI_BASE    = 6'h07;
   localparam GPIO_BASE   = 6'h08;
+  localparam WS_BASE     = 6'h09;
 
   wire [7:0] func_addr;
 
   assign func_addr = address[7:0];
 
+
   // Debug
+`ifdef INCLUDE_DEBUG
+
   wire [31:0] debug_data;
   
   wire debug_sel;
@@ -59,7 +63,16 @@ module peripheral_bus (
     .debug_out  (debug_out)
   );
 
+`else
+  wire  [31:0]  debug_data = 32'h0;
+  wire          debug_sel  = 1'b0;
+  assign        debug_out  = 32'h0;
+`endif
+
+
   // UART
+`ifdef INCLUDE_UART
+
   wire [31:0] uart_data;
 
   wire uart_sel;
@@ -71,8 +84,8 @@ module peripheral_bus (
   assign uart_re   = re & uart_sel;
 
   uart #(
-    .FIFO_TX_DEPTH(4),
-    .FIFO_RX_DEPTH(4)
+    .FIFO_TX_DEPTH(`UART_FIFO_TX_DEPTH),
+    .FIFO_RX_DEPTH(`UART_FIFO_RX_DEPTH)
   ) uart_inst (
     .clk        (clk),
     .rst_n      (rst_n),
@@ -85,7 +98,16 @@ module peripheral_bus (
     .uart_rx    (uart_rx)
   );
 
+`else
+  wire  [31:0]  uart_data = 32'h0;
+  wire          uart_sel  = 1'b0;
+  assign        uart_tx   = 1'b0;
+`endif
+
+
   // System Timer
+`ifdef INCLUDE_TIME
+
   wire [31:0] time_data;
 
   wire time_sel;
@@ -106,7 +128,15 @@ module peripheral_bus (
     .re         (time_re)
   );
 
+`else
+  wire [31:0] time_data = 32'h0;
+  wire        time_sel  = 1'b0;
+`endif
+
+
   // PWM Timer
+`ifdef INCLUDE_PWM
+
   wire [31:0] pwm_data;
 
   wire pwm_sel;
@@ -128,29 +158,45 @@ module peripheral_bus (
     .pwm_out    (pwm_out)
   );
 
-  // WS2812B
-  wire [31:0] ws_data;
+`else
+  wire [31:0] pwm_data = 32'h0;
+  wire        pwm_sel  = 1'b0;
+  assign      pwm_out  = 1'b0;
+`endif
 
-  wire ws_sel;
-  wire ws_we;
-  wire ws_re;
 
-  assign ws_sel  = (address[12:8] == WS_BASE);
-  assign ws_we   = we & ws_sel;
-  assign ws_re   = re & ws_sel;
+  // Sequential Multiplier
+`ifdef INCLUDE_MULT
 
-  ws2812b ws2812b_inst (
+  wire [31:0] mult_data;
+
+  wire mult_sel;
+  wire mult_we;
+  wire mult_re;
+
+  assign mult_sel  = (address[12:8] == MULT_BASE);
+  assign mult_we   = we & mult_sel;
+  assign mult_re   = re & mult_sel;
+
+  seq_multiplier seq_multiplier_inst (
     .clk        (clk),
     .rst_n      (rst_n),
     .address    (func_addr),
     .write_data (write_data),
-    .read_data  (ws_data),
-    .we         (ws_we),
-    .re         (ws_re),
-    .ws_out     (ws_out)
+    .read_data  (mult_data),
+    .we         (mult_we),
+    .re         (mult_re)
   );
 
-  // WS2812B
+`else
+  wire [31:0] mult_data = 32'h0;
+  wire        mult_sel  = 1'b0;
+`endif
+
+
+  // Sequential Divider
+`ifdef INCLUDE_DIV
+
   wire [31:0] div_data;
 
   wire div_sel;
@@ -171,7 +217,15 @@ module peripheral_bus (
     .re         (div_re)
   );
 
+`else
+  wire [31:0] div_data = 32'h0;
+  wire        div_sel  = 1'b0;
+`endif
+
+
   // SPI Peripheral
+`ifdef INCLUDE_SPI
+
   wire [31:0] spi_data;
 
   wire spi_sel;
@@ -183,8 +237,8 @@ module peripheral_bus (
   assign spi_re   = re & spi_sel;
 
   spi #(
-    .FIFO_TX_DEPTH(4),
-    .FIFO_RX_DEPTH(4)
+    .FIFO_TX_DEPTH(`SPI_FIFO_TX_DEPTH),
+    .FIFO_RX_DEPTH(`SPI_FIFO_RX_DEPTH)
   ) spi_inst (
     .clk        (clk),
     .rst_n      (rst_n),
@@ -199,7 +253,18 @@ module peripheral_bus (
     .spi_cs     (spi_cs)
   );
 
+`else
+  wire [31:0] spi_data = 32'h0;
+  wire        spi_sel  = 1'b0;
+  assign      spi_mosi = 1'b0;
+  assign      spi_clk  = 1'b0;
+  assign      spi_cs   = 1'b1;
+`endif
+
+
   // GPIO Peripheral
+`ifdef INCLUDE_GPIO
+
   wire [31:0] gpio_data;
 
   wire gpio_sel;
@@ -223,6 +288,45 @@ module peripheral_bus (
     .gpio_in    (gpio_in)
   );
 
+`else
+  wire [31:0]  gpio_data = 32'h0;
+  wire         gpio_sel  = 1'b0;
+  assign       gpio_out  = 8'b0;
+  assign       gpio_dir  = 8'b0;
+`endif
+
+
+  // WS2812B
+`ifdef INCLUDE_WS
+
+  wire [31:0] ws_data;
+
+  wire ws_sel;
+  wire ws_we;
+  wire ws_re;
+
+  assign ws_sel  = (address[12:8] == WS_BASE);
+  assign ws_we   = we & ws_sel;
+  assign ws_re   = re & ws_sel;
+
+  ws2812b ws2812b_inst (
+    .clk        (clk),
+    .rst_n      (rst_n),
+    .address    (func_addr),
+    .write_data (write_data),
+    .read_data  (ws_data),
+    .we         (ws_we),
+    .re         (ws_re),
+    .ws_out     (ws_out)
+  );
+
+`else
+  wire [31:0] ws_data = 32'h0;
+  wire        ws_sel  = 1'b0;
+  assign      ws_out  = 1'b0;
+`endif
+
+
   always @(posedge clk or negedge rst_n)
   begin
     if (!rst_n)
@@ -230,15 +334,38 @@ module peripheral_bus (
     else
     if (re)
     begin
+
+`ifdef INCLUDE_DEBUG
       if      (debug_sel) read_data <= debug_data;
+`endif
+`ifdef INCLUDE_UART
       else if (uart_sel)  read_data <= uart_data;
+`endif
+`ifdef INCLUDE_TIME
       else if (time_sel)  read_data <= time_data;
+`endif
+`ifdef INCLUDE_PWM
       else if (pwm_sel)   read_data <= pwm_data;
-      else if (ws_sel)    read_data <= ws_data;
+`endif
+`ifdef INCLUDE_MULT
+      else if (mult_sel)  read_data <= mult_data;
+`endif
+`ifdef INCLUDE_DIV
       else if (div_sel)   read_data <= div_data;
+`endif
+`ifdef INCLUDE_SPI
       else if (spi_sel)   read_data <= spi_data;
+`endif
+`ifdef INCLUDE_GPIO
       else if (gpio_sel)  read_data <= gpio_data;
-      else                read_data <= 32'h0;
+`endif
+`ifdef INCLUDE_WS
+      else if (ws_sel)    read_data <= ws_data;
+`endif
+
+      else
+        read_data <= 32'h0;
+
     end
   end
 

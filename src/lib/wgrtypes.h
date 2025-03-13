@@ -49,14 +49,6 @@ typedef unsigned int size_t;
 
 typedef enum
 {
-    SPI_OK = 0,
-    SPI_ERR_TIMEOUT = -1,
-    SPI_ERR_PARAM = -2,
-    SPI_ERR_COMM = -3
-} wgr_status_t;
-
-typedef enum
-{
     BAUD_115200 = 0,
     BAUD_57600 = 1,
     BAUD_38400 = 2,
@@ -70,17 +62,5 @@ typedef enum
     BAUD_1200 = 10,
     BAUD_300 = 11
 } baud_sel_t;
-
-typedef char *va_list;
-
-#define VA_ALIGN(type) ((sizeof(type) + sizeof(int) - 1) & ~(sizeof(int) - 1))
-
-#define va_start(ap, last_named_arg) \
-    (ap = (va_list)(&last_named_arg + 1))
-
-#define va_arg(ap, type) \
-    (*(type *)((ap += VA_ALIGN(type)) - VA_ALIGN(type)))
-
-#define va_end(ap) (ap = NULL)
 
 #endif /* WGRTYPES_H */

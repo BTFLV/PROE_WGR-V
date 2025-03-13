@@ -5,7 +5,10 @@ setlocal enabledelayedexpansion
 cls
 
 set SKIP_SIM=0
+set SKIP_PULSEVIEW=0
+
 if "%1"=="-ns" set SKIP_SIM=1
+if "%1"=="-np" set SKIP_PULSEVIEW=1
 
 set BUILD_SCRIPT=build_main.bat
 set SIM_PATH=..\sim\questa
@@ -25,7 +28,7 @@ if %SKIP_SIM%==1 (
 )
 
 echo.
-echo   - Starting Simulation
+echo   - Starting Simulation.
 echo.
 
 pushd "%SIM_PATH%"
@@ -38,9 +41,18 @@ if %ERRORLEVEL% NEQ 0 (
 popd
 
 echo. 
-echo   - Compiled, copied, simulated
+echo   - Compiled, copied, simulated.
 echo.
-echo   - Starting Pulseview
 
-start "" "%PULSEVIEW%"
+%PYTHON% %SIM_PATH%\changetimescale.py %SIM_PATH%\wgr_v_max_sim.vcd
+
+if %SKIP_PULSEVIEW%==0 (
+    echo.
+    echo   - VCD scaled from ps to ns. Starting PulseView.
+    start "" "%PULSEVIEW%"
+) else (
+    echo.
+    echo   - Skipping PulseView startup.
+)
+
 exit /b 0

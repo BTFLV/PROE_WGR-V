@@ -1,6 +1,89 @@
 #include "wgrhal.h"
 #include "wgrhal_ext.h"
 
+// ----------------------- WGR-V -----------------------
+//
+//         Hardware Multiplication and Division
+//
+//------------------------------------------------------
+
+uint64_t mult_calc_64(uint32_t multiplicand, uint32_t multiplier)
+{
+    HWREG32(MULT_BASE_ADDR + MUL1_OFFSET) = multiplicand;
+    HWREG32(MULT_BASE_ADDR + MUL2_OFFSET) = multiplier;
+
+    while (HWREG32(MULT_BASE_ADDR + MULT_INFO_OFFSET));
+
+    uint64_t high = (uint64_t)HWREG32(MULT_BASE_ADDR + RESH_OFFSET);
+    uint64_t low  = (uint64_t)HWREG32(MULT_BASE_ADDR + RESL_OFFSET);
+
+    return (high << 32) | low;
+}
+
+uint32_t mult_calc(uint32_t multiplicand, uint32_t multiplier)
+{
+    HWREG32(MULT_BASE_ADDR + MUL1_OFFSET) = multiplicand;
+    HWREG32(MULT_BASE_ADDR + MUL2_OFFSET) = multiplier;
+
+    while (HWREG32(MULT_BASE_ADDR + MULT_INFO_OFFSET));
+
+    return HWREG32(MULT_BASE_ADDR + RESL_OFFSET);
+}
+
+int32_t div_calc(uint32_t dividend, uint32_t divisor, div_result_t *result)
+{
+    if (result == NULL || divisor == 0)
+    {
+        return -1;
+    }
+
+    HWREG32(DIV_BASE_ADDR + DIV_END_OFFSET) = dividend;
+    HWREG32(DIV_BASE_ADDR + DIV_SOR_OFFSET) = divisor;
+
+    while (HWREG32(DIV_BASE_ADDR + DIV_INFO_OFFSET));
+
+    result->quotient = HWREG32(DIV_BASE_ADDR + DIV_QUO_OFFSET);
+    result->remainder = HWREG32(DIV_BASE_ADDR + DIV_REM_OFFSET);
+
+    return 0;
+}
+
+uint32_t div_calc_quotient(uint32_t dividend, uint32_t divisor)
+{
+    if (divisor == 0)
+    {
+        return -1;
+    }
+
+    HWREG32(DIV_BASE_ADDR + DIV_END_OFFSET) = dividend;
+    HWREG32(DIV_BASE_ADDR + DIV_SOR_OFFSET) = divisor;
+
+    while (HWREG32(DIV_BASE_ADDR + DIV_INFO_OFFSET));
+
+    return HWREG32(DIV_BASE_ADDR + DIV_QUO_OFFSET);
+}
+
+uint32_t div_calc_remainder(uint32_t dividend, uint32_t divisor)
+{
+    if (divisor == 0)
+    {
+        return -1;
+    }
+
+    HWREG32(DIV_BASE_ADDR + DIV_END_OFFSET) = dividend;
+    HWREG32(DIV_BASE_ADDR + DIV_SOR_OFFSET) = divisor;
+
+    while (HWREG32(DIV_BASE_ADDR + DIV_INFO_OFFSET));
+
+    return HWREG32(DIV_BASE_ADDR + DIV_REM_OFFSET);
+}
+
+// ----------------------- WGR-V -----------------------
+//
+//                     SPI Functions
+//
+//------------------------------------------------------
+
 void spi_enable(void)
 {
     uint32_t reg = HWREG32(SPI_BASE_ADDR + SPI_CTRL_OFFSET);
@@ -36,8 +119,6 @@ void spi_cs(uint32_t active)
 
 void spi_set_clock_offset(uint32_t offset)
 {
-    while ((!spi_tx_empty()) || spi_is_busy())
-        ;
     HWREG32(SPI_BASE_ADDR + SPI_CLK_OFFSET) = offset;
 }
 
@@ -195,65 +276,375 @@ int32_t spi_read_buffer(uint8_t *buf, uint32_t length, uint32_t timeout_ms)
     return 0;
 }
 
-void gpio_set_pin_direction(uint8_t pin, uint8_t is_input)
-{
-    volatile uint32_t *const gpio_dir = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_DIR_OFFSET);
-    uint32_t dir = *gpio_dir;
 
-    if (is_input)
+// ----------------------- WGR-V -----------------------
+//
+//                   WS2812B Functions
+//
+//------------------------------------------------------
+
+
+int32_t ws2812_set_color(uint8_t led, rgb_color_t color)
+{
+    if (led > 7)
     {
-        dir |= (1 << pin);
+        return -1;
+    }
+    uint32_t color_val = ((uint32_t)color.g << 16) | ((uint32_t)color.r << 8) | color.b;
+    HWREG32(WS_BASE_ADDR + (led << 2)) = color_val;
+    return 0;
+}
+
+rgb_color_t ws2812_get_color(uint8_t led)
+{
+    rgb_color_t color = {0, 0, 0};
+    if (led > 7)
+    {
+        return color;
+    }
+    uint32_t color_val = HWREG32(WS_BASE_ADDR + (led << 2));
+    color.g = (color_val >> 16) & 0xFF;
+    color.r = (color_val >> 8) & 0xFF;
+    color.b = color_val & 0xFF;
+    return color;
+}
+
+int32_t ws2812_write_all(const rgb_color_t colors[8])
+{
+    if (colors == NULL)
+    {
+        return -1;
+    }
+    for (uint8_t i = 0; i < 8; i++)
+    {
+        int32_t ret = ws2812_set_color(i, colors[i]);
+        if (ret != 0)
+        {
+            return ret;
+        }
+    }
+    return 0;
+}
+
+int32_t ws2812_fill(rgb_color_t color)
+{
+    for (uint8_t i = 0; i < 8; i++) {
+        int32_t ret = ws2812_set_color(i, color);
+        if (ret != 0)
+        {
+            return ret;
+        }
+    }
+    return 0;
+}
+
+void ws2812_clear(void)
+{
+    rgb_color_t off = {0, 0, 0};
+    for (uint8_t i = 0; i < 8; i++)
+    {
+        ws2812_set_color(i, off);
+    }
+}
+
+
+
+#ifdef PWM_NOTES
+
+// ----------------------- WGR-V -----------------------
+//
+//       Play Frequencies with the PWM Module
+//
+//------------------------------------------------------
+
+#ifdef PWM_NOTES
+    #ifndef MALLOC
+        #error "Requires malloc. Define MALLOC to use PWM_NOTES."
+    #endif
+#endif
+
+static uint32_t *note_buffer = 0;
+
+const uint8_t note_freq_halfbase[12] = {
+    131,
+    139,
+    147,
+    156,
+    165,
+    175,
+    185,
+    196,
+    208,
+    220,
+    233,
+    247};
+
+int pwm_precompute_notes(void)
+{
+    uint32_t sys_clk = get_sys_clk();
+    debug_write(sys_clk);
+
+    if (note_buffer == NULL)
+    {
+        note_buffer = (uint32_t *)malloc(12 * sizeof(uint32_t));
+        if (!note_buffer)
+        {
+            return -1;
+        }
+    }
+
+    for (int i = 0; i < 12; i++)
+    {
+        note_buffer[i] = (uint32_t)(sys_clk / note_freq_halfbase[i]);
+        debug_write(note_buffer[i]);
+    }
+
+    return 0;
+}
+
+void pwm_play_note(note_t note, uint32_t octave)
+{
+    if (!note_buffer)
+    {
+        return;
+    }
+
+    uint32_t period = 0;
+    uint16_t prescaler = 0;
+
+    if (note < NOTE_C || note > NOTE_B)
+    {
+        return;
+    }
+
+    if (octave > 10)
+    {
+        period = note_buffer[note] >> 10;
+        period = period ? period : 1;
+        prescaler = 1;
+    }
+    else if (octave > 2)
+    {
+        period = note_buffer[note] >> (octave - 2);
+        prescaler = 1;
     }
     else
     {
-        dir &= ~(1 << pin);
+        period = note_buffer[note];
+        prescaler = 1 << (2 - octave);
     }
 
-    *gpio_dir = dir;
+    pwm_set_mode(1);
+    pwm_set_50_percent_mode(1);
+
+    pwm_set_period(period);
+    pwm_set_pre_counter(prescaler);
 }
 
-void gpio_write_pin(uint8_t pin, uint8_t value)
+void pwm_free_note_buffer(void)
 {
-    volatile uint32_t *const gpio_out = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_OUT_OFFSET);
-    uint32_t out = *gpio_out;
-
-    if (value)
+    if (note_buffer)
     {
-        out |= (1 << pin);
+        free(note_buffer);
+        note_buffer = 0;
+    }
+}
+
+#endif
+
+#ifdef MALLOC
+
+// ----------------------- WGR-V -----------------------
+//
+//                        malloc
+//
+//------------------------------------------------------
+
+typedef int ptrdiff_t;
+
+void free(void *ap);
+
+int errno;
+#define ENOMEM 12
+
+extern char _heap_start;
+extern char _heap_end;
+
+static char *heap_ptr = &_heap_start;
+
+void *sbrk(int32_t incr)
+{
+    char *prev = heap_ptr;
+    if (heap_ptr + incr > &_heap_end)
+    {
+        errno = ENOMEM;
+        return (void *)-1;
+    }
+    heap_ptr += incr;
+    return prev;
+}
+
+typedef long Align;
+
+union header
+{
+    struct
+    {
+        union header *next;
+        uint32_t size;
+    } s;
+    Align x;
+};
+
+typedef union header Header;
+
+static Header base;
+static Header *freep = 0;
+
+#define NALLOC 1024
+
+uint32_t heap_free_space(void)
+{
+    uint32_t free_space = (uint32_t)(&_heap_end - heap_ptr);
+    return free_space;
+}
+
+static Header *morecore(uint32_t nu)
+{
+    if (nu < NALLOC)
+        nu = NALLOC;
+    char *cp = sbrk(nu * sizeof(Header));
+    if (cp == (char *)-1)
+    {
+        return 0;
+    }
+    Header *up = (Header *)cp;
+    up->s.size = nu;
+    free((void *)(up + 1));
+    return freep;
+}
+
+void *malloc(uint32_t nbytes)
+{
+    Header *p, *prevp;
+    uint32_t nunits = (nbytes + sizeof(Header) - 1) / sizeof(Header) + 1;
+    if ((prevp = freep) == 0)
+    {
+        base.s.next = freep = &base;
+        base.s.size = 0;
+    }
+    for (p = freep->s.next;; prevp = p, p = p->s.next)
+    {
+        if (p->s.size >= nunits)
+        {
+            if (p->s.size == nunits)
+                prevp->s.next = p->s.next;
+            else
+            {
+                p->s.size -= nunits;
+                p += p->s.size;
+                p->s.size = nunits;
+            }
+            freep = prevp;
+            return (void *)(p + 1);
+        }
+        if (p == freep)
+        {
+            p = morecore(nunits);
+            if (p == 0)
+            {
+                return 0;
+            }
+        }
+    }
+}
+
+void free(void *ap)
+{
+    if (!ap)
+    {
+        return;
+    }
+    Header *bp = (Header *)ap - 1;
+    Header *p;
+
+    for (p = freep; !(bp > p && bp < p->s.next); p = p->s.next)
+    {
+        if (p >= p->s.next && (bp > p || bp < p->s.next))
+            break;
+    }
+
+    if ((bp + bp->s.size) == p->s.next)
+    {
+        bp->s.size += p->s.next->s.size;
+        bp->s.next = p->s.next->s.next;
     }
     else
     {
-        out &= ~(1 << pin);
+        bp->s.next = p->s.next;
     }
 
-    *gpio_out = out;
+    if ((p + p->s.size) == bp)
+    {
+        p->s.size += bp->s.size;
+        p->s.next = bp->s.next;
+    }
+    else
+    {
+        p->s.next = bp;
+    }
+    freep = p;
 }
 
-uint8_t gpio_read_pin(uint8_t pin)
+void *realloc(void *ptr, uint32_t size)
 {
-    volatile uint32_t *const gpio_in = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_IN_OFFSET);
-    return ((*gpio_in) & (1 << pin)) ? 1 : 0;
+    if (!ptr)
+        return malloc(size);
+    if (size == 0)
+    {
+        free(ptr);
+        return 0;
+    }
+
+    Header *old_hdr = (Header *)ptr - 1;
+
+    uint32_t old_data_size = (old_hdr->s.size - 1) * sizeof(Header);
+    void *newptr = malloc(size);
+    if (newptr)
+    {
+        char *src = (char *)ptr;
+        char *dst = (char *)newptr;
+
+        uint32_t copy_bytes = (size < old_data_size) ? size : old_data_size;
+        for (uint32_t i = 0; i < copy_bytes; i++)
+            dst[i] = src[i];
+    }
+    free(ptr);
+    return newptr;
 }
 
-void gpio_set_direction(uint32_t dir_mask)
+void *calloc(uint32_t nmemb, uint32_t size)
 {
-    volatile uint32_t *const gpio_dir = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_DIR_OFFSET);
-    *gpio_dir = dir_mask;
+    uint32_t total = nmemb * size;
+    void *ptr = malloc(total);
+    if (ptr)
+    {
+        char *p = (char *)ptr;
+        for (uint32_t i = 0; i < total; i++)
+            p[i] = 0;
+    }
+    return ptr;
 }
 
-void gpio_write(uint32_t value)
-{
-    volatile uint32_t *const gpio_out = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_OUT_OFFSET);
-    *gpio_out = value;
-}
-
-uint32_t gpio_read(void)
-{
-    volatile uint32_t *const gpio_in = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_IN_OFFSET);
-    return *gpio_in;
-}
+#endif
 
 #ifdef SSD1306
+
+// ----------------------- WGR-V -----------------------
+//
+//        SSD1306 Display with Scroll Function
+//
+//------------------------------------------------------
 
 const uint8_t init_cmds[] = {
     0xAE, 0xD5, 0x80, 0xA8, SSD1306_HEIGHT - 1,

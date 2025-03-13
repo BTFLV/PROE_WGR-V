@@ -9,7 +9,6 @@ module debug_module (
     output wire [31:0] read_data,
     input  wire        we,
     input  wire        re,
-    output wire        debug_re,
     output wire [31:0] debug_out
   );
 
@@ -30,7 +29,7 @@ module debug_module (
     if (we)
     begin
       debug_reg <= write_data;
-      $display("DEBUG_REG UPDATED: 0x%08X at time %0t", write_data, $time);
+      $display("DEBUG_REG UPDATED: 0x%08X (%d) at time %0t", write_data, write_data, $time);
     end
   end
 

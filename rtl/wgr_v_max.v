@@ -1,10 +1,10 @@
+`include "./defines.v"
 `default_nettype none
 `timescale 1ns / 1ns
 
 module wgr_v_max (
   input  wire        clk,
   input  wire        rst_n,
-  output wire        halt_led,
   output wire        uart_tx,
   input  wire        uart_rx,
   output wire [31:0] debug_out,
@@ -16,40 +16,18 @@ module wgr_v_max (
   output wire        spi_cs,
   output wire [ 7:0] gpio_out,
   output wire [ 7:0] gpio_dir,
-  input  wire [ 7:0] gpio_in,
-  output wire [31:0] address,
-  output wire [31:0] write_data,
-  output wire [31:0] read_data,
-  output wire        we,
-  output wire        re
+  input  wire [ 7:0] gpio_in
 );
 
-  //wire [31:0] address;
-  //wire [31:0] write_data;
-  //wire [31:0] read_data;
-  //wire [31:0] debug_out;
+  
+  wire [31:0] address;
+  wire [31:0] write_data;
+  wire [31:0] read_data;
+  wire        mem_busy;
+  wire        we;
+  wire        re;
 
-  wire mem_busy;
-  wire halt;
-  //wire we;
-  //wire re;
-
-  assign halt_led  = halt;
-  assign mem_busy  = 1'b0;
-
-  cpu rv32i_cpu (
-    .clk            (clk),
-    .rst_n          (rst_n),
-    .address        (address),
-    .write_data     (write_data),
-    .read_data      (read_data),
-    .we             (we),
-    .re             (re),
-    .halt           (halt),
-    .mem_busy       (mem_busy)
-  );
-
-  memory system_memory (
+  cpu cpu_inst (
     .clk        (clk),
     .rst_n      (rst_n),
     .address    (address),
@@ -57,6 +35,18 @@ module wgr_v_max (
     .read_data  (read_data),
     .we         (we),
     .re         (re),
+    .mem_busy   (mem_busy)
+  );
+
+  memory memory_inst (
+    .clk        (clk),
+    .rst_n      (rst_n),
+    .address    (address),
+    .write_data (write_data),
+    .read_data  (read_data),
+    .we         (we),
+    .re         (re),
+    .mem_busy   (mem_busy),
     .uart_tx    (uart_tx),
     .uart_rx    (uart_rx),
     .debug_out  (debug_out),

@@ -9,6 +9,7 @@ if {[file exists work]} {
 }
 vmap work work
 
+vlog -work work "$RTL_PATH/defines.v"
 vlog -work work "$RTL_PATH/alu.v"
 vlog -work work "$RTL_PATH/cpu.v"
 vlog -work work "$RTL_PATH/memory.v"
@@ -19,6 +20,7 @@ vlog -work work "$RTL_PATH/peripherals/debug_module.v"
 vlog -work work "$RTL_PATH/peripherals/fifo.v"
 vlog -work work "$RTL_PATH/peripherals/gpio.v"
 vlog -work work "$RTL_PATH/peripherals/ws2812b.v"
+vlog -work work "$RTL_PATH/peripherals/seq_multiplier.v"
 vlog -work work "$RTL_PATH/peripherals/seq_divider.v"
 vlog -work work "$RTL_PATH/peripherals/peripheral_bus.v"
 vlog -work work "$RTL_PATH/peripherals/pwm_timer.v"
@@ -54,7 +56,7 @@ vcd add /wgr_v_max_tb/tb_uart_rx
 vcd add /wgr_v_max_tb/tb_gpio_out[1:0]
 vcd add /wgr_v_max_tb/tb_gpio_dir[1:0]
 
-run 3000000ns
+run 10000000ns
 
 vcd off
 vcd flush

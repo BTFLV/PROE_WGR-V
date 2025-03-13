@@ -1,3 +1,4 @@
+`include "./defines.v"
 `default_nettype none
 `timescale 1ns / 1ns
 
@@ -13,10 +14,19 @@ module register_file (
   output wire [31:0] rs2_data
 );
 
+`ifdef RV32I
   reg [31:0] registers[31:1];
+`else
+  reg [31:0] registers[15:1];
+`endif
 
+`ifdef RV32I
   assign rs1_data  = (rs1 != 5'd0) ? registers[rs1] : 32'd0;
   assign rs2_data  = (rs2 != 5'd0) ? registers[rs2] : 32'd0;
+`else
+  assign rs1_data = (rs1 != 5'd0 && ~rs1[4]) ? registers[rs1] : 32'd0;
+  assign rs2_data = (rs2 != 5'd0 && ~rs2[4]) ? registers[rs2] : 32'd0;
+`endif
 
   always @(posedge clk or negedge rst_n)
   begin
@@ -37,6 +47,7 @@ module register_file (
       registers[13] <= 32'd0;
       registers[14] <= 32'd0;
       registers[15] <= 32'd0;
+`ifdef RV32I
       registers[16] <= 32'd0;
       registers[17] <= 32'd0;
       registers[18] <= 32'd0;
@@ -53,10 +64,16 @@ module register_file (
       registers[29] <= 32'd0;
       registers[30] <= 32'd0;
       registers[31] <= 32'd0;
+`endif
     end
     else
-      if (we && (rd != 5'd0))
-        registers[rd] <= rd_data;
+`ifdef RV32I
+    if (we && (rd != 5'd0))
+      registers[rd] <= rd_data;
+`else
+    if (we && (rd != 5'd0) && ~rd[4])
+      registers[rd] <= rd_data;
+`endif
   end
 
 endmodule

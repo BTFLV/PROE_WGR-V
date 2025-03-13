@@ -1,5 +1,11 @@
 #include "wgrhal.h"
 
+// ----------------------- WGR-V -----------------------
+//
+//              Standard Memory Functions
+//
+//------------------------------------------------------
+
 void *memcpy(void *dest, const void *src, uint32_t n)
 {
     unsigned char *d = (unsigned char *)dest;
@@ -43,6 +49,12 @@ void *memmove(void *dest, const void *src, uint32_t n)
     }
     return dest;
 }
+
+// ----------------------- WGR-V -----------------------
+//
+//              Standard String Functions
+//
+//------------------------------------------------------
 
 uint32_t strlen(const char *s)
 {
@@ -89,6 +101,82 @@ char *strcpy(char *dest, const char *src)
         ;
     return dest;
 }
+
+void int_to_str(int32_t num, int base, char *str)
+{
+    char temp[16];
+    int i = 0, j = 0;
+    int is_negative = 0;
+
+    if (num == 0)
+    {
+        str[j++] = '0';
+        str[j] = '\0';
+        return;
+    }
+
+    if (num < 0 && base == 10)
+    {
+        is_negative = 1;
+        num = -num;
+    }
+
+    while (num != 0)
+    {
+        int rem = num % base;
+        temp[i++] = (rem > 9) ? (rem - 10) + 'A' : rem + '0';
+        num = num / base;
+    }
+
+    if (is_negative)
+    {
+        temp[i++] = '-';
+    }
+
+    while (i > 0)
+    {
+        str[j++] = temp[--i];
+    }
+    str[j] = '\0';
+}
+
+int32_t parse_integer(const char *str)
+{
+    int result = 0;
+    
+    if (*str == '\0' || *str == '\n' || *str == ' ') {
+        return -1;
+    }
+
+    while (*str != '\0' && *str != '\n' && *str != ' ')
+    {
+        if (*str < '0' || *str > '9')
+        {
+            return -1;
+        }
+        result = result * 10 + (*str - '0');
+        str++;
+    }
+
+    return result;
+}
+
+// ----------------------- WGR-V -----------------------
+//
+//              Writing to Debug Register
+//
+//------------------------------------------------------
+
+void debug_write(uint32_t value)
+{
+    HWREG32(DEBUG_ADDR) = value;
+}
+
+// ----------------------- WGR-V -----------------------
+//
+//                    UART Functions
+//
+//------------------------------------------------------
 
 void uart_enable(void)
 {
@@ -271,31 +359,17 @@ void uart_send_uint32(uint32_t value, uint32_t timeout_ms)
     uart_write_buffer(buffer, sizeof(buffer), timeout_ms);
 }
 
-static void int_to_str(uint32_t num, int32_t base, char *buf)
-{
-    int32_t i = 0;
-    do
-    {
-        int32_t digit = num % base;
-        buf[i++] = (digit < 10) ? ('0' + digit) : ('a' + digit - 10);
-        num /= base;
-    } while (num > 0);
-
-    int32_t j = 0;
-    while (j < i / 2)
-    {
-        char temp = buf[j];
-        buf[j] = buf[i - j - 1];
-        buf[i - j - 1] = temp;
-        j++;
-    }
-    buf[i] = '\0';
-}
-
 void uart_print_uint(uint32_t num, int32_t base)
 {
-    char buffer[16];
+    char buffer[33];
+
+    if (base < 2 || base > 16)
+    {
+        return;
+    }
+
     int_to_str(num, base, buffer);
+
     for (int i = 0; buffer[i] != '\0'; i++)
     {
         uart_putchar_default_timeout(buffer[i]);
@@ -320,71 +394,11 @@ void uart_print(const char *s)
     }
 }
 
-void uart_printf(const char *fmt, ...)
-{
-    va_list args;
-    va_start(args, fmt);
-    while (*fmt)
-    {
-        if (*fmt == '%')
-        {
-            fmt++;
-            switch (*fmt)
-            {
-            case 'c':
-            {
-
-                int c = va_arg(args, int);
-                uart_putchar_default_timeout((char)c);
-                break;
-            }
-            case 's':
-            {
-                char *s = va_arg(args, char *);
-                while (*s)
-                {
-                    uart_putchar_default_timeout(*s++);
-                }
-                break;
-            }
-            case 'd':
-            {
-                int32_t d = va_arg(args, int32_t);
-                uart_print_int(d);
-                break;
-            }
-            case 'u':
-            {
-                uint32_t u = va_arg(args, uint32_t);
-                uart_print_uint(u, 10);
-                break;
-            }
-            case 'x':
-            {
-                uint32_t x = va_arg(args, uint32_t);
-                uart_print_uint(x, 16);
-                break;
-            }
-            case '%':
-            {
-                uart_putchar_default_timeout('%');
-                break;
-            }
-            default:
-
-                uart_putchar_default_timeout('%');
-                uart_putchar_default_timeout(*fmt);
-                break;
-            }
-        }
-        else
-        {
-            uart_putchar_default_timeout(*fmt);
-        }
-        fmt++;
-    }
-    va_end(args);
-}
+// ----------------------- WGR-V -----------------------
+//
+//                    Time Functions
+//
+//------------------------------------------------------
 
 uint32_t get_sys_clk(void)
 {
@@ -457,17 +471,11 @@ void delay_micro(uint32_t microsec)
     }
 }
 
-void debug_write(uint32_t value)
-{
-    HWREG32(DEBUG_ADDR) = value;
-}
-
-void debug_write_raw(void *value)
-{
-    const uint32_t *aligned_value = (const uint32_t *)((uint32_t)value & ~0x3);
-    volatile uint32_t *debug_reg = (volatile uint32_t *)DEBUG_ADDR;
-    *debug_reg = *aligned_value;
-}
+// ----------------------- WGR-V -----------------------
+//
+//                    PWM Functions
+//
+//------------------------------------------------------
 
 void pwm_set_period(uint32_t period)
 {
@@ -537,269 +545,66 @@ uint32_t pwm_get_pre_counter(void)
     return (pwm_ctrl >> 16);
 }
 
-#ifdef ADVANCED
+// ----------------------- WGR-V -----------------------
+//
+//                    GPIO Functions
+//
+//------------------------------------------------------
 
-static uint32_t *note_buffer = 0;
-
-const uint8_t note_freq_halfbase[12] = {
-    131,
-    139,
-    147,
-    156,
-    165,
-    175,
-    185,
-    196,
-    208,
-    220,
-    233,
-    247};
-
-int pwm_precompute_notes_malloc(void)
+void gpio_set_pin_direction(uint8_t pin, uint8_t is_input)
 {
-    uint32_t sys_clk = get_sys_clk();
-    debug_write(sys_clk);
+    volatile uint32_t *const gpio_dir = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_DIR_OFFSET);
+    uint32_t dir = *gpio_dir;
 
-    if (!note_buffer)
+    if (is_input)
     {
-        note_buffer = (uint32_t *)malloc(12 * sizeof(uint32_t));
-        if (!note_buffer)
-        {
-            return -1;
-        }
-    }
-
-    for (int i = 0; i < 1; i++)
-    {
-        note_buffer[i] = (uint32_t)(sys_clk / note_freq_halfbase[i]);
-        debug_write(note_buffer[i]);
-    }
-
-    return 0;
-}
-
-void pwm_play_note_malloc(note_t note, uint32_t octave)
-{
-    if (!note_buffer)
-    {
-        return;
-    }
-
-    uint32_t period = 0;
-    uint16_t prescaler = 0;
-
-    if (note < NOTE_C || note > NOTE_B)
-    {
-        return;
-    }
-
-    if (octave > 10)
-    {
-        period = note_buffer[note] >> 10;
-        period = period ? period : 1;
-        prescaler = 1;
-    }
-    else if (octave > 2)
-    {
-        period = note_buffer[note] >> (octave - 2);
-        prescaler = 1;
+        dir |= (1 << pin);
     }
     else
     {
-        period = note_buffer[note];
-        prescaler = 1 << (2 - octave);
+        dir &= ~(1 << pin);
     }
 
-    pwm_set_mode(1);
-    pwm_set_50_percent_mode(1);
-
-    pwm_set_period(period);
-    pwm_set_pre_counter(prescaler);
+    *gpio_dir = dir;
 }
 
-void pwm_free_note_buffer(void)
+void gpio_write_pin(uint8_t pin, uint8_t value)
 {
-    if (note_buffer)
+    volatile uint32_t *const gpio_out = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_OUT_OFFSET);
+    uint32_t out = *gpio_out;
+
+    if (value)
     {
-        free(note_buffer);
-        note_buffer = 0;
-    }
-}
-
-typedef int ptrdiff_t;
-
-void free(void *ap);
-
-int errno;
-#define ENOMEM 12
-
-extern char _heap_start;
-extern char _heap_end;
-
-static char *heap_ptr = &_heap_start;
-
-void *sbrk(int32_t incr)
-{
-    char *prev = heap_ptr;
-    if (heap_ptr + incr > &_heap_end)
-    {
-        errno = ENOMEM;
-        return (void *)-1;
-    }
-    heap_ptr += incr;
-    return prev;
-}
-
-typedef long Align;
-
-union header
-{
-    struct
-    {
-        union header *next;
-        uint32_t size;
-    } s;
-    Align x;
-};
-
-typedef union header Header;
-
-static Header base;
-static Header *freep = 0;
-
-#define NALLOC 1024
-
-uint32_t heap_free_space(void)
-{
-    uint32_t free_space = (uint32_t)(&_heap_end - heap_ptr);
-    return free_space;
-}
-
-static Header *morecore(uint32_t nu)
-{
-    if (nu < NALLOC)
-        nu = NALLOC;
-    char *cp = sbrk(nu * sizeof(Header));
-    if (cp == (char *)-1)
-    {
-        return 0;
-    }
-    Header *up = (Header *)cp;
-    up->s.size = nu;
-    free((void *)(up + 1));
-    return freep;
-}
-
-void *malloc(uint32_t nbytes)
-{
-    Header *p, *prevp;
-    uint32_t nunits = (nbytes + sizeof(Header) - 1) / sizeof(Header) + 1;
-    if ((prevp = freep) == 0)
-    {
-        base.s.next = freep = &base;
-        base.s.size = 0;
-    }
-    for (p = freep->s.next;; prevp = p, p = p->s.next)
-    {
-        if (p->s.size >= nunits)
-        {
-            if (p->s.size == nunits)
-                prevp->s.next = p->s.next;
-            else
-            {
-                p->s.size -= nunits;
-                p += p->s.size;
-                p->s.size = nunits;
-            }
-            freep = prevp;
-            return (void *)(p + 1);
-        }
-        if (p == freep)
-        {
-            p = morecore(nunits);
-            if (p == 0)
-            {
-                return 0;
-            }
-        }
-    }
-}
-
-void free(void *ap)
-{
-    if (!ap)
-    {
-        return;
-    }
-    Header *bp = (Header *)ap - 1;
-    Header *p;
-
-    for (p = freep; !(bp > p && bp < p->s.next); p = p->s.next)
-    {
-        if (p >= p->s.next && (bp > p || bp < p->s.next))
-            break;
-    }
-
-    if ((bp + bp->s.size) == p->s.next)
-    {
-        bp->s.size += p->s.next->s.size;
-        bp->s.next = p->s.next->s.next;
+        out |= (1 << pin);
     }
     else
     {
-        bp->s.next = p->s.next;
+        out &= ~(1 << pin);
     }
 
-    if ((p + p->s.size) == bp)
-    {
-        p->s.size += bp->s.size;
-        p->s.next = bp->s.next;
-    }
-    else
-    {
-        p->s.next = bp;
-    }
-    freep = p;
+    *gpio_out = out;
 }
 
-void *realloc(void *ptr, uint32_t size)
+uint8_t gpio_read_pin(uint8_t pin)
 {
-    if (!ptr)
-        return malloc(size);
-    if (size == 0)
-    {
-        free(ptr);
-        return 0;
-    }
-
-    Header *old_hdr = (Header *)ptr - 1;
-
-    uint32_t old_data_size = (old_hdr->s.size - 1) * sizeof(Header);
-    void *newptr = malloc(size);
-    if (newptr)
-    {
-        char *src = (char *)ptr;
-        char *dst = (char *)newptr;
-
-        uint32_t copy_bytes = (size < old_data_size) ? size : old_data_size;
-        for (uint32_t i = 0; i < copy_bytes; i++)
-            dst[i] = src[i];
-    }
-    free(ptr);
-    return newptr;
+    volatile uint32_t *const gpio_in = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_IN_OFFSET);
+    return ((*gpio_in) & (1 << pin)) ? 1 : 0;
 }
 
-void *calloc(uint32_t nmemb, uint32_t size)
+void gpio_set_direction(uint32_t dir_mask)
 {
-    uint32_t total = nmemb * size;
-    void *ptr = malloc(total);
-    if (ptr)
-    {
-        char *p = (char *)ptr;
-        for (uint32_t i = 0; i < total; i++)
-            p[i] = 0;
-    }
-    return ptr;
+    volatile uint32_t *const gpio_dir = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_DIR_OFFSET);
+    *gpio_dir = dir_mask;
 }
 
-#endif
+void gpio_write(uint32_t value)
+{
+    volatile uint32_t *const gpio_out = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_OUT_OFFSET);
+    *gpio_out = value;
+}
+
+uint32_t gpio_read(void)
+{
+    volatile uint32_t *const gpio_in = (volatile uint32_t *)(GPIO_BASE_ADDR + GPIO_IN_OFFSET);
+    return *gpio_in;
+}

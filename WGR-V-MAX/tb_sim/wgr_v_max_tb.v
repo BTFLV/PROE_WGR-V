@@ -14,7 +14,6 @@ module wgr_v_max_tb ();
   wire [ 7:0] tb_gpio_out;
   wire [ 7:0] tb_gpio_dir;
 
-  wire        tb_halt_led;
   wire        tb_pwm_out;
   wire        tb_uart_tx;
   wire        tb_ws_out;
@@ -25,7 +24,6 @@ module wgr_v_max_tb ();
   wgr_v_max dut (
     .clk        (tb_clk),
     .rst_n      (tb_rst_n),
-    .halt_led   (tb_halt_led),
     .pwm_out    (tb_pwm_out),
     .uart_tx    (tb_uart_tx),
     .uart_rx    (tb_uart_rx),
@@ -42,8 +40,6 @@ module wgr_v_max_tb ();
 
 
 
-
-
   parameter CLK_FREQ = 10000000;    
   parameter BAUD_RATE = 115200;
   parameter BIT_PERIOD = 1000000000 / BAUD_RATE;
@@ -51,12 +47,14 @@ module wgr_v_max_tb ();
   reg [7:0] data_byte = 8'h42;
   integer i;
 
-  initial begin
+  initial
+  begin
     tb_clk = 0;
     forever #50 tb_clk = ~tb_clk;
   end
 
-  initial begin
+  initial
+  begin
     tb_rst_n      = 0;
     tb_uart_rx    = 1;
     tb_spi_miso   = 1;
@@ -68,36 +66,33 @@ module wgr_v_max_tb ();
   task uart_send_byte(input [7:0] byte);
     begin
       $display("[%0t ns] Sending Byte: 0x%02X", $time, byte);
-
       tb_uart_rx = 0;
       #(BIT_PERIOD);
-
-      for (i = 0; i < 8; i = i + 1) begin
+      for (i = 0; i < 8; i = i + 1)
+      begin
         tb_uart_rx = byte[i];
         #(BIT_PERIOD);
       end
-
       tb_uart_rx = 1;
-      #(BIT_PERIOD);
-
-      $display("[%0t ns] Stop Bit Sent", $time);
+      #(10 * BIT_PERIOD);
     end
   endtask
 
-  initial begin
+  initial
+  begin
     #1000;
     if (tb_rst_n == 1)
-      $display("[%0t ns] Starting UART Transmission", $time);
-
-    forever begin
-      uart_send_byte(data_byte);
+    forever
+    begin
+      // uart_send_byte(data_byte);
       data_byte = data_byte + 1;
       #(10 * BIT_PERIOD);
     end
   end
 
-  initial begin
-    #1000000;
+  initial
+  begin
+    #30000000;
     $stop;
   end
 

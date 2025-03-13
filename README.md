@@ -111,7 +111,7 @@ src\project_asm\
 ### 📦 Hex-Dateien generieren
 Eine altsyncram RAM Initialisierungs `.hex` Datei wird erstellt mit:
 ```batch
-python scripts/hex_conv/conv_hex.py [input.hex] [output.hex] [shift_amount in hex] [<memory_depth]
+python scripts/hex_conv/conv_hex.py [input.hex] [output.hex] [shift_amount in hex] [memory_depth]
 ```
 Die für den FRAM benötigte Datei wird aus der mit `.conv_hex.py` erstellten Datei generiert:
 ```batch

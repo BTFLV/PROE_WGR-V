@@ -13,11 +13,12 @@ module ws2812b (
   output reg          ws_out
 );
 
-  localparam integer T0H     = (`CLK_FREQ * 400) / 1000000000;
-  localparam integer T0L     = (`CLK_FREQ * 850) / 1000000000;
-  localparam integer T1H     = (`CLK_FREQ * 800) / 1000000000;
-  localparam integer T1L     = (`CLK_FREQ * 450) / 1000000000;
-  localparam integer T_RESET = (`CLK_FREQ * 50)  / 1000000;
+  localparam CLK_PERIOD_NS = 1_000_000_000 / `CLK_FREQ;
+  localparam T0H     = (400 + CLK_PERIOD_NS - 1) / CLK_PERIOD_NS;
+  localparam T0L     = (850 + CLK_PERIOD_NS - 1) / CLK_PERIOD_NS;
+  localparam T1H     = (800 + CLK_PERIOD_NS - 1) / CLK_PERIOD_NS;
+  localparam T1L     = (450 + CLK_PERIOD_NS - 1) / CLK_PERIOD_NS;
+  localparam T_RESET = (50_000 + CLK_PERIOD_NS - 1) / CLK_PERIOD_NS;
 
   localparam STATE_LOAD_LED   = 2'd0;
   localparam STATE_SEND_HIGH  = 2'd1;
@@ -87,7 +88,7 @@ module ws2812b (
 
         STATE_LOAD_LED:
         begin
-          shift_reg <= {led_rgb[led_index][15:8], led_rgb[led_index][23:16], led_rgb[led_index][7:0]};
+          shift_reg <= {led_rgb[led_index][23:16], led_rgb[led_index][15:8], led_rgb[led_index][7:0]};
           bit_index <= 23;
 
           if (shift_reg[23]) begin
