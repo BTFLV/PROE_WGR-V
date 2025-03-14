@@ -653,7 +653,7 @@ static const uint8_t ssd1351_init_cmds[] = {
     0xAE, 0,
     0xB3, 1, 0xF1,
     0xCA, 1, 0x7F,
-    0xA0, 1, 0x72,
+    0xA0, 1, 0x74,
     0xA1, 1, 0x00,
     0xA2, 1, 0x00,
     0xA6, 0,
@@ -674,6 +674,7 @@ static uint32_t oled_inv = 0;
 static uint32_t scroll_line = 0;
 static uint32_t term_cursor_x = 0;
 static uint32_t term_cursor_y = TOTAL_ROWS - 1;
+static uint32_t  bottom_row = TOTAL_ROWS - 1;
 static uint16_t __attribute__((aligned(4))) term_text_color = COLOR_WHITE;
 static uint16_t __attribute__((aligned(4))) term_bg_color = COLOR_BLACK;
 static uint16_t __attribute__((aligned(4))) cursor_visible = true;
@@ -693,11 +694,11 @@ void housekeeping(void)
 
     cursor_visible = !cursor_visible;
 
-    draw_char_cell_custom(TOTAL_ROWS - 1, term_cursor_x, ' ', COLOR_WHITE, COLOR_BLACK);
+    draw_char_cell_custom(term_cursor_y, term_cursor_x, ' ', COLOR_WHITE, COLOR_BLACK);
 
     if (cursor_visible)
     {
-        draw_char_cell_custom(TOTAL_ROWS - 1, term_cursor_x, '_', COLOR_WHITE, COLOR_BLACK);
+        draw_char_cell_custom(term_cursor_y, term_cursor_x, '_', COLOR_WHITE, COLOR_BLACK);
     }
 }
 
@@ -801,20 +802,8 @@ void draw_char_cell_custom(uint8_t row, uint8_t col, char c, uint16_t fg, uint16
     }
     const uint8_t *glyph = font5x7[c - 32];
 
-    uint8_t physicalRow;
-    if (row < STATUS_BAR_ROWS)
-    {
-        physicalRow = row;
-    }
-    else
-    {
-        uint8_t relativeRow = (uint8_t)(row - STATUS_BAR_ROWS);
-        uint8_t scrolled = (relativeRow + scroll_line) % (TOTAL_ROWS - STATUS_BAR_ROWS);
-        physicalRow = (uint8_t)(STATUS_BAR_ROWS + scrolled);
-    }
-
     uint8_t x = (uint8_t)(col * CHAR_WIDTH);
-    uint8_t y = (uint8_t)(physicalRow * CHAR_HEIGHT);
+    uint8_t y = (uint8_t)(row * CHAR_HEIGHT);
 
     ssd1351_set_position(x, y, CHAR_WIDTH, CHAR_HEIGHT);
 
@@ -884,21 +873,30 @@ void terminal_native_scroll(void)
     scroll_line = (scroll_line + 1) % (TOTAL_ROWS - STATUS_BAR_ROWS);
 
     uint8_t pixelOffset = (uint8_t)(scroll_line * CHAR_HEIGHT);
-
     uint8_t scroll_start = (uint8_t)(pixelOffset + (STATUS_BAR_ROWS * CHAR_HEIGHT));
 
     ssd1351_send_command(0xA1);
     ssd1351_send_data(&scroll_start, 1);
 
-    uint8_t newlyRevealedRow = (scroll_line + (TOTAL_ROWS - 1) - STATUS_BAR_ROWS)
-                                % (TOTAL_ROWS - STATUS_BAR_ROWS) + STATUS_BAR_ROWS;
+    uint8_t newlyRevealedRow = (scroll_line + 0)
+                               % (TOTAL_ROWS - STATUS_BAR_ROWS)
+                               + STATUS_BAR_ROWS;
+
     for (uint8_t col = 0; col < TERM_COLS; col++)
     {
         draw_char_cell_custom(newlyRevealedRow, col, ' ', term_text_color, term_bg_color);
     }
 
+    uint8_t scrollable_rows = (TOTAL_ROWS - STATUS_BAR_ROWS);
+    uint8_t physicalBottom = (scroll_line + (scrollable_rows - 1))
+                             % scrollable_rows
+                             + STATUS_BAR_ROWS;
+
+    bottom_row = physicalBottom;
     term_cursor_x = 0;
-    term_cursor_y = TOTAL_ROWS - 1;
+    term_cursor_y = bottom_row;
+
+    delay(100);
 }
 
 void terminal_put_char(char c)
@@ -909,7 +907,7 @@ void terminal_put_char(char c)
     {
         if (term_cursor_x < TERM_COLS)
         {
-            draw_char_cell_custom(TOTAL_ROWS - 1, term_cursor_x, ' ', COLOR_WHITE, COLOR_BLACK);
+            draw_char_cell_custom(term_cursor_y, term_cursor_x, ' ', COLOR_WHITE, COLOR_BLACK);
         }
         terminal_native_scroll();
         return;
@@ -966,7 +964,6 @@ void print_ok(const char *label)
 
 void print_error(const char *label)
 {
-    terminal_print("\n");
     terminal_print_col(label, COLOR_RED);
 }
 
@@ -1022,7 +1019,7 @@ void terminal_init(void)
         clear_terminal_row(r);
     }
     term_cursor_x = 0;
-    term_cursor_y = TOTAL_ROWS - 1;
+    term_cursor_y = bottom_row;
 }
 
 uint32_t ssd1351_cursor_x(void)

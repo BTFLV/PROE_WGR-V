@@ -28,8 +28,16 @@ void setup()
     buffer = (char *)malloc(TEXT_BUFFER);
     if (buffer == NULL)
     {
-        terminal_print("malloc failed. halting.\n");
-        while(1);
+        terminal_print("TEXT_BUFFER malloc failed.\nhalting.\n");
+        while (1)
+            ;
+    }
+    int pwm_err = pwm_precompute_notes();
+    if (pwm_err == -1)
+    {
+        terminal_print("pwm_precompute_notes\nmalloc failed.\nhalting.\n");
+        while (1)
+            ;
     }
 }
 
@@ -37,7 +45,7 @@ void print_help(void)
 {
     terminal_print_col("\nCommands:\n", COLOR_GREEN);
     terminal_set_text_color(COLOR_WHITE);
-    
+
     terminal_print("\nmult <a> <b>");
     terminal_print("\ndiv  <a> <b>");
 
@@ -47,18 +55,13 @@ void print_help(void)
 
     terminal_print("\ntime [-ms]");
     terminal_print("\nheap");
-    
+
     terminal_print("\nnote <note> <oct>");
     terminal_print("\nnote [-off]");
-    
+
     terminal_print("\nws <r> <g> <b> [led]");
     terminal_print("\nws -off");
-
-    //terminal_print("\nspi enable");
-    //terminal_print("\nspi disable");
-    //terminal_print("\nspi status");
 }
-
 
 int parse_and_play_note(const char *paramString)
 {
@@ -163,7 +166,7 @@ int32_t read_cmd(void)
             terminal_put_char('\n');
             if (cursor == 0)
             {
-                
+
                 continue;
             }
             buffer[cursor] = '\0';
@@ -184,8 +187,7 @@ int32_t read_cmd(void)
         {
             continue;
         }
-
-        if(ssd1351_cursor_x)
+        if((cursor == 0) && (ssd1351_cursor_x != 0))
         {
             terminal_put_char('\n');
         }
@@ -214,6 +216,37 @@ int32_t interpret_cmd()
         else
         {
             print_error("PWM: invalid");
+            return -1;
+        }
+    }
+    else if (strncmp(buffer, "pin", strlen("pin")) == 0)
+    {
+        param = skip_spaces(buffer + strlen("pin"));
+        int32_t pinIndex = parse_int_multi(param, &param);
+        if (pinIndex < 0 || pinIndex > 5)
+        {
+            print_error("USAGE:\npin [0..5] -on/-off");
+            return -1;
+        }
+
+        uint8_t actualPin = (uint8_t)(pinIndex + 2);
+        param = skip_spaces(param);
+
+        if (strncmp(param, "-on", 3) == 0)
+        {
+            gpio_write_pin(actualPin, 1);
+            print_ok_res("Pin ", pinIndex);
+            print_ok(" on");
+        }
+        else if (strncmp(param, "-off", 4) == 0)
+        {
+            gpio_write_pin(actualPin, 0);
+            print_ok_res("Pin ", pinIndex);
+            print_ok(" off");
+        }
+        else
+        {
+            print_error("USAGE:\npin [0..5] -on/-off");
             return -1;
         }
     }
@@ -283,6 +316,7 @@ int32_t interpret_cmd()
         }
 
         uint32_t result = mult_calc((uint32_t)multiplicand, (uint32_t)multiplier);
+
         print_ok_res("MULT: ", result);
     }
     else if (strncmp(buffer, "div", strlen("div")) == 0)
@@ -304,7 +338,54 @@ int32_t interpret_cmd()
         }
 
         uint32_t result = div_calc_quotient((uint32_t)dividend, (uint32_t)divisor);
+
         print_ok_res("DIV: ", result);
+    }
+    else if (strncmp(buffer, "ws", strlen("ws")) == 0)
+    {
+        param = skip_spaces(buffer + strlen("ws"));
+
+        if (strncmp(param, "-off", 4) == 0)
+        {
+            ws2812_clear();
+            print_ok("LEDs off");
+        }
+        else
+        {
+            int32_t r = parse_int_multi(param, &param);
+            param = skip_spaces(param);
+            int32_t g = parse_int_multi(param, &param);
+            param = skip_spaces(param);
+            int32_t b = parse_int_multi(param, &param);
+            param = skip_spaces(param);
+
+            if (r < 0 || g < 0 || b < 0 || r > 255 || g > 255 || b > 255)
+            {
+                print_error("- USAGE:\nws <r> <g> <b> [led]\n- or\nws -off");
+                return -1;
+            }
+
+            rgb_color_t color = { .r = (uint8_t)r, .g = (uint8_t)g, .b = (uint8_t)b };
+
+            if (*param != '\0')
+            {
+                int32_t led = parse_int_multi(param, &param);
+                if (ws2812_set_color((uint8_t)led, color) == 0)
+                {
+                    print_ok_res("LED ", led);
+                    print_ok(" set.");
+                }
+                else
+                {
+                    print_error("[LED] must be 0-7");
+                }
+            }
+            else
+            {
+                ws2812_fill(color);
+                print_ok("LEDs on");
+            }
+        }
     }
     else if (strncmp(buffer, "invert", strlen("invert")) == 0)
     {

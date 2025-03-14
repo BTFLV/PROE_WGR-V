@@ -11,6 +11,7 @@ WGR-V-MAX/greybox_tmp/
 WGR-V-MAX/transcript
 WGR-V-MAX/vsim.wlf
 WGR-V-MAX/work/
+WGR-V-MAX/mem/
 WGR-V-MAX/modelsim.ini
 WGR-V-MAX/sim_log.txt
 WGR-V-MAX/tb_sim/transcript
@@ -22,6 +23,8 @@ WGR-V-MAX/tb_sim/db/
 build/
 *wgr_flat.hex
 *wgr_fram.hex
+*wgr_flat.ver
+*wgr_fram.ver
 .cdb/
 *.rpt
 *.summary
