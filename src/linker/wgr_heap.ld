@@ -15,6 +15,12 @@ SECTIONS
     KEEP(*(.text.boot))
     *(.text)
     *(.text.*)
+    . = ALIGN(4);
+  } > MEM
+
+  .rodata :
+  {
+    . = ALIGN(4);
     *(.rodata)
     *(.rodata.*)
     . = ALIGN(4);

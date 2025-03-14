@@ -58,6 +58,7 @@ int32_t strncmp(const char *s1, const char *s2, uint32_t n);
 char *strcpy(char *dest, const char *src);
 void int_to_str(int32_t num, int base, char *str);
 int32_t parse_integer(const char *str);
+int32_t parse_int_multi(const char *str, const char **next);
 
 // Writing to Debug Register
 void debug_write(uint32_t value);

@@ -653,7 +653,7 @@ static const uint8_t ssd1351_init_cmds[] = {
     0xAE, 0,
     0xB3, 1, 0xF1,
     0xCA, 1, 0x7F,
-    0xA0, 1, 0x74,
+    0xA0, 1, 0x72,
     0xA1, 1, 0x00,
     0xA2, 1, 0x00,
     0xA6, 0,
@@ -667,13 +667,53 @@ static const uint8_t ssd1351_init_cmds[] = {
     0xBE, 1, 0x05,
     0x15, 2, 0x00, 0x7F,
     0x75, 2, 0x00, 0x7F,
+    0xA3, 2, 0x08, 0x78,
     0xAF, 0};
 
-static uint8_t scroll_offset = 0;
-static uint8_t term_cursor_x = 0;
-static uint8_t term_cursor_y = TOTAL_ROWS - 1;
-static uint16_t term_text_color = COLOR_WHITE;
-static uint16_t term_bg_color = COLOR_BLACK;
+static uint32_t oled_inv = 0;
+static uint32_t scroll_line = 0;
+static uint32_t term_cursor_x = 0;
+static uint32_t term_cursor_y = TOTAL_ROWS - 1;
+static uint16_t __attribute__((aligned(4))) term_text_color = COLOR_WHITE;
+static uint16_t __attribute__((aligned(4))) term_bg_color = COLOR_BLACK;
+static uint16_t __attribute__((aligned(4))) cursor_visible = true;
+
+void housekeeping(void)
+{
+    uint32_t last_hk_time = 0;
+
+    if ((millis() - last_hk_time) < HOUSEKEEPING_MS)
+    {
+        return;
+    }
+    last_hk_time = millis();
+
+    if (term_cursor_x >= TERM_COLS)
+        return;
+
+    cursor_visible = !cursor_visible;
+
+    draw_char_cell_custom(TOTAL_ROWS - 1, term_cursor_x, ' ', COLOR_WHITE, COLOR_BLACK);
+
+    if (cursor_visible)
+    {
+        draw_char_cell_custom(TOTAL_ROWS - 1, term_cursor_x, '_', COLOR_WHITE, COLOR_BLACK);
+    }
+}
+
+void ssd1351_inv(void)
+{
+    if (oled_inv)
+    {
+        ssd1351_send_command(0xA6);
+        oled_inv = 0;
+    }
+    else
+    {
+        ssd1351_send_command(0xA7);
+        oled_inv = 1;
+    }
+}
 
 void ssd1351_send_data(const uint8_t *data, size_t len)
 {
@@ -728,12 +768,13 @@ void ssd1351_init(void)
     ssd1351_send_commands(ssd1351_init_cmds, sizeof(ssd1351_init_cmds));
     delay(100);
 
-    uint8_t scroll_area[2] = {CHAR_HEIGHT, (uint8_t)(SSD1351_HEIGHT - CHAR_HEIGHT)};
+    uint8_t scroll_area[2] = { CHAR_HEIGHT, (uint8_t)(SSD1351_HEIGHT - CHAR_HEIGHT) };
     ssd1351_send_command(0xA3);
     ssd1351_send_data(scroll_area, 2);
 
-    scroll_offset = 0;
-    uint8_t scroll_start = scroll_offset + CHAR_HEIGHT;
+    scroll_line = 0;
+
+    uint8_t scroll_start = (uint8_t)(scroll_line * CHAR_HEIGHT) + CHAR_HEIGHT;
     ssd1351_send_command(0xA1);
     ssd1351_send_data(&scroll_start, 1);
 }
@@ -759,13 +800,26 @@ void draw_char_cell_custom(uint8_t row, uint8_t col, char c, uint16_t fg, uint16
         c = '?';
     }
     const uint8_t *glyph = font5x7[c - 32];
-    uint8_t x = col * CHAR_WIDTH;
-    uint8_t y = row * CHAR_HEIGHT;
+
+    uint8_t physicalRow;
+    if (row < STATUS_BAR_ROWS)
+    {
+        physicalRow = row;
+    }
+    else
+    {
+        uint8_t relativeRow = (uint8_t)(row - STATUS_BAR_ROWS);
+        uint8_t scrolled = (relativeRow + scroll_line) % (TOTAL_ROWS - STATUS_BAR_ROWS);
+        physicalRow = (uint8_t)(STATUS_BAR_ROWS + scrolled);
+    }
+
+    uint8_t x = (uint8_t)(col * CHAR_WIDTH);
+    uint8_t y = (uint8_t)(physicalRow * CHAR_HEIGHT);
 
     ssd1351_set_position(x, y, CHAR_WIDTH, CHAR_HEIGHT);
 
     uint16_t cell[CHAR_WIDTH * CHAR_HEIGHT];
-    for (int i = 0; i < CHAR_WIDTH * CHAR_HEIGHT; i++)
+    for (int i = 0; i < (CHAR_WIDTH * CHAR_HEIGHT); i++)
     {
         cell[i] = bg;
     }
@@ -776,11 +830,11 @@ void draw_char_cell_custom(uint8_t row, uint8_t col, char c, uint16_t fg, uint16
         {
             if (bits & (1 << cy))
             {
-                cell[cy * CHAR_WIDTH + cx] = fg;
+                cell[(cy * CHAR_WIDTH) + cx] = fg;
             }
         }
     }
-    ssd1351_send_data((uint8_t *)cell, sizeof(cell));
+    ssd1351_send_data((const uint8_t *)cell, sizeof(cell));
 }
 
 void draw_char_cell(uint8_t row, uint8_t col, char c)
@@ -794,6 +848,16 @@ void clear_terminal_row(uint8_t row)
     {
         draw_char_cell_custom(row, col, ' ', term_text_color, term_bg_color);
     }
+}
+
+void clear_terminal(void)
+{
+    for (uint8_t r = STATUS_BAR_ROWS; r < TOTAL_ROWS; r++)
+    {
+        clear_terminal_row(r);
+    }
+    term_cursor_x = 0;
+    term_cursor_y = TOTAL_ROWS - 1;
 }
 
 void draw_status_bar(const char *text, uint16_t bg_color, uint16_t fg_color)
@@ -817,29 +881,54 @@ void draw_status_bar(const char *text, uint16_t bg_color, uint16_t fg_color)
 
 void terminal_native_scroll(void)
 {
-    scroll_offset += CHAR_HEIGHT;
-    if (scroll_offset >= (SSD1351_HEIGHT - CHAR_HEIGHT))
-    {
-        scroll_offset = 0;
-    }
-    uint8_t scroll_start = scroll_offset + CHAR_HEIGHT;
+    scroll_line = (scroll_line + 1) % (TOTAL_ROWS - STATUS_BAR_ROWS);
+
+    uint8_t pixelOffset = (uint8_t)(scroll_line * CHAR_HEIGHT);
+
+    uint8_t scroll_start = (uint8_t)(pixelOffset + (STATUS_BAR_ROWS * CHAR_HEIGHT));
+
     ssd1351_send_command(0xA1);
     ssd1351_send_data(&scroll_start, 1);
 
-    clear_terminal_row(TOTAL_ROWS - 1);
-    term_cursor_y = TOTAL_ROWS - 1;
+    uint8_t newlyRevealedRow = (scroll_line + (TOTAL_ROWS - 1) - STATUS_BAR_ROWS)
+                                % (TOTAL_ROWS - STATUS_BAR_ROWS) + STATUS_BAR_ROWS;
+    for (uint8_t col = 0; col < TERM_COLS; col++)
+    {
+        draw_char_cell_custom(newlyRevealedRow, col, ' ', term_text_color, term_bg_color);
+    }
+
     term_cursor_x = 0;
+    term_cursor_y = TOTAL_ROWS - 1;
 }
 
 void terminal_put_char(char c)
 {
+    uart_putchar(c, 10);
+
     if (c == '\n')
     {
+        if (term_cursor_x < TERM_COLS)
+        {
+            draw_char_cell_custom(TOTAL_ROWS - 1, term_cursor_x, ' ', COLOR_WHITE, COLOR_BLACK);
+        }
         terminal_native_scroll();
         return;
     }
+    
+    if (c == '\b') 
+    {
+        if (term_cursor_x > 0) 
+        {
+            term_cursor_x--;
+            draw_char_cell_custom(term_cursor_y, term_cursor_x, ' ', term_text_color, term_bg_color);
+            draw_char_cell_custom(term_cursor_y, term_cursor_x + 1, ' ', term_text_color, term_bg_color);
+        }
+        return;
+    }
+
     draw_char_cell_custom(term_cursor_y, term_cursor_x, c, term_text_color, term_bg_color);
     term_cursor_x++;
+
     if (term_cursor_x >= TERM_COLS)
     {
         terminal_native_scroll();
@@ -852,6 +941,33 @@ void terminal_print(const char *str)
     {
         terminal_put_char(*str++);
     }
+}
+
+void terminal_print_col(const char *text, uint16_t color)
+{
+    uint16_t previous_color = term_text_color;
+    terminal_set_text_color(color);
+    terminal_print(text);
+    terminal_set_text_color(previous_color);
+}
+
+void print_ok_res(const char *label, int32_t value)
+{
+    char numStr[16];
+    int_to_str(value, 10, numStr);
+    terminal_print_col(label, COLOR_GREEN);
+    terminal_print_col(numStr, COLOR_GREEN);
+}
+
+void print_ok(const char *label)
+{
+    terminal_print_col(label, COLOR_GREEN);
+}
+
+void print_error(const char *label)
+{
+    terminal_print("\n");
+    terminal_print_col(label, COLOR_RED);
 }
 
 void terminal_set_text_color(uint16_t color)
@@ -907,6 +1023,11 @@ void terminal_init(void)
     }
     term_cursor_x = 0;
     term_cursor_y = TOTAL_ROWS - 1;
+}
+
+uint32_t ssd1351_cursor_x(void)
+{
+    return term_cursor_x;
 }
 
 #endif

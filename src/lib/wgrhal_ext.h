@@ -222,15 +222,16 @@ static const uint8_t font5x7[96][5] = {
     {0x00, 0x06, 0x09, 0x09, 0x06}  // DEL (127)
 };
 
-#define SSD1351_WIDTH   128
-#define SSD1351_HEIGHT  128
-#define CHAR_WIDTH       6
-#define CHAR_HEIGHT      8
-#define STATUS_BAR_ROWS  1
-#define TOTAL_ROWS       (SSD1351_HEIGHT / CHAR_HEIGHT)
-#define TERM_COLS        (SSD1351_WIDTH / CHAR_WIDTH)
-#define TERM_ROWS        (TOTAL_ROWS)
-#define SSD1351_SPI_TIMEOUT 10
+#define SSD1351_WIDTH        128
+#define SSD1351_HEIGHT       128
+#define CHAR_WIDTH           6
+#define CHAR_HEIGHT          8
+#define STATUS_BAR_ROWS      1
+#define TOTAL_ROWS           (SSD1351_HEIGHT / CHAR_HEIGHT)
+#define TERM_COLS            (SSD1351_WIDTH / CHAR_WIDTH)
+#define TERM_ROWS            (TOTAL_ROWS)
+#define SSD1351_SPI_TIMEOUT  10
+#define HOUSEKEEPING_MS      250
 
 #define COLOR_BLACK    0x0000
 #define COLOR_WHITE    0xFFFF
@@ -241,6 +242,8 @@ static const uint8_t font5x7[96][5] = {
 #define COLOR_MAGENTA  0xF81F
 #define COLOR_CYAN     0x07FF
 
+void housekeeping(void);
+void ssd1351_inv(void);
 void ssd1351_send_data(const uint8_t *data, size_t len);
 void ssd1351_send_command(uint8_t cmd);
 void ssd1351_send_command_with_data(uint8_t cmd, const uint8_t *data, size_t len);
@@ -251,6 +254,10 @@ void ssd1351_fill_screen(uint16_t color);
 void ssd1351_draw_pixel(uint8_t x, uint8_t y, uint16_t color);
 void terminal_init(void);
 void terminal_print(const char *str);
+void terminal_print_col(const char *text, uint16_t color);
+void print_ok_res(const char *label, int32_t value);
+void print_ok(const char *label);
+void print_error(const char *label);
 void terminal_put_char(char c);
 void terminal_set_text_color(uint16_t color);
 void terminal_set_bg_color(uint16_t color);
@@ -258,9 +265,11 @@ void terminal_draw_text(uint8_t row, uint8_t col, const char *str, uint16_t fg_c
 void terminal_draw_text_default(uint8_t row, uint8_t col, const char *str);
 void terminal_native_scroll(void);
 void clear_terminal_row(uint8_t row);
+void clear_terminal(void);
 void draw_status_bar(const char *text, uint16_t bg_color, uint16_t fg_color);
 void draw_char_cell(uint8_t row, uint8_t col, char c);
-
+void draw_char_cell_custom(uint8_t row, uint8_t col, char c, uint16_t fg, uint16_t bg);
+uint32_t ssd1351_cursor_x(void);
 
 #endif
 

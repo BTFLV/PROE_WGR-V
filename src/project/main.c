@@ -7,15 +7,8 @@ char *buffer = NULL;
 uint32_t cursor = 0;
 uint32_t current_note = 0;
 uint32_t current_octave = 0;
+uint32_t last_housekeep = 0;
 
-const char setpwm[] = "setpwm ";
-const char spibaud[] = "spibaud ";
-const char note[] = "note ";
-const char octave[] = "octave ";
-const char systime[] = "systime";
-
-void int_to_str(int32_t num, int base, char *str);
-int32_t parse_integer(const char *str);
 const char *skip_spaces(const char *str)
 {
     while (*str == ' ' || *str == '\t')
@@ -31,167 +24,315 @@ void setup()
     spi_automatic_cs(0);
     spi_set_clock_divider(0);
     terminal_init();
-    draw_status_bar("WGR Terminal", COLOR_YELLOW, COLOR_BLACK);
+    draw_status_bar("  - WGR Terminal -", COLOR_CYAN, COLOR_BLACK);
     buffer = (char *)malloc(TEXT_BUFFER);
-}
-
-void print_time()
-{
-    char numStr[16];
-    terminal_set_text_color(COLOR_GREEN);
-    terminal_print("TIME: ");
-    int_to_str((int32_t)(millis() / 1000), 10, numStr);
-    terminal_print(numStr);
-    terminal_print("s");
-    terminal_set_text_color(COLOR_WHITE);
-}
-
-int32_t read_cmd()
-{
-    cursor = 0;
-    while (1)
+    if (buffer == NULL)
     {
-        if (cursor >= (TEXT_BUFFER - 1))
-        {
-            buffer[cursor] = 0;
-            return 0;
-        }
-        char data = -1;
-        while (uart_read_byte(&data, 10))
-        {
-        }
-        if (data < 0)
-        {
-            continue;
-        }
-        if (data == '\n')
-        {
-            buffer[cursor] = 0;
-
-            terminal_put_char('\n');
-            return 0;
-        }
-
-        terminal_set_text_color(COLOR_WHITE);
-        terminal_put_char(data);
-        buffer[cursor++] = data;
+        terminal_print("malloc failed. halting.\n");
+        while(1);
     }
 }
 
-void print_ok(const char *label, int32_t value)
+void print_help(void)
 {
-    char numStr[16];
-    terminal_set_text_color(COLOR_GREEN);
-    terminal_print(label);
-    int_to_str(value, 10, numStr);
-    terminal_print(numStr);
-    terminal_print("\n");
+    terminal_print_col("\nCommands:\n", COLOR_GREEN);
     terminal_set_text_color(COLOR_WHITE);
+    
+    terminal_print("\nmult <a> <b>");
+    terminal_print("\ndiv  <a> <b>");
+
+    terminal_print("\ninvert");
+    terminal_print("\nclear");
+    terminal_print("\nscroll");
+
+    terminal_print("\ntime [-ms]");
+    terminal_print("\nheap");
+    
+    terminal_print("\nnote <note> <oct>");
+    terminal_print("\nnote [-off]");
+    
+    terminal_print("\nws <r> <g> <b> [led]");
+    terminal_print("\nws -off");
+
+    //terminal_print("\nspi enable");
+    //terminal_print("\nspi disable");
+    //terminal_print("\nspi status");
 }
 
-void print_error(const char *label)
+
+int parse_and_play_note(const char *paramString)
 {
-    terminal_set_text_color(COLOR_RED);
-    terminal_print(label);
-    terminal_print("\n");
-    terminal_set_text_color(COLOR_WHITE);
+
+    paramString = skip_spaces(paramString);
+
+    char noteStr[8];
+    uint8_t i = 0;
+    while (*paramString && !(*paramString == ' ' || *paramString == '\t') && i < (sizeof(noteStr) - 1))
+    {
+        noteStr[i++] = *paramString++;
+    }
+    noteStr[i] = '\0';
+    paramString = skip_spaces(paramString);
+
+    int32_t parsedOctave = parse_integer(paramString);
+    if (parsedOctave < 0)
+    {
+        print_error("OCTAVE: invalid");
+        return -1;
+    }
+
+    note_t selectedNote;
+    if (strcmp(noteStr, "C") == 0)
+    {
+        selectedNote = NOTE_C;
+    }
+    else if (strcmp(noteStr, "Cs") == 0)
+    {
+        selectedNote = NOTE_Cs;
+    }
+    else if (strcmp(noteStr, "D") == 0)
+    {
+        selectedNote = NOTE_D;
+    }
+    else if (strcmp(noteStr, "Ds") == 0)
+    {
+        selectedNote = NOTE_Ds;
+    }
+    else if (strcmp(noteStr, "E") == 0)
+    {
+        selectedNote = NOTE_E;
+    }
+    else if (strcmp(noteStr, "F") == 0)
+    {
+        selectedNote = NOTE_F;
+    }
+    else if (strcmp(noteStr, "Fs") == 0)
+    {
+        selectedNote = NOTE_Fs;
+    }
+    else if (strcmp(noteStr, "G") == 0)
+    {
+        selectedNote = NOTE_G;
+    }
+    else if (strcmp(noteStr, "Gs") == 0)
+    {
+        selectedNote = NOTE_Gs;
+    }
+    else if (strcmp(noteStr, "A") == 0)
+    {
+        selectedNote = NOTE_A;
+    }
+    else if (strcmp(noteStr, "As") == 0)
+    {
+        selectedNote = NOTE_As;
+    }
+    else if (strcmp(noteStr, "B") == 0)
+    {
+        selectedNote = NOTE_B;
+    }
+    else
+    {
+        print_error("NOTE: invalid");
+        return -2;
+    }
+
+    pwm_play_note(selectedNote, (uint32_t)parsedOctave);
+
+    print_ok_res("NOTE: ", parsedOctave);
+    return 0;
+}
+
+int32_t read_cmd(void)
+{
+    cursor = 0;
+    bool received_input = false;
+    uint8_t data;
+
+    while (cursor < (TEXT_BUFFER - 1))
+    {
+        housekeeping();
+        int32_t ret = uart_read_byte(&data, 10);
+
+        if (ret != 0)
+        {
+            continue;
+        }
+
+        if (data == '\n' || data == '\r')
+        {
+            terminal_put_char('\n');
+            if (cursor == 0)
+            {
+                
+                continue;
+            }
+            buffer[cursor] = '\0';
+            return 0;
+        }
+
+        if (data == '\b' || data == 0x7F)
+        {
+            if (cursor > 0)
+            {
+                cursor--;
+                terminal_put_char('\b');
+            }
+            continue;
+        }
+
+        if (data < 32 || data > 126)
+        {
+            continue;
+        }
+
+        if(ssd1351_cursor_x)
+        {
+            terminal_put_char('\n');
+        }
+        buffer[cursor++] = (char)data;
+        terminal_set_text_color(COLOR_WHITE);
+        terminal_put_char((char)data);
+    }
+
+    buffer[cursor] = '\0';
+    return 0;
 }
 
 int32_t interpret_cmd()
 {
     const char *param;
-    if (strncmp(buffer, setpwm, strlen(setpwm)) == 0)
+
+    if (strncmp(buffer, "setpwm", strlen("setpwm")) == 0)
     {
-        param = skip_spaces(buffer + strlen(setpwm));
+        param = skip_spaces(buffer + strlen("setpwm"));
         int32_t val = parse_integer(param);
+
         if (val != -1)
         {
-            print_ok("PWM: ", val);
+            print_ok_res("PWM: ", val);
         }
         else
         {
             print_error("PWM: invalid");
+            return -1;
         }
-        return 1;
     }
-
-    if (strncmp(buffer, spibaud, strlen(spibaud)) == 0)
+    else if (strncmp(buffer, "spibaud", strlen("spibaud")) == 0)
     {
-        param = skip_spaces(buffer + strlen(spibaud));
+        param = skip_spaces(buffer + strlen("spibaud"));
         int32_t val = parse_integer(param);
+
         if (val != -1)
         {
-            print_ok("BAUD: ", val);
+            print_ok_res("BAUD: ", val);
         }
         else
         {
             print_error("BAUD: invalid");
+            return -1;
         }
-        return 2;
     }
-
-    if (strncmp(buffer, note, strlen(note)) == 0)
+    else if (strncmp(buffer, "note", strlen("note")) == 0)
     {
-        param = skip_spaces(buffer + strlen(note));
-        int32_t val = parse_integer(param);
-        if (val != -1)
+        param = skip_spaces(buffer + strlen("note"));
+
+        if (strncmp(param, "off", 3) == 0)
         {
-            current_note = val;
-            print_ok("NOTE: ", val);
+            pwm_set_mode(0);
+            terminal_print_col("NOTE OFF\n", COLOR_GREEN);
         }
-        else
-        {
-            print_error("NOTE: invalid");
-        }
-        return 3;
+
+        parse_and_play_note(param);
     }
-
-    if (strncmp(buffer, octave, strlen(octave)) == 0)
+    else if (strncmp(buffer, "heap", strlen("heap")) == 0)
     {
-        param = skip_spaces(buffer + strlen(octave));
-        int32_t val = parse_integer(param);
-        if (val != -1)
-        {
-            current_octave = val;
-            print_ok("OCTAVE: ", val);
-        }
-        else
-        {
-            print_error("OCTAVE: invalid");
-        }
-        return 4;
+        uint32_t free_space = heap_free_space();
+        print_ok_res("Free: ", free_space);
+        print_ok("MB");
     }
-
-    if (strncmp(buffer, systime, strlen(systime)) == 0)
+    else if (strncmp(buffer, "time", strlen("time")) == 0)
     {
-        param = skip_spaces(buffer + strlen(systime));
+        param = skip_spaces(buffer + strlen("time"));
         if (strncmp(param, "-ms", 3) == 0)
         {
-            char numStr[16];
-            terminal_set_text_color(COLOR_GREEN);
-            terminal_print("TIME: ");
-            int_to_str((int32_t)millis(), 10, numStr);
-            terminal_print(numStr);
-            terminal_print("ms\n");
-            terminal_set_text_color(COLOR_WHITE);
+            print_ok_res("TIME: ", (int32_t)(millis()));
+            print_ok("ms");
         }
         else
         {
-            print_time();
+            print_ok_res("TIME: ", (int32_t)(millis() / 1000));
+            print_ok("s");
         }
-        return 5;
+    }
+    else if (strncmp(buffer, "mult", strlen("mult")) == 0)
+    {
+        param = skip_spaces(buffer + strlen("mult"));
+        int32_t multiplicand = parse_int_multi(param, &param);
+        if (multiplicand < 0)
+        {
+            print_error("USAGE: mult [a] [b]");
+            return -1;
+        }
+
+        param = skip_spaces(param);
+        int32_t multiplier = parse_int_multi(param, &param);
+        if (multiplier < 0)
+        {
+            print_error("USAGE: mult [a] [b]");
+            return -1;
+        }
+
+        uint32_t result = mult_calc((uint32_t)multiplicand, (uint32_t)multiplier);
+        print_ok_res("MULT: ", result);
+    }
+    else if (strncmp(buffer, "div", strlen("div")) == 0)
+    {
+        param = skip_spaces(buffer + strlen("div"));
+        int32_t dividend = parse_int_multi(param, &param);
+        if (dividend <= 0)
+        {
+            print_error("USAGE: div [a] [b]");
+            return -1;
+        }
+
+        param = skip_spaces(param);
+        int32_t divisor = parse_int_multi(param, &param);
+        if (divisor < 0)
+        {
+            print_error("USAGE: div [a] [b]");
+            return -1;
+        }
+
+        uint32_t result = div_calc_quotient((uint32_t)dividend, (uint32_t)divisor);
+        print_ok_res("DIV: ", result);
+    }
+    else if (strncmp(buffer, "invert", strlen("invert")) == 0)
+    {
+        ssd1351_inv();
+        print_ok("INVERTED");
+    }
+    else if (strncmp(buffer, "clear", strlen("clear")) == 0)
+    {
+        clear_terminal();
+    }
+    else if (strncmp(buffer, "help", strlen("help")) == 0)
+    {
+        print_help();
+    }
+    else
+    {
+        print_error("Wat?");
     }
 
-    print_error("Wat?");
-    return 0xF0;
+    return 0;
 }
 
 int main()
 {
     int32_t last_cmd = 0;
     setup();
-
-    terminal_print("WGR ready\n");
+    terminal_print_col("WGR-V by\n", COLOR_GREEN);
+    terminal_print("\n-Tobias Kling\n-Philip Mohr");
 
     while (1)
     {

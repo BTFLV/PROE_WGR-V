@@ -47,6 +47,14 @@ typedef long long int64_t;
 typedef unsigned int size_t;
 #endif
 
+#ifndef uintptr_t
+typedef uint32_t uintptr_t;
+#endif
+
+#ifndef intptr_t
+typedef int32_t intptr_t;
+#endif
+
 typedef enum
 {
     BAUD_115200 = 0,

@@ -184,6 +184,41 @@ int32_t parse_integer(const char *str)
     return result * sign;
 }
 
+int32_t parse_int_multi(const char *str, const char **next)
+{
+    int result = 0;
+    int sign = 1;
+
+    while (*str == ' ')
+    {
+        str++;
+    }
+
+    if (*str == '-')
+    {
+        sign = -1;
+        str++;
+    }
+
+    if (*str < '0' || *str > '9')
+    {
+        return -1;
+    }
+
+    while (*str >= '0' && *str <= '9')
+    {
+        result = result * 10 + (*str - '0');
+        str++;
+    }
+
+    if (next)
+    {
+        *next = str;
+    }
+
+    return result * sign;
+}
+
 // ----------------------- WGR-V -----------------------
 //
 //              Writing to Debug Register
