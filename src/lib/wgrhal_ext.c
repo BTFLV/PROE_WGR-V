@@ -1,9 +1,26 @@
+/**
+ * @file wgrhal_ext.c
+ * @brief Implementierung der erweiterten Hardwarefunktionen für den WGR-V-Prozessor.
+ *
+ * Diese Datei enthält die Implementierung der in wgrhal_ext.h deklarierten Funktionen.
+ * Sie erweitert die Basisfunktionen um Hardwareunterstützung für:
+ * - Multiplikation und Division
+ * - SPI-Kommunikation
+ * - WS2812B LED-Steuerung
+ * - PWM-basierte Tonerzeugung
+ * - Dynamischen Speicher (malloc)
+ * - SSD1351 Display mit Terminal-Funktionen
+ *
+ * Einige interne (statische) Funktionen werden zusätzlich für die Speicherverwaltung
+ * und spezifische Hardwaresteuerungen verwendet.
+ */
+
 #include "wgrhal.h"
 #include "wgrhal_ext.h"
 
 // ----------------------- WGR-V -----------------------
 //
-//         Hardware Multiplication and Division
+//         Hardware Multiplikation und Division
 //
 //------------------------------------------------------
 
@@ -12,10 +29,11 @@ uint64_t mult_calc_64(uint32_t multiplicand, uint32_t multiplier)
     HWREG32(MULT_BASE_ADDR + MUL1_OFFSET) = multiplicand;
     HWREG32(MULT_BASE_ADDR + MUL2_OFFSET) = multiplier;
 
-    while (HWREG32(MULT_BASE_ADDR + MULT_INFO_OFFSET));
+    while (HWREG32(MULT_BASE_ADDR + MULT_INFO_OFFSET))
+        ;
 
     uint64_t high = (uint64_t)HWREG32(MULT_BASE_ADDR + RESH_OFFSET);
-    uint64_t low  = (uint64_t)HWREG32(MULT_BASE_ADDR + RESL_OFFSET);
+    uint64_t low = (uint64_t)HWREG32(MULT_BASE_ADDR + RESL_OFFSET);
 
     return (high << 32) | low;
 }
@@ -25,7 +43,8 @@ uint32_t mult_calc(uint32_t multiplicand, uint32_t multiplier)
     HWREG32(MULT_BASE_ADDR + MUL1_OFFSET) = multiplicand;
     HWREG32(MULT_BASE_ADDR + MUL2_OFFSET) = multiplier;
 
-    while (HWREG32(MULT_BASE_ADDR + MULT_INFO_OFFSET));
+    while (HWREG32(MULT_BASE_ADDR + MULT_INFO_OFFSET))
+        ;
 
     return HWREG32(MULT_BASE_ADDR + RESL_OFFSET);
 }
@@ -40,7 +59,8 @@ int32_t div_calc(uint32_t dividend, uint32_t divisor, div_result_t *result)
     HWREG32(DIV_BASE_ADDR + DIV_END_OFFSET) = dividend;
     HWREG32(DIV_BASE_ADDR + DIV_SOR_OFFSET) = divisor;
 
-    while (HWREG32(DIV_BASE_ADDR + DIV_INFO_OFFSET));
+    while (HWREG32(DIV_BASE_ADDR + DIV_INFO_OFFSET))
+        ;
 
     result->quotient = HWREG32(DIV_BASE_ADDR + DIV_QUO_OFFSET);
     result->remainder = HWREG32(DIV_BASE_ADDR + DIV_REM_OFFSET);
@@ -58,7 +78,8 @@ uint32_t div_calc_quotient(uint32_t dividend, uint32_t divisor)
     HWREG32(DIV_BASE_ADDR + DIV_END_OFFSET) = dividend;
     HWREG32(DIV_BASE_ADDR + DIV_SOR_OFFSET) = divisor;
 
-    while (HWREG32(DIV_BASE_ADDR + DIV_INFO_OFFSET));
+    while (HWREG32(DIV_BASE_ADDR + DIV_INFO_OFFSET))
+        ;
 
     return HWREG32(DIV_BASE_ADDR + DIV_QUO_OFFSET);
 }
@@ -73,14 +94,15 @@ uint32_t div_calc_remainder(uint32_t dividend, uint32_t divisor)
     HWREG32(DIV_BASE_ADDR + DIV_END_OFFSET) = dividend;
     HWREG32(DIV_BASE_ADDR + DIV_SOR_OFFSET) = divisor;
 
-    while (HWREG32(DIV_BASE_ADDR + DIV_INFO_OFFSET));
+    while (HWREG32(DIV_BASE_ADDR + DIV_INFO_OFFSET))
+        ;
 
     return HWREG32(DIV_BASE_ADDR + DIV_REM_OFFSET);
 }
 
 // ----------------------- WGR-V -----------------------
 //
-//                     SPI Functions
+//                    SPI Funktionen
 //
 //------------------------------------------------------
 
@@ -276,13 +298,11 @@ int32_t spi_read_buffer(uint8_t *buf, uint32_t length, uint32_t timeout_ms)
     return 0;
 }
 
-
 // ----------------------- WGR-V -----------------------
 //
-//                   WS2812B Functions
+//                  WS2812B Funktionen
 //
 //------------------------------------------------------
-
 
 int32_t ws2812_set_color(uint8_t led, rgb_color_t color)
 {
@@ -328,7 +348,8 @@ int32_t ws2812_write_all(const rgb_color_t colors[8])
 
 int32_t ws2812_fill(rgb_color_t color)
 {
-    for (uint8_t i = 0; i < 8; i++) {
+    for (uint8_t i = 0; i < 8; i++)
+    {
         int32_t ret = ws2812_set_color(i, color);
         if (ret != 0)
         {
@@ -347,20 +368,18 @@ void ws2812_clear(void)
     }
 }
 
-
-
 #ifdef PWM_NOTES
 
 // ----------------------- WGR-V -----------------------
 //
-//       Play Frequencies with the PWM Module
+//       Frequenzen und Noten per PWM abspielen
 //
 //------------------------------------------------------
 
 #ifdef PWM_NOTES
-    #ifndef MALLOC
-        #error "Requires malloc. Define MALLOC to use PWM_NOTES."
-    #endif
+#ifndef MALLOC
+#error "Requires malloc. Define MALLOC to use PWM_NOTES."
+#endif
 #endif
 
 static uint32_t *note_buffer = 0;
@@ -472,7 +491,15 @@ extern char _heap_end;
 
 static char *heap_ptr = &_heap_start;
 
-void *sbrk(int32_t incr)
+/**
+ * @brief Erweitert den Heap um eine angegebene Anzahl von Bytes.
+ *
+ * Diese Funktion wird intern von malloc verwendet, um den verfügbaren Heap-Speicher zu erweitern.
+ *
+ * @param incr Anzahl der Bytes, um die der Heap erweitert werden soll.
+ * @return Zeiger auf den vorherigen Heap-Ende oder (void *)-1 bei Fehler, wenn nicht genügend Speicher vorhanden ist.
+ */
+static void *sbrk(int32_t incr)
 {
     char *prev = heap_ptr;
     if (heap_ptr + incr > &_heap_end)
@@ -509,6 +536,15 @@ uint32_t heap_free_space(void)
     return free_space;
 }
 
+/**
+ * @brief Fordert zusätzlichen Speicher im Heap an.
+ *
+ * Diese statische Funktion wird intern von malloc verwendet, um den freien Speicher
+ * durch Anforderung von mehr Speicher mittels sbrk zu erweitern.
+ *
+ * @param nu Anzahl der Einheiten, die benötigt werden.
+ * @return Zeiger auf den neuen freien Speicherbereich oder NULL bei Fehler.
+ */
 static Header *morecore(uint32_t nu)
 {
     if (nu < NALLOC)
@@ -642,7 +678,7 @@ void *calloc(uint32_t nmemb, uint32_t size)
 
 // ----------------------- WGR-V -----------------------
 //
-//         SSD1351 Display with Scroll Function
+//    SSD1351 Display mit Terminal Funktionalitäten
 //
 //------------------------------------------------------
 
@@ -674,7 +710,7 @@ static uint32_t oled_inv = 0;
 static uint32_t scroll_line = 0;
 static uint32_t term_cursor_x = 0;
 static uint32_t term_cursor_y = TOTAL_ROWS - 1;
-static uint32_t  bottom_row = TOTAL_ROWS - 1;
+static uint32_t bottom_row = TOTAL_ROWS - 1;
 static uint16_t __attribute__((aligned(4))) term_text_color = COLOR_WHITE;
 static uint16_t __attribute__((aligned(4))) term_bg_color = COLOR_BLACK;
 static uint16_t __attribute__((aligned(4))) cursor_visible = true;
@@ -769,7 +805,7 @@ void ssd1351_init(void)
     ssd1351_send_commands(ssd1351_init_cmds, sizeof(ssd1351_init_cmds));
     delay(100);
 
-    uint8_t scroll_area[2] = { CHAR_HEIGHT, (uint8_t)(SSD1351_HEIGHT - CHAR_HEIGHT) };
+    uint8_t scroll_area[2] = {CHAR_HEIGHT, (uint8_t)(SSD1351_HEIGHT - CHAR_HEIGHT)};
     ssd1351_send_command(0xA3);
     ssd1351_send_data(scroll_area, 2);
 
@@ -878,9 +914,7 @@ void terminal_native_scroll(void)
     ssd1351_send_command(0xA1);
     ssd1351_send_data(&scroll_start, 1);
 
-    uint8_t newlyRevealedRow = (scroll_line + 0)
-                               % (TOTAL_ROWS - STATUS_BAR_ROWS)
-                               + STATUS_BAR_ROWS;
+    uint8_t newlyRevealedRow = (scroll_line + 0) % (TOTAL_ROWS - STATUS_BAR_ROWS) + STATUS_BAR_ROWS;
 
     for (uint8_t col = 0; col < TERM_COLS; col++)
     {
@@ -888,9 +922,7 @@ void terminal_native_scroll(void)
     }
 
     uint8_t scrollable_rows = (TOTAL_ROWS - STATUS_BAR_ROWS);
-    uint8_t physicalBottom = (scroll_line + (scrollable_rows - 1))
-                             % scrollable_rows
-                             + STATUS_BAR_ROWS;
+    uint8_t physicalBottom = (scroll_line + (scrollable_rows - 1)) % scrollable_rows + STATUS_BAR_ROWS;
 
     bottom_row = physicalBottom;
     term_cursor_x = 0;
@@ -912,10 +944,10 @@ void terminal_put_char(char c)
         terminal_native_scroll();
         return;
     }
-    
-    if (c == '\b') 
+
+    if (c == '\b')
     {
-        if (term_cursor_x > 0) 
+        if (term_cursor_x > 0)
         {
             term_cursor_x--;
             draw_char_cell_custom(term_cursor_y, term_cursor_x, ' ', term_text_color, term_bg_color);

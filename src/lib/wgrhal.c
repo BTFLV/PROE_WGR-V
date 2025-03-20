@@ -1,8 +1,25 @@
+/**
+ * @file wgrhal.c
+ * @brief Implementierung der WGRHAL-Bibliothek für den WGR-V-Prozessor.
+ *
+ * Diese Datei enthält die Implementierung der in wgrhal.h deklarierten Funktionen.
+ * Sie stellt grundlegende Hardware- und Systemfunktionen für den WGR-V-Prozessor bereit,
+ * darunter:
+ * - Speicher- und String-Funktionen
+ * - Debug-Ausgaben
+ * - UART-Kommunikation
+ * - Zeitverwaltung (Millisekunden/Mikrosekunden)
+ * - PWM-Steuerung
+ * - GPIO-Zugriff
+ *
+ * Diese Funktionen ermöglichen eine einfache und effiziente Nutzung der Peripherie.
+ */
+
 #include "wgrhal.h"
 
 // ----------------------- WGR-V -----------------------
 //
-//              Standard Memory Functions
+//              Standard Speicher Funktionen
 //
 //------------------------------------------------------
 
@@ -52,7 +69,7 @@ void *memmove(void *dest, const void *src, uint32_t n)
 
 // ----------------------- WGR-V -----------------------
 //
-//              Standard String Functions
+//              Standard String Funktionen
 //
 //------------------------------------------------------
 
@@ -177,7 +194,8 @@ int32_t parse_integer(const char *str)
         str++;
     }
 
-    if (*str != '\0') {
+    if (*str != '\0')
+    {
         return -1;
     }
 
@@ -221,7 +239,7 @@ int32_t parse_int_multi(const char *str, const char **next)
 
 // ----------------------- WGR-V -----------------------
 //
-//              Writing to Debug Register
+//           In das Debug Register schreiben
 //
 //------------------------------------------------------
 
@@ -232,7 +250,7 @@ void debug_write(uint32_t value)
 
 // ----------------------- WGR-V -----------------------
 //
-//                    UART Functions
+//                   UART Funktionen
 //
 //------------------------------------------------------
 
@@ -302,7 +320,7 @@ int32_t uart_wait_tx_full(uint32_t timeout_ms)
         {
             return -1;
         }
-        __asm__ volatile("nop");
+        nop();
     }
     return 0;
 }
@@ -317,7 +335,7 @@ int32_t uart_wait_rx_data(uint32_t timeout_ms)
         {
             return -1;
         }
-        __asm__ volatile("nop");
+        nop();
     }
     return 0;
 }
@@ -467,7 +485,7 @@ void uart_print(const char *s)
 
 // ----------------------- WGR-V -----------------------
 //
-//                    Time Functions
+//                    Zeit Funktionen
 //
 //------------------------------------------------------
 
@@ -529,7 +547,7 @@ void delay(uint32_t ms)
     uint32_t start_time = millis();
     while ((millis() - start_time) < ms)
     {
-        __asm__ volatile("nop");
+        nop();
     }
 }
 
@@ -538,13 +556,13 @@ void delay_micro(uint32_t microsec)
     uint32_t start_time = micros();
     while ((micros() - start_time) < microsec)
     {
-        //__asm__ volatile("nop");
+        nop();
     }
 }
 
 // ----------------------- WGR-V -----------------------
 //
-//                    PWM Functions
+//                    PWM Funktionen
 //
 //------------------------------------------------------
 
@@ -618,7 +636,7 @@ uint32_t pwm_get_pre_counter(void)
 
 // ----------------------- WGR-V -----------------------
 //
-//                    GPIO Functions
+//                    GPIO Funktionen
 //
 //------------------------------------------------------
 
@@ -637,7 +655,8 @@ uint8_t gpio_read_all_pins(void)
 
 uint8_t gpio_read_pin(uint8_t pin)
 {
-    if (pin < GPIO_PIN_COUNT) {
+    if (pin < GPIO_PIN_COUNT)
+    {
         return (gpio_read_all_pins() >> pin) & 0x01;
     }
     return 0;
@@ -646,10 +665,13 @@ uint8_t gpio_read_pin(uint8_t pin)
 void gpio_set_direction(uint8_t pin, uint8_t direction)
 {
     uint32_t dir = HWREG32(GPIO_BASE_ADDR + GPIO_DIR_OFFSET);
-    
-    if (direction) {
+
+    if (direction)
+    {
         dir |= (1 << pin);
-    } else {
+    }
+    else
+    {
         dir &= ~(1 << pin);
     }
 

@@ -61,6 +61,8 @@ void print_help(void)
 
     terminal_print("\nws <r> <g> <b> [led]");
     terminal_print("\nws -off");
+
+    terminal_print("\npin [0..5] -on/-off");
 }
 
 int parse_and_play_note(const char *paramString)
@@ -235,18 +237,18 @@ int32_t interpret_cmd()
         if (strncmp(param, "-on", 3) == 0)
         {
             gpio_write_pin(actualPin, 1);
-            print_ok_res("Pin ", pinIndex);
+            print_ok_res("PIN ", pinIndex);
             print_ok(" on");
         }
         else if (strncmp(param, "-off", 4) == 0)
         {
             gpio_write_pin(actualPin, 0);
-            print_ok_res("Pin ", pinIndex);
+            print_ok_res("PIN ", pinIndex);
             print_ok(" off");
         }
         else
         {
-            print_error("USAGE:\npin [0..5] -on/-off");
+            print_error("USAGE:\nPIN [0..5] -on/-off");
             return -1;
         }
     }
@@ -348,7 +350,7 @@ int32_t interpret_cmd()
         if (strncmp(param, "-off", 4) == 0)
         {
             ws2812_clear();
-            print_ok("LEDs off");
+            print_ok("WS OFF");
         }
         else
         {
@@ -361,7 +363,7 @@ int32_t interpret_cmd()
 
             if (r < 0 || g < 0 || b < 0 || r > 255 || g > 255 || b > 255)
             {
-                print_error("- USAGE:\nws <r> <g> <b> [led]\n- or\nws -off");
+                print_error("- USAGE:\nws <r> <g> <b> [n]\n- OF\nws -off");
                 return -1;
             }
 
@@ -372,18 +374,18 @@ int32_t interpret_cmd()
                 int32_t led = parse_int_multi(param, &param);
                 if (ws2812_set_color((uint8_t)led, color) == 0)
                 {
-                    print_ok_res("LED ", led);
-                    print_ok(" set.");
+                    print_ok_res("WS ", led);
+                    print_ok(" SET.");
                 }
                 else
                 {
-                    print_error("[LED] must be 0-7");
+                    print_error("[n] must be 0-7");
                 }
             }
             else
             {
                 ws2812_fill(color);
-                print_ok("LEDs on");
+                print_ok("WS ON");
             }
         }
     }
