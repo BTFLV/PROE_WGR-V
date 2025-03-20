@@ -1,0 +1,47 @@
+name: Generate Doxygen Documentation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Doxygen and LaTeX
+        run: sudo apt-get install -y doxygen graphviz texlive-latex-base texlive-fonts-recommended texlive-latex-extra latexmk
+
+      - name: Generate Documentation (HTML & LaTeX)
+        run: |
+          cd docs/src
+          doxygen Doxyfile
+
+      - name: Compile PDF
+        run: |
+          cd docs/src/latex
+          make
+
+      - name: Upload HTML Documentation as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: doxygen-html
+          path: docs/src/html
+
+      - name: Upload PDF Documentation as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: doxygen-pdf
+          path: docs/src/latex/refman.pdf
+
+      - name: Deploy HTML to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/src/html
