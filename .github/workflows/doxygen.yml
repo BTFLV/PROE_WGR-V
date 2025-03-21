@@ -31,6 +31,10 @@ jobs:
           make
           mv refman.pdf wgr-v-c-docs.pdf
 
+      - name: Download DoxNet Verilog Doc Tool
+        run: |
+          curl -L https://raw.githubusercontent.com/BTFLV/DoxNet/main/DoxNet.py -o DoxNet.py
+
       - name: Generate Verilog Documentation
         run: |
           python DoxNet.py --input rtl --output docs/src/html
