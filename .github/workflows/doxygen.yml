@@ -37,7 +37,7 @@ jobs:
 
       - name: Generate Verilog Documentation
         run: |
-          python DoxNet.py --input rtl --output docs/src/html
+          python DoxNet.py --input rtl --output docs/src/html --language de --title "WGR-V Verilog Doku"
           mv docs/src/html/documentation.html docs/src/html/rtl.html
           mv docs/src/html/documentation.pdf docs/src/html/wgr-v-verilog-docs.pdf
 
