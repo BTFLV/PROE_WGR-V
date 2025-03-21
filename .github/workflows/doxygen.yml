@@ -14,19 +14,28 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install Doxygen and LaTeX
-        run: sudo apt-get install -y doxygen graphviz texlive-latex-base texlive-fonts-recommended texlive-latex-extra texlive-lang-german latexmk
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz texlive-latex-base texlive-fonts-recommended texlive-latex-extra texlive-lang-german latexmk pandoc
+          pip install markdown
 
-      - name: Generate Documentation (HTML & LaTeX)
+      - name: Generate Doxygen Documentation (HTML & LaTeX)
         run: |
           cd docs/src
           doxygen Doxyfile
 
-      - name: Compile PDF
+      - name: Compile C Documentation PDF
         run: |
           cd docs/src/latex
           make
-          mv refman.pdf wgr-v-docs.pdf
+          mv refman.pdf wgr-v-c-docs.pdf
+
+      - name: Generate Verilog Documentation
+        run: |
+          python DoxNet.py --input rtl --output docs/src/html
+          mv docs/src/html/documentation.html docs/src/html/rtl.html
+          mv docs/src/html/documentation.pdf docs/src/html/wgr-v-verilog-docs.pdf
 
       - name: Upload HTML Documentation as Artifact
         uses: actions/upload-artifact@v4
@@ -38,7 +47,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: doxygen-pdf
-          path: docs/src/latex/wgr-v-docs.pdf
+          path: |
+            docs/src/latex/wgr-v-c-docs.pdf
+            docs/src/html/wgr-v-verilog-docs.pdf
 
       - name: Deploy HTML to GitHub Pages
         if: github.ref == 'refs/heads/main'
@@ -60,7 +71,8 @@ jobs:
           tag_name: latest
           name: Repo + PDF Dokumentation
           files: |
-            docs/src/latex/wgr-v-docs.pdf
+            docs/src/latex/wgr-v-c-docs.pdf
+            docs/src/html/wgr-v-verilog-docs.pdf
             wgr-v.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

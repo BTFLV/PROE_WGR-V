@@ -1,6 +1,31 @@
 `default_nettype none
 `timescale 1ns / 1ns
 
+/**
+ * @brief Ein einfacher FIFO-Speicher.
+ *
+ * Dieser FIFO (First-In-First-Out) Puffer speichert Daten mit einer
+ * konfigurierbaren Breite (`DATA_WIDTH`) und Tiefe (`DEPTH`). Daten
+ * werden über das `wr_en` Signal hineingeschrieben und über das
+ * `rd_en` Signal ausgelesen. Das Modul liefert die Signale `empty`
+ * und `full`, um anzuzeigen, ob weitere Lese- oder Schreibvorgänge
+ * möglich sind.
+ *
+ * @parameter DATA_WIDTH Breite der gespeicherten Daten in Bits.
+ * @parameter DEPTH      Anzahl der Einträge im FIFO.
+ *
+ * @localparam ADDR_WIDTH Breite der Adresszeiger basierend auf `DEPTH`.
+ *
+ * @input clk      Systemtakt.
+ * @input rst_n    Aktiv-low Reset.
+ * @input wr_en    Aktivierungssignal (Write-Enable) zum Schreiben in den FIFO.
+ * @input rd_en    Aktivierungssignal (Read-Enable) zum Lesen aus dem FIFO.
+ * @input din      Eingangsdaten mit Breite `DATA_WIDTH`.
+ *
+ * @ouput empty    Signal, das anzeigt, ob der FIFO leer ist.
+ * @ouput full     Signal, das anzeigt, ob der FIFO voll ist.
+ * @ouput dout     Ausgangsdaten mit Breite `DATA_WIDTH`.
+ */
 module fifo #(
   parameter DATA_WIDTH = 8,
   parameter DEPTH      = 16

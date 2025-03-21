@@ -1,6 +1,35 @@
 `default_nettype none
 `timescale 1ns / 1ns
 
+/**
+ * @brief Sequentieller Multiplikator.
+ *
+ * Dieses Modul implementiert eine sequentielle Multiplikation zweier
+ * 32-Bit-Werte. Die Multiplikation erfolgt durch aufeinanderfolgende
+ * Additionen basierend auf den Bits des Multiplikators.
+ *
+ * Das Modul ist speicherabbildbasiert und kann über Adressen gesteuert werden:
+ * - `MUL1_OFFSET`: Erster Multiplikand.
+ * - `MUL2_OFFSET`: Zweiter Multiplikator (startet die Berechnung).
+ * - `RESH_OFFSET`: Höhere 32 Bits des Ergebnisses.
+ * - `RESL_OFFSET`: Niedrigere 32 Bits des Ergebnisses.
+ * - `INFO_OFFSET`: Gibt an, ob die Berechnung noch läuft (`busy`).
+ *
+ * @localparam INFO_OFFSET Adresse für den Status (`busy`-Bit).
+ * @localparam MUL1_OFFSET Adresse für den ersten Multiplikanden.
+ * @localparam MUL2_OFFSET Adresse für den zweiten Multiplikator (startet Berechnung).
+ * @localparam RESH_OFFSET Adresse für die höheren 32 Bit des Ergebnisses.
+ * @localparam RESL_OFFSET Adresse für die niedrigeren 32 Bit des Ergebnisses.
+ *
+ * @input clk         Systemtakt.
+ * @input rst_n       Aktiv-low Reset.
+ * @input address     Speicheradresse für den Zugriff auf Register.
+ * @input write_data  Daten, die in die ausgewählten Register geschrieben werden sollen.
+ * @input we          Schreibaktivierungssignal (Write-Enable).
+ * @input re          Leseaktivierungssignal (Read-Enable).
+ *
+ * @ouput read_data   Zu lesende Daten basierend auf der Adresse.
+ */
 module seq_multiplier (
   input  wire        clk,
   input  wire        rst_n,

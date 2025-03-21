@@ -1,6 +1,26 @@
 `default_nettype none
 `timescale 1ns / 1ns
 
+/**
+ * @brief GPIO Modul zur Steuerung allgemeiner I/O.
+ *
+ * Dieses Modul implementiert einen einfachen GPIO-Controller.
+ * Es unterstützt das Auslesen von Eingangspins und das Schreiben auf Ausgangspins
+ * über definierte Adressen. Die Richtungssteuerung (gpio_dir) ist derzeit nicht
+ * implementiert.
+ *
+ * @input clk         Systemtakt.
+ * @input rst_n       Aktiv-low Reset-Signal.
+ * @input address     Speicheradresse zur Auswahl der GPIO-Register.
+ * @input write_data  Daten, die in die angesprochenen GPIO-Register geschrieben werden.
+ * @input we          Schreibaktivierungssignal (Write-Enable).
+ * @input re          Leseaktivierungssignal (Read-Enable).
+ * @input gpio_in     Eingangssignale von den GPIO-Pins.
+ *
+ * @ouput read_data  Ausgangsdaten basierend auf dem angesprochenen GPIO-Register.
+ * @ouput gpio_out   Register zur Steuerung des Ausgangszustands der GPIO-Pins.
+ * @ouput gpio_dir   GPIO-Richtungsregister (nicht implementiert).
+ */
 module gpio (
   input  wire        clk,
   input  wire        rst_n,
