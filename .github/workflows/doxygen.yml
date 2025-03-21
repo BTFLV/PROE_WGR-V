@@ -1,4 +1,4 @@
-name: Generate Doxygen Documentation
+name: Generate Documentation for Github Pages and publish zip of the repo with a pdf documentation to releases
 
 on:
   push:
@@ -45,5 +45,21 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: docs/src/html
+          publish_branch: gh-pages
 
-          
+      - name: Create ZIP of the repository
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git archive --format=zip HEAD -o repo.zip
+
+      - name: Upload PDF and ZIP to GitHub Release
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: latest
+          name: Latest Doxygen Docs
+          files: |
+            docs/src/latex/refman.pdf
+            repo.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
