@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: doxygen-pdf
-          path: docs/src/latex/refman.pdf
+          path: docs/src/latex/wgr-v-doc.pdf
 
       - name: Deploy HTML to GitHub Pages
         if: github.ref == 'refs/heads/main'
@@ -57,7 +57,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: latest
-          name: Latest Doxygen Docs
+          name: Repo + PDF Dokumentation
           files: |
             docs/src/latex/refman.pdf
             repo.zip
