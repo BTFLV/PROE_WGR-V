@@ -26,6 +26,7 @@ jobs:
         run: |
           cd docs/src/latex
           make
+          mv refman.pdf wgr-v-docs.pdf
 
       - name: Upload HTML Documentation as Artifact
         uses: actions/upload-artifact@v4
@@ -37,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: doxygen-pdf
-          path: docs/src/latex/wgr-v-doc.pdf
+          path: docs/src/latex/wgr-v-docs.pdf
 
       - name: Deploy HTML to GitHub Pages
         if: github.ref == 'refs/heads/main'
@@ -50,7 +51,7 @@ jobs:
       - name: Create ZIP of the repository
         if: github.ref == 'refs/heads/main'
         run: |
-          git archive --format=zip HEAD -o repo.zip
+          git archive --format=zip HEAD -o wgr-v.zip
 
       - name: Upload PDF and ZIP to GitHub Release
         if: github.ref == 'refs/heads/main'
@@ -59,7 +60,7 @@ jobs:
           tag_name: latest
           name: Repo + PDF Dokumentation
           files: |
-            docs/src/latex/refman.pdf
-            repo.zip
+            docs/src/latex/wgr-v-docs.pdf
+            wgr-v.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
