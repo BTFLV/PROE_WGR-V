@@ -1,33 +1,33 @@
-# Project Documentation
+# WGR-V Verilog Doku
 
-## Table of Contents
+## Inhaltsverzeichnis
 
-- **File:** peripherals/fifo.v
-  - [Module: fifo](#module-fifo)
-- **File:** peripherals/gpio.v
-  - [Module: gpio](#module-gpio)
-- **File:** peripherals/seq_multiplier.v
-  - [Module: seq_multiplier](#module-seq_multiplier)
+- **Datei:** peripherals/fifo.v
+  - [Modul: fifo](#module-fifo)
+- **Datei:** peripherals/gpio.v
+  - [Modul: gpio](#module-gpio)
+- **Datei:** peripherals/seq_multiplier.v
+  - [Modul: seq_multiplier](#module-seq_multiplier)
 
 
-## File: peripherals/fifo.v
+## Datei: peripherals/fifo.v
 
-### <a name="module-fifo"></a>Module: fifo
+### <a name="module-fifo"></a>Modul: fifo
 
-**Brief:** Ein einfacher FIFO-Speicher.
+**Kurzbeschreibung:** Ein einfacher FIFO-Speicher.
 
 Dieser FIFO (First-In-First-Out) Puffer speichert Daten mit einer konfigurierbaren Breite (`DATA_WIDTH`) und Tiefe (`DEPTH`). Daten werden über das `wr_en` Signal hineingeschrieben und über das `rd_en` Signal ausgelesen. Das Modul liefert die Signale `empty` und `full`, um anzuzeigen, ob weitere Lese- oder Schreibvorgänge möglich sind.
 
-**Parameters:**
+**Parameter:**
 
 - `DATA_WIDTH` Breite der gespeicherten Daten in Bits.
 - `DEPTH`      Anzahl der Einträge im FIFO.
 
-**Local Parameters:**
+**Lokale Parameter:**
 
 - `ADDR_WIDTH` Breite der Adresszeiger basierend auf `DEPTH`.
 
-**Inputs:**
+**Eingänge:**
 
 - `clk`      Systemtakt.
 - `rst_n`    Aktiv-low Reset.
@@ -35,21 +35,21 @@ Dieser FIFO (First-In-First-Out) Puffer speichert Daten mit einer konfigurierbar
 - `rd_en`    Aktivierungssignal (Read-Enable) zum Lesen aus dem FIFO.
 - `din`      Eingangsdaten mit Breite `DATA_WIDTH`.
 
-**Outputs:**
+**Ausgänge:**
 
 - `empty`    Signal, das anzeigt, ob der FIFO leer ist.
 - `full`     Signal, das anzeigt, ob der FIFO voll ist.
 - `dout`     Ausgangsdaten mit Breite `DATA_WIDTH`.
 
-## File: peripherals/gpio.v
+## Datei: peripherals/gpio.v
 
-### <a name="module-gpio"></a>Module: gpio
+### <a name="module-gpio"></a>Modul: gpio
 
-**Brief:** GPIO Modul zur Steuerung allgemeiner I/O.
+**Kurzbeschreibung:** GPIO Modul zur Steuerung allgemeiner I/O.
 
 Dieses Modul implementiert einen einfachen GPIO-Controller. Es unterstützt das Auslesen von Eingangspins und das Schreiben auf Ausgangspins über definierte Adressen. Die Richtungssteuerung (gpio_dir) ist derzeit nicht implementiert.
 
-**Inputs:**
+**Eingänge:**
 
 - `clk`         Systemtakt.
 - `rst_n`       Aktiv-low Reset-Signal.
@@ -59,21 +59,21 @@ Dieses Modul implementiert einen einfachen GPIO-Controller. Es unterstützt das 
 - `re`          Leseaktivierungssignal (Read-Enable).
 - `gpio_in`     Eingangssignale von den GPIO-Pins.
 
-**Outputs:**
+**Ausgänge:**
 
 - `read_data`  Ausgangsdaten basierend auf dem angesprochenen GPIO-Register.
 - `gpio_out`   Register zur Steuerung des Ausgangszustands der GPIO-Pins.
 - `gpio_dir`   GPIO-Richtungsregister (nicht implementiert).
 
-## File: peripherals/seq_multiplier.v
+## Datei: peripherals/seq_multiplier.v
 
-### <a name="module-seq_multiplier"></a>Module: seq_multiplier
+### <a name="module-seq_multiplier"></a>Modul: seq_multiplier
 
-**Brief:** Sequentieller Multiplikator.
+**Kurzbeschreibung:** Sequentieller Multiplikator.
 
 Dieses Modul implementiert eine sequentielle Multiplikation zweier 32-Bit-Werte. Die Multiplikation erfolgt durch aufeinanderfolgende Additionen basierend auf den Bits des Multiplikators.  Das Modul ist speicherabbildbasiert und kann über Adressen gesteuert werden: - `MUL1_OFFSET`: Erster Multiplikand. - `MUL2_OFFSET`: Zweiter Multiplikator (startet die Berechnung). - `RESH_OFFSET`: Höhere 32 Bits des Ergebnisses. - `RESL_OFFSET`: Niedrigere 32 Bits des Ergebnisses. - `INFO_OFFSET`: Gibt an, ob die Berechnung noch läuft (`busy`).
 
-**Local Parameters:**
+**Lokale Parameter:**
 
 - `INFO_OFFSET` Adresse für den Status (`busy`-Bit).
 - `MUL1_OFFSET` Adresse für den ersten Multiplikanden.
@@ -81,7 +81,7 @@ Dieses Modul implementiert eine sequentielle Multiplikation zweier 32-Bit-Werte.
 - `RESH_OFFSET` Adresse für die höheren 32 Bit des Ergebnisses.
 - `RESL_OFFSET` Adresse für die niedrigeren 32 Bit des Ergebnisses.
 
-**Inputs:**
+**Eingänge:**
 
 - `clk`         Systemtakt.
 - `rst_n`       Aktiv-low Reset.
@@ -90,7 +90,7 @@ Dieses Modul implementiert eine sequentielle Multiplikation zweier 32-Bit-Werte.
 - `we`          Schreibaktivierungssignal (Write-Enable).
 - `re`          Leseaktivierungssignal (Read-Enable).
 
-**Outputs:**
+**Ausgänge:**
 
 - `read_data`   Zu lesende Daten basierend auf der Adresse.
 

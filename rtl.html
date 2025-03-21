@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Project Documentation</title>
+<title>WGR-V Verilog Doku</title>
 
     <style>
     body {
@@ -85,35 +85,35 @@
 <body>
 <div class="header">
     <span class="burger" onclick="toggleSidebar()">&#9776;</span>
-    <div class="title" style="flex: 1; text-align: center; font-size: 18px;">Project Documentation</div>
+    <div class="title" style="flex: 1; text-align: center; font-size: 18px;">WGR-V Verilog Doku</div>
 </div>
 <div class="sidebar" id="sidebar">
-<h1>Project Documentation</h1>
-<h2>Table of Contents</h2>
+<h1>WGR-V Verilog Doku</h1>
+<h2>Inhaltsverzeichnis</h2>
 <ul>
-<li><strong>File:</strong> peripherals/fifo.v</li>
-<li><a href="#module-fifo">Module: fifo</a></li>
-<li><strong>File:</strong> peripherals/gpio.v</li>
-<li><a href="#module-gpio">Module: gpio</a></li>
-<li><strong>File:</strong> peripherals/seq_multiplier.v</li>
-<li><a href="#module-seq_multiplier">Module: seq_multiplier</a></li>
+<li><strong>Datei:</strong> peripherals/fifo.v</li>
+<li><a href="#module-fifo">Modul: fifo</a></li>
+<li><strong>Datei:</strong> peripherals/gpio.v</li>
+<li><a href="#module-gpio">Modul: gpio</a></li>
+<li><strong>Datei:</strong> peripherals/seq_multiplier.v</li>
+<li><a href="#module-seq_multiplier">Modul: seq_multiplier</a></li>
 </ul>
 </div>
 <div class="content">
-<h2>File: peripherals/fifo.v</h2>
-<h3><a name="module-fifo"></a>Module: fifo</h3>
-<p><strong>Brief:</strong> Ein einfacher FIFO-Speicher.</p>
+<h2>Datei: peripherals/fifo.v</h2>
+<h3><a name="module-fifo"></a>Modul: fifo</h3>
+<p><strong>Kurzbeschreibung:</strong> Ein einfacher FIFO-Speicher.</p>
 <p>Dieser FIFO (First-In-First-Out) Puffer speichert Daten mit einer konfigurierbaren Breite (<code>DATA_WIDTH</code>) und Tiefe (<code>DEPTH</code>). Daten werden über das <code>wr_en</code> Signal hineingeschrieben und über das <code>rd_en</code> Signal ausgelesen. Das Modul liefert die Signale <code>empty</code> und <code>full</code>, um anzuzeigen, ob weitere Lese- oder Schreibvorgänge möglich sind.</p>
-<p><strong>Parameters:</strong></p>
+<p><strong>Parameter:</strong></p>
 <ul>
 <li><code>DATA_WIDTH</code> Breite der gespeicherten Daten in Bits.</li>
 <li><code>DEPTH</code>      Anzahl der Einträge im FIFO.</li>
 </ul>
-<p><strong>Local Parameters:</strong></p>
+<p><strong>Lokale Parameter:</strong></p>
 <ul>
 <li><code>ADDR_WIDTH</code> Breite der Adresszeiger basierend auf <code>DEPTH</code>.</li>
 </ul>
-<p><strong>Inputs:</strong></p>
+<p><strong>Eingänge:</strong></p>
 <ul>
 <li><code>clk</code>      Systemtakt.</li>
 <li><code>rst_n</code>    Aktiv-low Reset.</li>
@@ -121,17 +121,17 @@
 <li><code>rd_en</code>    Aktivierungssignal (Read-Enable) zum Lesen aus dem FIFO.</li>
 <li><code>din</code>      Eingangsdaten mit Breite <code>DATA_WIDTH</code>.</li>
 </ul>
-<p><strong>Outputs:</strong></p>
+<p><strong>Ausgänge:</strong></p>
 <ul>
 <li><code>empty</code>    Signal, das anzeigt, ob der FIFO leer ist.</li>
 <li><code>full</code>     Signal, das anzeigt, ob der FIFO voll ist.</li>
 <li><code>dout</code>     Ausgangsdaten mit Breite <code>DATA_WIDTH</code>.</li>
 </ul>
-<h2>File: peripherals/gpio.v</h2>
-<h3><a name="module-gpio"></a>Module: gpio</h3>
-<p><strong>Brief:</strong> GPIO Modul zur Steuerung allgemeiner I/O.</p>
+<h2>Datei: peripherals/gpio.v</h2>
+<h3><a name="module-gpio"></a>Modul: gpio</h3>
+<p><strong>Kurzbeschreibung:</strong> GPIO Modul zur Steuerung allgemeiner I/O.</p>
 <p>Dieses Modul implementiert einen einfachen GPIO-Controller. Es unterstützt das Auslesen von Eingangspins und das Schreiben auf Ausgangspins über definierte Adressen. Die Richtungssteuerung (gpio_dir) ist derzeit nicht implementiert.</p>
-<p><strong>Inputs:</strong></p>
+<p><strong>Eingänge:</strong></p>
 <ul>
 <li><code>clk</code>         Systemtakt.</li>
 <li><code>rst_n</code>       Aktiv-low Reset-Signal.</li>
@@ -141,17 +141,17 @@
 <li><code>re</code>          Leseaktivierungssignal (Read-Enable).</li>
 <li><code>gpio_in</code>     Eingangssignale von den GPIO-Pins.</li>
 </ul>
-<p><strong>Outputs:</strong></p>
+<p><strong>Ausgänge:</strong></p>
 <ul>
 <li><code>read_data</code>  Ausgangsdaten basierend auf dem angesprochenen GPIO-Register.</li>
 <li><code>gpio_out</code>   Register zur Steuerung des Ausgangszustands der GPIO-Pins.</li>
 <li><code>gpio_dir</code>   GPIO-Richtungsregister (nicht implementiert).</li>
 </ul>
-<h2>File: peripherals/seq_multiplier.v</h2>
-<h3><a name="module-seq_multiplier"></a>Module: seq_multiplier</h3>
-<p><strong>Brief:</strong> Sequentieller Multiplikator.</p>
+<h2>Datei: peripherals/seq_multiplier.v</h2>
+<h3><a name="module-seq_multiplier"></a>Modul: seq_multiplier</h3>
+<p><strong>Kurzbeschreibung:</strong> Sequentieller Multiplikator.</p>
 <p>Dieses Modul implementiert eine sequentielle Multiplikation zweier 32-Bit-Werte. Die Multiplikation erfolgt durch aufeinanderfolgende Additionen basierend auf den Bits des Multiplikators.  Das Modul ist speicherabbildbasiert und kann über Adressen gesteuert werden: - <code>MUL1_OFFSET</code>: Erster Multiplikand. - <code>MUL2_OFFSET</code>: Zweiter Multiplikator (startet die Berechnung). - <code>RESH_OFFSET</code>: Höhere 32 Bits des Ergebnisses. - <code>RESL_OFFSET</code>: Niedrigere 32 Bits des Ergebnisses. - <code>INFO_OFFSET</code>: Gibt an, ob die Berechnung noch läuft (<code>busy</code>).</p>
-<p><strong>Local Parameters:</strong></p>
+<p><strong>Lokale Parameter:</strong></p>
 <ul>
 <li><code>INFO_OFFSET</code> Adresse für den Status (<code>busy</code>-Bit).</li>
 <li><code>MUL1_OFFSET</code> Adresse für den ersten Multiplikanden.</li>
@@ -159,7 +159,7 @@
 <li><code>RESH_OFFSET</code> Adresse für die höheren 32 Bit des Ergebnisses.</li>
 <li><code>RESL_OFFSET</code> Adresse für die niedrigeren 32 Bit des Ergebnisses.</li>
 </ul>
-<p><strong>Inputs:</strong></p>
+<p><strong>Eingänge:</strong></p>
 <ul>
 <li><code>clk</code>         Systemtakt.</li>
 <li><code>rst_n</code>       Aktiv-low Reset.</li>
@@ -168,7 +168,7 @@
 <li><code>we</code>          Schreibaktivierungssignal (Write-Enable).</li>
 <li><code>re</code>          Leseaktivierungssignal (Read-Enable).</li>
 </ul>
-<p><strong>Outputs:</strong></p>
+<p><strong>Ausgänge:</strong></p>
 <ul>
 <li><code>read_data</code>   Zu lesende Daten basierend auf der Adresse.</li>
 </ul>
