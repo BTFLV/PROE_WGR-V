@@ -1,0 +1,2212 @@
+\doxysection{/home/runner/work/\+PROE\+\_\+\+WGR-\/\+V/\+PROE\+\_\+\+WGR-\/\+V/src/lib/wgrhal\+\_\+ext.h-\/\+Dateireferenz}
+\hypertarget{wgrhal__ext_8h}{}\label{wgrhal__ext_8h}\index{/home/runner/work/PROE\_WGR-\/V/PROE\_WGR-\/V/src/lib/wgrhal\_ext.h@{/home/runner/work/PROE\_WGR-\/V/PROE\_WGR-\/V/src/lib/wgrhal\_ext.h}}
+
+
+Erweiterte Funktionen und Hardwarezugriffe für den WGR-\/\+V-\/\+Prozessor.  
+
+
+{\ttfamily \#include "{}wgrtypes.\+h"{}}\newline
+\doxysubsubsection*{Datenstrukturen}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structrgb__color__t}{rgb\+\_\+color\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Struktur zur Darstellung einer RGB-\/\+Farbe. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structdiv__result__t}{div\+\_\+result\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Struktur zur Rückgabe eines Divisionsergebnisses. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Makrodefinitionen}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a233127f07098e18b97eb17ed883ecddd}{HWREG32}}(addr)~(\texorpdfstring{$\ast$}{*}((volatile uint32\+\_\+t \texorpdfstring{$\ast$}{*})(addr)))
+\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_abe0a7d19ef37c6683c237713f9844204}{MULT\+\_\+\+BASE\+\_\+\+ADDR}}~0x00000500
+\begin{DoxyCompactList}\small\item\em Basisadresse für den Hardware-\/\+Multiplikator. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a8d23644234467f3966a02983f3ecf41c}{MULT\+\_\+\+INFO\+\_\+\+OFFSET}}~0x0000
+\begin{DoxyCompactList}\small\item\em Offset für das Informationsregister des Multiplikators. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a3e0931f65ac05adcc11eabf0b32a4601}{MUL1\+\_\+\+OFFSET}}~0x0004
+\begin{DoxyCompactList}\small\item\em Offset für den ersten Multiplikanden. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a2dd329bda00599b8ed1f7d34833521af}{MUL2\+\_\+\+OFFSET}}~0x0008
+\begin{DoxyCompactList}\small\item\em Offset für den zweiten Multiplikanden. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a94140ea99ed05de2e10a3a2e4b4eb276}{RESH\+\_\+\+OFFSET}}~0x000C
+\begin{DoxyCompactList}\small\item\em Offset für die höheren 32-\/Bit des 64-\/Bit-\/\+Ergebnisses. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a031b634598630e9db5ec252ee655138e}{RESL\+\_\+\+OFFSET}}~0x0010
+\begin{DoxyCompactList}\small\item\em Offset für die niederwertigen 32-\/Bit des 64-\/Bit-\/\+Ergebnisses. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a132d7ace6fa1c7bb82ed601144c085a7}{DIV\+\_\+\+BASE\+\_\+\+ADDR}}~0x00000600
+\begin{DoxyCompactList}\small\item\em Basisadresse für den Hardware-\/\+Divider. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a0a136b1deb60b5c366f17f89be1972d8}{DIV\+\_\+\+INFO\+\_\+\+OFFSET}}~0x00
+\begin{DoxyCompactList}\small\item\em Offset für das Informationsregister des Dividers. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_adcee34b6f82e717a89000ea267302999}{DIV\+\_\+\+END\+\_\+\+OFFSET}}~0x04
+\begin{DoxyCompactList}\small\item\em Offset für den Dividend. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a1249535bc6980a28feec44f325ecdc66}{DIV\+\_\+\+SOR\+\_\+\+OFFSET}}~0x08
+\begin{DoxyCompactList}\small\item\em Offset für den Divisor. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a9339ccf28674c87f2081780cc61df75e}{DIV\+\_\+\+QUO\+\_\+\+OFFSET}}~0x0C
+\begin{DoxyCompactList}\small\item\em Offset für den Quotienten. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a827bc1ea5d49fab063854edd5fdf3d8d}{DIV\+\_\+\+REM\+\_\+\+OFFSET}}~0x10
+\begin{DoxyCompactList}\small\item\em Offset für den Rest. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_af35cc1211cd540fbbb593e221eb16496}{SPI\+\_\+\+BASE\+\_\+\+ADDR}}~0x00000700
+\begin{DoxyCompactList}\small\item\em Basisadresse für die SPI-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a09edbec4dd620a961945546baaf31bd3}{SPI\+\_\+\+CTRL\+\_\+\+OFFSET}}~0x0000
+\begin{DoxyCompactList}\small\item\em Offset für das SPI-\/\+Steuerregister. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_af2cb776f0174cf2ddffaa97a188ab482}{SPI\+\_\+\+CLK\+\_\+\+OFFSET}}~0x0004
+\begin{DoxyCompactList}\small\item\em Offset für das SPI-\/\+Taktregister. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a6437e234937d3ac603cfec81595fc71c}{SPI\+\_\+\+STATUS\+\_\+\+OFFSET}}~0x0008
+\begin{DoxyCompactList}\small\item\em Offset für das SPI-\/\+Statusregister. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a6b52c6e6e4572bd12226f63be7c79d18}{SPI\+\_\+\+TX\+\_\+\+OFFSET}}~0x000C
+\begin{DoxyCompactList}\small\item\em Offset für das SPI-\/\+Sende-\/\+Register. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a610bc45fe9ad294ca287469ba5fea748}{SPI\+\_\+\+RX\+\_\+\+OFFSET}}~0x0010
+\begin{DoxyCompactList}\small\item\em Offset für das SPI-\/\+Empfangsregister. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a71392101e1f8ea7ffab12be56dd5a8a4}{SPI\+\_\+\+CS\+\_\+\+OFFSET}}~0x0014
+\begin{DoxyCompactList}\small\item\em Offset für die SPI-\/\+Chipselect-\/\+Steuerung. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a2c93cee954a5373b0a3795805d6f26b5}{WS\+\_\+\+BASE\+\_\+\+ADDR}}~0x00000900
+\begin{DoxyCompactList}\small\item\em Basisadresse für die WS2812B LED-\/\+Steuerung. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a70220322cc09e14d4c9d4ec83bce5105}{SSD1351\+\_\+\+WIDTH}}~128
+\begin{DoxyCompactList}\small\item\em Breite des SSD1351 Displays in Pixel. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a7127e0daa675b16ed7296dc55b84e158}{SSD1351\+\_\+\+HEIGHT}}~128
+\begin{DoxyCompactList}\small\item\em Höhe des SSD1351 Displays in Pixel. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a655981006fca173dd2e056bf81a63dc3}{CHAR\+\_\+\+WIDTH}}~6
+\begin{DoxyCompactList}\small\item\em Breite eines Zeichens in Pixel. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_ae2eecd07a9b6a2256002a15b28e388f2}{CHAR\+\_\+\+HEIGHT}}~8
+\begin{DoxyCompactList}\small\item\em Höhe eines Zeichens in Pixel. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a9e49f77907cdc627bd2ef57c1ab873aa}{STATUS\+\_\+\+BAR\+\_\+\+ROWS}}~1
+\begin{DoxyCompactList}\small\item\em Anzahl der Zeilen für die Statusleiste. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a73d000c72093c777a738c00054401aa2}{TOTAL\+\_\+\+ROWS}}~(\mbox{\hyperlink{wgrhal__ext_8h_a7127e0daa675b16ed7296dc55b84e158}{SSD1351\+\_\+\+HEIGHT}} / \mbox{\hyperlink{wgrhal__ext_8h_ae2eecd07a9b6a2256002a15b28e388f2}{CHAR\+\_\+\+HEIGHT}})
+\begin{DoxyCompactList}\small\item\em Gesamte Anzahl der Textzeilen auf dem Display. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a2b8bbe172f3ac2be7a9071d3380de254}{TERM\+\_\+\+COLS}}~(\mbox{\hyperlink{wgrhal__ext_8h_a70220322cc09e14d4c9d4ec83bce5105}{SSD1351\+\_\+\+WIDTH}} / \mbox{\hyperlink{wgrhal__ext_8h_a655981006fca173dd2e056bf81a63dc3}{CHAR\+\_\+\+WIDTH}})
+\begin{DoxyCompactList}\small\item\em Anzahl der Spalten im Terminal. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_ad9516ae2b52ec127d4a068fce97778fa}{TERM\+\_\+\+ROWS}}~(\mbox{\hyperlink{wgrhal__ext_8h_a73d000c72093c777a738c00054401aa2}{TOTAL\+\_\+\+ROWS}})
+\begin{DoxyCompactList}\small\item\em Anzahl der Zeilen im Terminal. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a3929ab48ddcf6fb2201a54bb294bf559}{SSD1351\+\_\+\+SPI\+\_\+\+TIMEOUT}}~10
+\begin{DoxyCompactList}\small\item\em SPI-\/\+Zeitlimit in Millisekunden für das Display. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_ab067c9e0b2ab69928df8685dce634610}{HOUSEKEEPING\+\_\+\+MS}}~250
+\begin{DoxyCompactList}\small\item\em Intervall für Display-\/\+Housekeeping in Millisekunden. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_aba2a7fe77a7501e5844370eec0185207}{COLOR\+\_\+\+BLACK}}~0x0000
+\begin{DoxyCompactList}\small\item\em Farbe\+: Schwarz. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a9b44987ffdc2af19b635206b94334b69}{COLOR\+\_\+\+WHITE}}~0x\+FFFF
+\begin{DoxyCompactList}\small\item\em Farbe\+: Weiß. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_ad86358bf19927183dd7b4ae215a29731}{COLOR\+\_\+\+RED}}~0x07\+E0
+\begin{DoxyCompactList}\small\item\em Farbe\+: Rot. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_afc9149f5de51bd9ac4f5ebbfa153f018}{COLOR\+\_\+\+GREEN}}~0x\+F800
+\begin{DoxyCompactList}\small\item\em Farbe\+: Grün. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a23c70d699a5a775bc2e1ebeb8603f630}{COLOR\+\_\+\+BLUE}}~0x001F
+\begin{DoxyCompactList}\small\item\em Farbe\+: Blau. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a4534b577b74a58b0f4b7be027af664e0}{COLOR\+\_\+\+YELLOW}}~0x\+FFE0
+\begin{DoxyCompactList}\small\item\em Farbe\+: Gelb. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a8deb0beccea721b35bdb1b4f7264fe75}{COLOR\+\_\+\+MAGENTA}}~0x\+F81F
+\begin{DoxyCompactList}\small\item\em Farbe\+: Magenta. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal__ext_8h_a82573859711fce56f1aa0a76b18a9b18}{COLOR\+\_\+\+CYAN}}~0x07\+FF
+\begin{DoxyCompactList}\small\item\em Farbe\+: Cyan. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Aufzählungen}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824d}{note\+\_\+t}} \{ \newline
+\mbox{\hyperlink{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824daac4b3e5a948277dc7d42c5298696b643}{NOTE\+\_\+C}} = 0
+, \mbox{\hyperlink{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dab79ac4a6338bf8831f579346525aeaab}{NOTE\+\_\+\+Cs}} = 1
+, \mbox{\hyperlink{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dab468ea843861010685e6b1973ab1ed11}{NOTE\+\_\+D}} = 2
+, \mbox{\hyperlink{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824daa0ebc767d8abf72e3d74d2efa0da1218}{NOTE\+\_\+\+Ds}} = 3
+, \newline
+\mbox{\hyperlink{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dafd38d7809b7b7bfceeee3967231db005}{NOTE\+\_\+E}} = 4
+, \mbox{\hyperlink{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dac3ebb29875350ea174964b23306efd53}{NOTE\+\_\+F}} = 5
+, \mbox{\hyperlink{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dace11ef7b884d399f77813a2bd6d6d1cf}{NOTE\+\_\+\+Fs}} = 6
+, \mbox{\hyperlink{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824da998b06d705333f1827ddf1523dbc68bf}{NOTE\+\_\+G}} = 7
+, \newline
+\mbox{\hyperlink{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824da29821966d8a6d038139c36866d1917e6}{NOTE\+\_\+\+Gs}} = 8
+, \mbox{\hyperlink{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824da22bb65ef2a36b986252340f5a8824c9c}{NOTE\+\_\+A}} = 9
+, \mbox{\hyperlink{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824da69ab559db383797d326215596ef5d2c5}{NOTE\+\_\+\+As}} = 10
+, \mbox{\hyperlink{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dac82f183484003f9f7e7444aab8aaf21f}{NOTE\+\_\+B}} = 11
+ \}
+\begin{DoxyCompactList}\small\item\em Aufzählung der Noten im Halbtonsystem. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Funktionen}
+\begin{DoxyCompactItemize}
+\item 
+uint64\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_aefe47454ba911638f42fd3541aadf02f}{mult\+\_\+calc\+\_\+64}} (uint32\+\_\+t multiplicand, uint32\+\_\+t multiplier)
+\begin{DoxyCompactList}\small\item\em Berechnet das 64-\/Bit-\/\+Ergebnis einer Multiplikation. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a93e6d124ab3e946dda1be285e9bd64f8}{mult\+\_\+calc}} (uint32\+\_\+t multiplicand, uint32\+\_\+t multiplier)
+\begin{DoxyCompactList}\small\item\em Berechnet das 32-\/Bit-\/\+Ergebnis einer Multiplikation. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a8b15d1325bb1f93192138818ea215abc}{div\+\_\+calc}} (uint32\+\_\+t dividend, uint32\+\_\+t divisor, \mbox{\hyperlink{structdiv__result__t}{div\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}result)
+\begin{DoxyCompactList}\small\item\em Führt eine Division durch und liefert Quotient und Rest. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a06f79ce6d4aff01a889c0266652782b7}{div\+\_\+calc\+\_\+quotient}} (uint32\+\_\+t dividend, uint32\+\_\+t divisor)
+\begin{DoxyCompactList}\small\item\em Berechnet den Quotienten einer Division. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a7855393560d93c0f822b54a6c99da054}{div\+\_\+calc\+\_\+remainder}} (uint32\+\_\+t dividend, uint32\+\_\+t divisor)
+\begin{DoxyCompactList}\small\item\em Berechnet den Rest einer Division. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a72cf41d2f19954fefd27f681d6b39532}{spi\+\_\+enable}} (void)
+\begin{DoxyCompactList}\small\item\em Aktiviert die SPI-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_aa8d2d6d1632faf9abbe03c3ed90d54d4}{spi\+\_\+disable}} (void)
+\begin{DoxyCompactList}\small\item\em Deaktiviert die SPI-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a98fdfac41d69e687bf24135001264483}{spi\+\_\+automatic\+\_\+cs}} (bool active)
+\begin{DoxyCompactList}\small\item\em Aktiviert oder deaktiviert den automatischen Chipselect (CS) der SPI-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_ae95fe5e6e9e73c3559913ac290b1e121}{spi\+\_\+cs}} (uint32\+\_\+t active)
+\begin{DoxyCompactList}\small\item\em Setzt den SPI-\/\+Chipselect-\/\+Zustand. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a07072aab0dab108f343d362458cb1bcf}{spi\+\_\+set\+\_\+clock\+\_\+offet}} (uint32\+\_\+t offset)
+\begin{DoxyCompactList}\small\item\em Setzt den Takt-\/\+Offset der SPI-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_ab9abe019c6d6f6e2b751c90b4e1806d2}{spi\+\_\+set\+\_\+clock\+\_\+divider}} (uint32\+\_\+t divider)
+\begin{DoxyCompactList}\small\item\em Konfiguriert den Taktteiler der SPI-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_ad4460d14dbf91d47c7b9e99102545b2a}{spi\+\_\+get\+\_\+status}} (void)
+\begin{DoxyCompactList}\small\item\em Liest den aktuellen Status der SPI-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_af3aa3cb256e7218c92a5401214c8e071}{spi\+\_\+fifo\+\_\+full}} (void)
+\begin{DoxyCompactList}\small\item\em Prüft, ob das SPI-\/\+FIFO voll ist. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a03d0e45b168dc2df6ea158466e0d04ef}{spi\+\_\+is\+\_\+ready}} (void)
+\begin{DoxyCompactList}\small\item\em Prüft, ob die SPI-\/\+Schnittstelle bereit ist. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_acfb3d227d2ed688604a81558e909eb1a}{spi\+\_\+is\+\_\+busy}} (void)
+\begin{DoxyCompactList}\small\item\em Prüft, ob die SPI-\/\+Schnittstelle beschäftigt ist. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a1c061f54ef547d13afd752cc8a076afe}{spi\+\_\+rx\+\_\+full}} (void)
+\begin{DoxyCompactList}\small\item\em Prüft, ob der SPI-\/\+Empfangspuffer voll ist. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a089d1590cd52a2ce1b971782eba0d2a6}{spi\+\_\+rx\+\_\+empty}} (void)
+\begin{DoxyCompactList}\small\item\em Prüft, ob der SPI-\/\+Empfangspuffer leer ist. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_aca268e16305fb4ffce7e7ea31d7bfbb3}{spi\+\_\+tx\+\_\+full}} (void)
+\begin{DoxyCompactList}\small\item\em Prüft, ob der SPI-\/\+Sende-\/\+Puffer voll ist. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_acadfa6b22a2ae9448dd9ab0a9a8bd70d}{spi\+\_\+tx\+\_\+empty}} (void)
+\begin{DoxyCompactList}\small\item\em Prüft, ob der SPI-\/\+Sende-\/\+Puffer leer ist. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a55c3bbd2abcd08f4f430326eabe1f65d}{spi\+\_\+wait\+\_\+rx\+\_\+data}} (uint32\+\_\+t timeout\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Wartet darauf, dass Daten im SPI-\/\+Empfangspuffer verfügbar sind. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a1f5332945e38afd6ea84f36b824ffc6e}{spi\+\_\+write\+\_\+byte}} (uint8\+\_\+t data, uint32\+\_\+t timeout\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Sendet ein Byte über die SPI-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a3328dcc992464c7b1a8e3be4d4d301b7}{spi\+\_\+read\+\_\+byte}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, uint32\+\_\+t timeout\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Liest ein Byte von der SPI-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a3dc731d61998c88de6acedbc4ea87cc9}{spi\+\_\+write\+\_\+buffer}} (const uint8\+\_\+t \texorpdfstring{$\ast$}{*}buf, uint32\+\_\+t length, uint32\+\_\+t timeout\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Sendet einen Datenpuffer über SPI. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a50c11097d3d8b3650486068a494265c0}{spi\+\_\+write\+\_\+uint32}} (uint32\+\_\+t value, uint32\+\_\+t timeout\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Sendet einen 32-\/Bit-\/\+Wert über SPI. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_ab6b0b6fd3822c75ce74f4a91f6038e7b}{spi\+\_\+read\+\_\+buffer}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}buf, uint32\+\_\+t length, uint32\+\_\+t timeout\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Liest einen Datenpuffer von der SPI-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a553be9db0223aadce39b0146c2bdaff0}{ws2812\+\_\+set\+\_\+color}} (uint8\+\_\+t led, \mbox{\hyperlink{structrgb__color__t}{rgb\+\_\+color\+\_\+t}} color)
+\begin{DoxyCompactList}\small\item\em Setzt die Farbe einer WS2812B LED. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structrgb__color__t}{rgb\+\_\+color\+\_\+t}} \mbox{\hyperlink{wgrhal__ext_8h_ab0dba5eb5a00fd9574b8152b3b5b1630}{ws2812\+\_\+get\+\_\+color}} (uint8\+\_\+t led)
+\begin{DoxyCompactList}\small\item\em Liest die aktuell gesetzte Farbe einer WS2812B LED. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a39c01c0a563a990b0b1f2063026cd5e8}{ws2812\+\_\+write\+\_\+all}} (const \mbox{\hyperlink{structrgb__color__t}{rgb\+\_\+color\+\_\+t}} colors\mbox{[}8\mbox{]})
+\begin{DoxyCompactList}\small\item\em Schreibt die Farben aller 8 WS2812B LEDs. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a3a9d90a6ad6b61fdfb98bf55ce9cabba}{ws2812\+\_\+fill}} (\mbox{\hyperlink{structrgb__color__t}{rgb\+\_\+color\+\_\+t}} color)
+\begin{DoxyCompactList}\small\item\em Füllt alle WS2812B LEDs mit einer einheitlichen Farbe. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a096668775ca7f8d0c092ae4d2545859e}{ws2812\+\_\+clear}} (void)
+\begin{DoxyCompactList}\small\item\em Schaltet alle WS2812B LEDs aus. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{wgrhal__ext_8h_a99474ba243b89cecc7331100c6d70f1b}{pwm\+\_\+precompute\+\_\+notes}} (void)
+\begin{DoxyCompactList}\small\item\em Berechnet Notenparameter für den PWM-\/\+Modus. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a8147f96c051d452b67914559f7fc3b95}{pwm\+\_\+play\+\_\+note}} (\mbox{\hyperlink{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824d}{note\+\_\+t}} note, uint32\+\_\+t octave)
+\begin{DoxyCompactList}\small\item\em Spielt eine bestimmte Note in einer festgelegten Oktave über den PWM aus. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a7cc06a846d5f35f046e9b75d22f75a27}{pwm\+\_\+free\+\_\+note\+\_\+buffer}} (void)
+\begin{DoxyCompactList}\small\item\em Gibt den für PWM-\/\+Noten reservierten Speicher frei. \end{DoxyCompactList}\item 
+void \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{wgrhal__ext_8h_a668494d15010e49e11710bbb69d82849}{malloc}} (uint32\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Allokiert einen Speicherblock. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_afbedc913aa4651b3c3b4b3aecd9b4711}{free}} (void \texorpdfstring{$\ast$}{*}ptr)
+\begin{DoxyCompactList}\small\item\em Gibt einen zuvor allokierten Speicherblock frei. \end{DoxyCompactList}\item 
+void \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{wgrhal__ext_8h_a3ea768208788c66bbb114a11605f58b1}{realloc}} (void \texorpdfstring{$\ast$}{*}ptr, uint32\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Ändert die Größe eines allokierten Speicherblocks. \end{DoxyCompactList}\item 
+void \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{wgrhal__ext_8h_ae7984b2f911f2b3f7fbd342af6cb2860}{calloc}} (uint32\+\_\+t nmemb, uint32\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Allokiert einen Speicherblock für ein Array und initialisiert diesen mit 0. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a94f3eff1b69ffc55702cc2b5c76be225}{heap\+\_\+free\+\_\+space}} (void)
+\begin{DoxyCompactList}\small\item\em Ermittelt den aktuell freien Heap-\/\+Speicher. \end{DoxyCompactList}\item 
+\Hypertarget{wgrhal__ext_8h_a2fb899c47d28e728d3945395f4be1a3a}\label{wgrhal__ext_8h_a2fb899c47d28e728d3945395f4be1a3a} 
+void {\bfseries housekeeping} (void)
+\begin{DoxyCompactList}\small\item\em Führt periodische Wartungsarbeiten am SSD1351 Display durch (z.\+B. Cursor-\/\+Blinken). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a2d926d9ad0e5bb865b81a2826c9550c1}{ssd1351\+\_\+inv}} (void)
+\begin{DoxyCompactList}\small\item\em Schaltet den Invertierungsmodus des Displays um. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a19d09ca7edaced146d783f6ff279ab22}{ssd1351\+\_\+send\+\_\+data}} (const uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, size\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em Sendet einen Datenpuffer an das SSD1351 Display. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_abb07cadf263aae6d0a0588fb5bae5509}{ssd1351\+\_\+send\+\_\+command}} (uint8\+\_\+t cmd)
+\begin{DoxyCompactList}\small\item\em Sendet einen einzelnen Befehl an das SSD1351 Display. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_ae687afc3cfb297a94d8ec5e41fcd1606}{ssd1351\+\_\+send\+\_\+command\+\_\+with\+\_\+data}} (uint8\+\_\+t cmd, const uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, size\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em Sendet einen Befehl mit zugehörigen Daten an das SSD1351 Display. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a667d6e09a8b42c2e2dda69e22de7fd14}{ssd1351\+\_\+send\+\_\+commands}} (const uint8\+\_\+t \texorpdfstring{$\ast$}{*}buf, size\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em Sendet eine Folge von Befehlen an das SSD1351 Display. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a39e790f52f13e44edafacac6178e96ed}{ssd1351\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initialisiert das SSD1351 Display. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a6204f42461c77701f2bce7c5133c9227}{ssd1351\+\_\+set\+\_\+position}} (uint8\+\_\+t x, uint8\+\_\+t y, uint8\+\_\+t w, uint8\+\_\+t h)
+\begin{DoxyCompactList}\small\item\em Setzt die Schreibposition und den Bereich im SSD1351 Display. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a6fc07586d727b1ccc52789a4102794d8}{ssd1351\+\_\+fill\+\_\+screen}} (uint16\+\_\+t color)
+\begin{DoxyCompactList}\small\item\em Füllt das gesamte Display mit einer Farbe. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a9ab152629363d8553c619759a817ae07}{ssd1351\+\_\+draw\+\_\+pixel}} (uint8\+\_\+t x, uint8\+\_\+t y, uint16\+\_\+t color)
+\begin{DoxyCompactList}\small\item\em Zeichnet einen einzelnen Pixel an einer bestimmten Position. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a454bf513589123f93d86117554722eee}{terminal\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initialisiert das Terminal (Display) des SSD1351. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a9ed513a0234474993cd3de2539d7ec41}{terminal\+\_\+print}} (const char \texorpdfstring{$\ast$}{*}str)
+\begin{DoxyCompactList}\small\item\em Gibt einen String im Terminal aus. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a900ece5bb22b83e93781f4a5b782ef3d}{terminal\+\_\+print\+\_\+col}} (const char \texorpdfstring{$\ast$}{*}text, uint16\+\_\+t color)
+\begin{DoxyCompactList}\small\item\em Gibt einen String im Terminal mit einer bestimmten Textfarbe aus. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a9b337d8f2bdb36fd43e852959e4b52c9}{print\+\_\+ok\+\_\+res}} (const char \texorpdfstring{$\ast$}{*}label, int32\+\_\+t value)
+\begin{DoxyCompactList}\small\item\em Gibt ein Label und einen numerischen Wert (als String) aus, farblich als OK markiert. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a5a9606b3393552243cf58233bfc2031a}{print\+\_\+ok}} (const char \texorpdfstring{$\ast$}{*}label)
+\begin{DoxyCompactList}\small\item\em Gibt ein Label als OK-\/\+Nachricht aus. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a357ed3f4d4a087b28d03edf2ab7ba4b4}{print\+\_\+error}} (const char \texorpdfstring{$\ast$}{*}label)
+\begin{DoxyCompactList}\small\item\em Gibt ein Label als Fehlernachricht aus. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_aa3fdefc31ed502be97cb7fcecd7b0023}{terminal\+\_\+put\+\_\+char}} (char c)
+\begin{DoxyCompactList}\small\item\em Gibt ein einzelnes Zeichen im Terminal aus und aktualisiert den Cursor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_ab2435ec4e370f6ac2f49836f6e315414}{terminal\+\_\+set\+\_\+text\+\_\+color}} (uint16\+\_\+t color)
+\begin{DoxyCompactList}\small\item\em Setzt die Textfarbe des Terminals. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a15597185f1e377c687de825fccc8e994}{terminal\+\_\+set\+\_\+bg\+\_\+color}} (uint16\+\_\+t color)
+\begin{DoxyCompactList}\small\item\em Setzt die Hintergrundfarbe des Terminals. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_ad0f2bf8851ae861d1833ac9adbef76ee}{terminal\+\_\+draw\+\_\+text}} (uint8\+\_\+t row, uint8\+\_\+t col, const char \texorpdfstring{$\ast$}{*}str, uint16\+\_\+t fg\+\_\+color, uint16\+\_\+t bg\+\_\+color)
+\begin{DoxyCompactList}\small\item\em Zeichnet einen Text an einer bestimmten Terminalposition mit definierten Vorder-\/ und Hintergrundfarben. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_ac7df6c79623ec2973c46ee4543c3e412}{terminal\+\_\+draw\+\_\+text\+\_\+default}} (uint8\+\_\+t row, uint8\+\_\+t col, const char \texorpdfstring{$\ast$}{*}str)
+\begin{DoxyCompactList}\small\item\em Zeichnet einen Text an einer bestimmten Terminalposition mit Standardfarben. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a1644c0e09de3c89630b1555598a4c59e}{terminal\+\_\+native\+\_\+scroll}} (void)
+\begin{DoxyCompactList}\small\item\em Scrollt das Terminal um eine Zeile. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a178294b85d339dafb2e6f963e5f59158}{clear\+\_\+terminal\+\_\+row}} (uint8\+\_\+t row)
+\begin{DoxyCompactList}\small\item\em Löscht eine bestimmte Terminalzeile. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a48522df03d2fe5773a2132bb94150095}{clear\+\_\+terminal}} (void)
+\begin{DoxyCompactList}\small\item\em Löscht das gesamte Terminal. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_a75cf98fe97ad9ba13aa5d8ee3a115ef3}{draw\+\_\+status\+\_\+bar}} (const char \texorpdfstring{$\ast$}{*}text, uint16\+\_\+t bg\+\_\+color, uint16\+\_\+t fg\+\_\+color)
+\begin{DoxyCompactList}\small\item\em Zeichnet eine Statusleiste am oberen Displayrand. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_aeb8e4ee8de074f9c3aa97a33390a61f5}{draw\+\_\+char\+\_\+cell}} (uint8\+\_\+t row, uint8\+\_\+t col, char c)
+\begin{DoxyCompactList}\small\item\em Zeichnet ein einzelnes Zeichen in einer Terminalzelle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal__ext_8h_aeca95990a79934d19aa360ccae9cad66}{draw\+\_\+char\+\_\+cell\+\_\+custom}} (uint8\+\_\+t row, uint8\+\_\+t col, char c, uint16\+\_\+t fg, uint16\+\_\+t bg)
+\begin{DoxyCompactList}\small\item\em Zeichnet ein einzelnes Zeichen in einer Terminalzelle mit individuellen Farben. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_ace6ca749f8df6d872b24eb93a1fbd7bf}{ssd1351\+\_\+cursor\+\_\+x}} (void)
+\begin{DoxyCompactList}\small\item\em Gibt die aktuelle X-\/\+Position des Cursors im SSD1351 Terminal zurück. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variablen}
+\begin{DoxyCompactItemize}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{wgrhal__ext_8h_a3366cfbf70696bb80085e9e60d8b7a79}{note\+\_\+freq\+\_\+halfbase}} \mbox{[}12\mbox{]}
+\begin{DoxyCompactList}\small\item\em Frequenztabelle für Noten (Halbton-\/\+Basis). \end{DoxyCompactList}\item 
+\Hypertarget{wgrhal__ext_8h_ab2fcf3f036b2ffdb888ba82b71a00452}\label{wgrhal__ext_8h_ab2fcf3f036b2ffdb888ba82b71a00452} 
+char {\bfseries \+\_\+heap\+\_\+start}
+\begin{DoxyCompactList}\small\item\em Start-\/ und Endadressen des Heaps und Stacks (extern deklariert). \end{DoxyCompactList}\item 
+\Hypertarget{wgrhal__ext_8h_ad0330ee75863a1d60173e6efc458b9ee}\label{wgrhal__ext_8h_ad0330ee75863a1d60173e6efc458b9ee} 
+char {\bfseries \+\_\+heap\+\_\+end}
+\item 
+\Hypertarget{wgrhal__ext_8h_a250dbf826fceee814ccd83acd34342ef}\label{wgrhal__ext_8h_a250dbf826fceee814ccd83acd34342ef} 
+char {\bfseries \+\_\+sstack}
+\item 
+\Hypertarget{wgrhal__ext_8h_a71010d56f5257f4dfaff9ef224836050}\label{wgrhal__ext_8h_a71010d56f5257f4dfaff9ef224836050} 
+char {\bfseries \+\_\+estack}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Ausführliche Beschreibung}
+Erweiterte Funktionen und Hardwarezugriffe für den WGR-\/\+V-\/\+Prozessor. 
+
+Diese Header-\/\+Datei erweitert die Basisfunktionen um Hardwareunterstützung für Multiplikation, Division, SPI-\/\+Kommunikation, WS2812B LED-\/\+Steuerung, PWM-\/basierte Tonerzeugung, dynamischen Speicher (malloc) sowie ein SSD1351 Display mit Terminal-\/\+Funktionen. 
+
+Definiert in Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+
+
+\doxysubsection{Makro-\/\+Dokumentation}
+\Hypertarget{wgrhal__ext_8h_ae2eecd07a9b6a2256002a15b28e388f2}\label{wgrhal__ext_8h_ae2eecd07a9b6a2256002a15b28e388f2} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!CHAR\_HEIGHT@{CHAR\_HEIGHT}}
+\index{CHAR\_HEIGHT@{CHAR\_HEIGHT}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{CHAR\_HEIGHT}{CHAR\_HEIGHT}}
+{\footnotesize\ttfamily \#define CHAR\+\_\+\+HEIGHT~8}
+
+
+
+Höhe eines Zeichens in Pixel. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00577}{577}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a655981006fca173dd2e056bf81a63dc3}\label{wgrhal__ext_8h_a655981006fca173dd2e056bf81a63dc3} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!CHAR\_WIDTH@{CHAR\_WIDTH}}
+\index{CHAR\_WIDTH@{CHAR\_WIDTH}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{CHAR\_WIDTH}{CHAR\_WIDTH}}
+{\footnotesize\ttfamily \#define CHAR\+\_\+\+WIDTH~6}
+
+
+
+Breite eines Zeichens in Pixel. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00573}{573}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_aba2a7fe77a7501e5844370eec0185207}\label{wgrhal__ext_8h_aba2a7fe77a7501e5844370eec0185207} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!COLOR\_BLACK@{COLOR\_BLACK}}
+\index{COLOR\_BLACK@{COLOR\_BLACK}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{COLOR\_BLACK}{COLOR\_BLACK}}
+{\footnotesize\ttfamily \#define COLOR\+\_\+\+BLACK~0x0000}
+
+
+
+Farbe\+: Schwarz. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00606}{606}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a23c70d699a5a775bc2e1ebeb8603f630}\label{wgrhal__ext_8h_a23c70d699a5a775bc2e1ebeb8603f630} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!COLOR\_BLUE@{COLOR\_BLUE}}
+\index{COLOR\_BLUE@{COLOR\_BLUE}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{COLOR\_BLUE}{COLOR\_BLUE}}
+{\footnotesize\ttfamily \#define COLOR\+\_\+\+BLUE~0x001F}
+
+
+
+Farbe\+: Blau. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00622}{622}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a82573859711fce56f1aa0a76b18a9b18}\label{wgrhal__ext_8h_a82573859711fce56f1aa0a76b18a9b18} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!COLOR\_CYAN@{COLOR\_CYAN}}
+\index{COLOR\_CYAN@{COLOR\_CYAN}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{COLOR\_CYAN}{COLOR\_CYAN}}
+{\footnotesize\ttfamily \#define COLOR\+\_\+\+CYAN~0x07\+FF}
+
+
+
+Farbe\+: Cyan. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00634}{634}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_afc9149f5de51bd9ac4f5ebbfa153f018}\label{wgrhal__ext_8h_afc9149f5de51bd9ac4f5ebbfa153f018} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!COLOR\_GREEN@{COLOR\_GREEN}}
+\index{COLOR\_GREEN@{COLOR\_GREEN}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{COLOR\_GREEN}{COLOR\_GREEN}}
+{\footnotesize\ttfamily \#define COLOR\+\_\+\+GREEN~0x\+F800}
+
+
+
+Farbe\+: Grün. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00618}{618}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a8deb0beccea721b35bdb1b4f7264fe75}\label{wgrhal__ext_8h_a8deb0beccea721b35bdb1b4f7264fe75} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!COLOR\_MAGENTA@{COLOR\_MAGENTA}}
+\index{COLOR\_MAGENTA@{COLOR\_MAGENTA}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{COLOR\_MAGENTA}{COLOR\_MAGENTA}}
+{\footnotesize\ttfamily \#define COLOR\+\_\+\+MAGENTA~0x\+F81F}
+
+
+
+Farbe\+: Magenta. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00630}{630}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_ad86358bf19927183dd7b4ae215a29731}\label{wgrhal__ext_8h_ad86358bf19927183dd7b4ae215a29731} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!COLOR\_RED@{COLOR\_RED}}
+\index{COLOR\_RED@{COLOR\_RED}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{COLOR\_RED}{COLOR\_RED}}
+{\footnotesize\ttfamily \#define COLOR\+\_\+\+RED~0x07\+E0}
+
+
+
+Farbe\+: Rot. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00614}{614}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a9b44987ffdc2af19b635206b94334b69}\label{wgrhal__ext_8h_a9b44987ffdc2af19b635206b94334b69} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!COLOR\_WHITE@{COLOR\_WHITE}}
+\index{COLOR\_WHITE@{COLOR\_WHITE}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{COLOR\_WHITE}{COLOR\_WHITE}}
+{\footnotesize\ttfamily \#define COLOR\+\_\+\+WHITE~0x\+FFFF}
+
+
+
+Farbe\+: Weiß. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00610}{610}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a4534b577b74a58b0f4b7be027af664e0}\label{wgrhal__ext_8h_a4534b577b74a58b0f4b7be027af664e0} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!COLOR\_YELLOW@{COLOR\_YELLOW}}
+\index{COLOR\_YELLOW@{COLOR\_YELLOW}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{COLOR\_YELLOW}{COLOR\_YELLOW}}
+{\footnotesize\ttfamily \#define COLOR\+\_\+\+YELLOW~0x\+FFE0}
+
+
+
+Farbe\+: Gelb. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00626}{626}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a132d7ace6fa1c7bb82ed601144c085a7}\label{wgrhal__ext_8h_a132d7ace6fa1c7bb82ed601144c085a7} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!DIV\_BASE\_ADDR@{DIV\_BASE\_ADDR}}
+\index{DIV\_BASE\_ADDR@{DIV\_BASE\_ADDR}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{DIV\_BASE\_ADDR}{DIV\_BASE\_ADDR}}
+{\footnotesize\ttfamily \#define DIV\+\_\+\+BASE\+\_\+\+ADDR~0x00000600}
+
+
+
+Basisadresse für den Hardware-\/\+Divider. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00047}{47}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_adcee34b6f82e717a89000ea267302999}\label{wgrhal__ext_8h_adcee34b6f82e717a89000ea267302999} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!DIV\_END\_OFFSET@{DIV\_END\_OFFSET}}
+\index{DIV\_END\_OFFSET@{DIV\_END\_OFFSET}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{DIV\_END\_OFFSET}{DIV\_END\_OFFSET}}
+{\footnotesize\ttfamily \#define DIV\+\_\+\+END\+\_\+\+OFFSET~0x04}
+
+
+
+Offset für den Dividend. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00055}{55}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a0a136b1deb60b5c366f17f89be1972d8}\label{wgrhal__ext_8h_a0a136b1deb60b5c366f17f89be1972d8} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!DIV\_INFO\_OFFSET@{DIV\_INFO\_OFFSET}}
+\index{DIV\_INFO\_OFFSET@{DIV\_INFO\_OFFSET}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{DIV\_INFO\_OFFSET}{DIV\_INFO\_OFFSET}}
+{\footnotesize\ttfamily \#define DIV\+\_\+\+INFO\+\_\+\+OFFSET~0x00}
+
+
+
+Offset für das Informationsregister des Dividers. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00051}{51}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a9339ccf28674c87f2081780cc61df75e}\label{wgrhal__ext_8h_a9339ccf28674c87f2081780cc61df75e} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!DIV\_QUO\_OFFSET@{DIV\_QUO\_OFFSET}}
+\index{DIV\_QUO\_OFFSET@{DIV\_QUO\_OFFSET}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{DIV\_QUO\_OFFSET}{DIV\_QUO\_OFFSET}}
+{\footnotesize\ttfamily \#define DIV\+\_\+\+QUO\+\_\+\+OFFSET~0x0C}
+
+
+
+Offset für den Quotienten. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00063}{63}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a827bc1ea5d49fab063854edd5fdf3d8d}\label{wgrhal__ext_8h_a827bc1ea5d49fab063854edd5fdf3d8d} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!DIV\_REM\_OFFSET@{DIV\_REM\_OFFSET}}
+\index{DIV\_REM\_OFFSET@{DIV\_REM\_OFFSET}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{DIV\_REM\_OFFSET}{DIV\_REM\_OFFSET}}
+{\footnotesize\ttfamily \#define DIV\+\_\+\+REM\+\_\+\+OFFSET~0x10}
+
+
+
+Offset für den Rest. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00067}{67}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a1249535bc6980a28feec44f325ecdc66}\label{wgrhal__ext_8h_a1249535bc6980a28feec44f325ecdc66} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!DIV\_SOR\_OFFSET@{DIV\_SOR\_OFFSET}}
+\index{DIV\_SOR\_OFFSET@{DIV\_SOR\_OFFSET}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{DIV\_SOR\_OFFSET}{DIV\_SOR\_OFFSET}}
+{\footnotesize\ttfamily \#define DIV\+\_\+\+SOR\+\_\+\+OFFSET~0x08}
+
+
+
+Offset für den Divisor. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00059}{59}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_ab067c9e0b2ab69928df8685dce634610}\label{wgrhal__ext_8h_ab067c9e0b2ab69928df8685dce634610} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!HOUSEKEEPING\_MS@{HOUSEKEEPING\_MS}}
+\index{HOUSEKEEPING\_MS@{HOUSEKEEPING\_MS}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{HOUSEKEEPING\_MS}{HOUSEKEEPING\_MS}}
+{\footnotesize\ttfamily \#define HOUSEKEEPING\+\_\+\+MS~250}
+
+
+
+Intervall für Display-\/\+Housekeeping in Millisekunden. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00601}{601}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a233127f07098e18b97eb17ed883ecddd}\label{wgrhal__ext_8h_a233127f07098e18b97eb17ed883ecddd} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!HWREG32@{HWREG32}}
+\index{HWREG32@{HWREG32}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{HWREG32}{HWREG32}}
+{\footnotesize\ttfamily \#define HWREG32(\begin{DoxyParamCaption}\item[{}]{addr }\end{DoxyParamCaption})~(\texorpdfstring{$\ast$}{*}((volatile uint32\+\_\+t \texorpdfstring{$\ast$}{*})(addr)))}
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00016}{16}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a3e0931f65ac05adcc11eabf0b32a4601}\label{wgrhal__ext_8h_a3e0931f65ac05adcc11eabf0b32a4601} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!MUL1\_OFFSET@{MUL1\_OFFSET}}
+\index{MUL1\_OFFSET@{MUL1\_OFFSET}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{MUL1\_OFFSET}{MUL1\_OFFSET}}
+{\footnotesize\ttfamily \#define MUL1\+\_\+\+OFFSET~0x0004}
+
+
+
+Offset für den ersten Multiplikanden. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00030}{30}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a2dd329bda00599b8ed1f7d34833521af}\label{wgrhal__ext_8h_a2dd329bda00599b8ed1f7d34833521af} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!MUL2\_OFFSET@{MUL2\_OFFSET}}
+\index{MUL2\_OFFSET@{MUL2\_OFFSET}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{MUL2\_OFFSET}{MUL2\_OFFSET}}
+{\footnotesize\ttfamily \#define MUL2\+\_\+\+OFFSET~0x0008}
+
+
+
+Offset für den zweiten Multiplikanden. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00034}{34}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_abe0a7d19ef37c6683c237713f9844204}\label{wgrhal__ext_8h_abe0a7d19ef37c6683c237713f9844204} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!MULT\_BASE\_ADDR@{MULT\_BASE\_ADDR}}
+\index{MULT\_BASE\_ADDR@{MULT\_BASE\_ADDR}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{MULT\_BASE\_ADDR}{MULT\_BASE\_ADDR}}
+{\footnotesize\ttfamily \#define MULT\+\_\+\+BASE\+\_\+\+ADDR~0x00000500}
+
+
+
+Basisadresse für den Hardware-\/\+Multiplikator. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00022}{22}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a8d23644234467f3966a02983f3ecf41c}\label{wgrhal__ext_8h_a8d23644234467f3966a02983f3ecf41c} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!MULT\_INFO\_OFFSET@{MULT\_INFO\_OFFSET}}
+\index{MULT\_INFO\_OFFSET@{MULT\_INFO\_OFFSET}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{MULT\_INFO\_OFFSET}{MULT\_INFO\_OFFSET}}
+{\footnotesize\ttfamily \#define MULT\+\_\+\+INFO\+\_\+\+OFFSET~0x0000}
+
+
+
+Offset für das Informationsregister des Multiplikators. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00026}{26}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a94140ea99ed05de2e10a3a2e4b4eb276}\label{wgrhal__ext_8h_a94140ea99ed05de2e10a3a2e4b4eb276} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!RESH\_OFFSET@{RESH\_OFFSET}}
+\index{RESH\_OFFSET@{RESH\_OFFSET}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{RESH\_OFFSET}{RESH\_OFFSET}}
+{\footnotesize\ttfamily \#define RESH\+\_\+\+OFFSET~0x000C}
+
+
+
+Offset für die höheren 32-\/Bit des 64-\/Bit-\/\+Ergebnisses. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00038}{38}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a031b634598630e9db5ec252ee655138e}\label{wgrhal__ext_8h_a031b634598630e9db5ec252ee655138e} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!RESL\_OFFSET@{RESL\_OFFSET}}
+\index{RESL\_OFFSET@{RESL\_OFFSET}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{RESL\_OFFSET}{RESL\_OFFSET}}
+{\footnotesize\ttfamily \#define RESL\+\_\+\+OFFSET~0x0010}
+
+
+
+Offset für die niederwertigen 32-\/Bit des 64-\/Bit-\/\+Ergebnisses. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00042}{42}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_af35cc1211cd540fbbb593e221eb16496}\label{wgrhal__ext_8h_af35cc1211cd540fbbb593e221eb16496} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!SPI\_BASE\_ADDR@{SPI\_BASE\_ADDR}}
+\index{SPI\_BASE\_ADDR@{SPI\_BASE\_ADDR}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{SPI\_BASE\_ADDR}{SPI\_BASE\_ADDR}}
+{\footnotesize\ttfamily \#define SPI\+\_\+\+BASE\+\_\+\+ADDR~0x00000700}
+
+
+
+Basisadresse für die SPI-\/\+Schnittstelle. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00072}{72}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_af2cb776f0174cf2ddffaa97a188ab482}\label{wgrhal__ext_8h_af2cb776f0174cf2ddffaa97a188ab482} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!SPI\_CLK\_OFFSET@{SPI\_CLK\_OFFSET}}
+\index{SPI\_CLK\_OFFSET@{SPI\_CLK\_OFFSET}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{SPI\_CLK\_OFFSET}{SPI\_CLK\_OFFSET}}
+{\footnotesize\ttfamily \#define SPI\+\_\+\+CLK\+\_\+\+OFFSET~0x0004}
+
+
+
+Offset für das SPI-\/\+Taktregister. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00080}{80}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a71392101e1f8ea7ffab12be56dd5a8a4}\label{wgrhal__ext_8h_a71392101e1f8ea7ffab12be56dd5a8a4} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!SPI\_CS\_OFFSET@{SPI\_CS\_OFFSET}}
+\index{SPI\_CS\_OFFSET@{SPI\_CS\_OFFSET}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{SPI\_CS\_OFFSET}{SPI\_CS\_OFFSET}}
+{\footnotesize\ttfamily \#define SPI\+\_\+\+CS\+\_\+\+OFFSET~0x0014}
+
+
+
+Offset für die SPI-\/\+Chipselect-\/\+Steuerung. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00096}{96}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a09edbec4dd620a961945546baaf31bd3}\label{wgrhal__ext_8h_a09edbec4dd620a961945546baaf31bd3} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!SPI\_CTRL\_OFFSET@{SPI\_CTRL\_OFFSET}}
+\index{SPI\_CTRL\_OFFSET@{SPI\_CTRL\_OFFSET}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{SPI\_CTRL\_OFFSET}{SPI\_CTRL\_OFFSET}}
+{\footnotesize\ttfamily \#define SPI\+\_\+\+CTRL\+\_\+\+OFFSET~0x0000}
+
+
+
+Offset für das SPI-\/\+Steuerregister. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00076}{76}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a610bc45fe9ad294ca287469ba5fea748}\label{wgrhal__ext_8h_a610bc45fe9ad294ca287469ba5fea748} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!SPI\_RX\_OFFSET@{SPI\_RX\_OFFSET}}
+\index{SPI\_RX\_OFFSET@{SPI\_RX\_OFFSET}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{SPI\_RX\_OFFSET}{SPI\_RX\_OFFSET}}
+{\footnotesize\ttfamily \#define SPI\+\_\+\+RX\+\_\+\+OFFSET~0x0010}
+
+
+
+Offset für das SPI-\/\+Empfangsregister. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00092}{92}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a6437e234937d3ac603cfec81595fc71c}\label{wgrhal__ext_8h_a6437e234937d3ac603cfec81595fc71c} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!SPI\_STATUS\_OFFSET@{SPI\_STATUS\_OFFSET}}
+\index{SPI\_STATUS\_OFFSET@{SPI\_STATUS\_OFFSET}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{SPI\_STATUS\_OFFSET}{SPI\_STATUS\_OFFSET}}
+{\footnotesize\ttfamily \#define SPI\+\_\+\+STATUS\+\_\+\+OFFSET~0x0008}
+
+
+
+Offset für das SPI-\/\+Statusregister. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00084}{84}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a6b52c6e6e4572bd12226f63be7c79d18}\label{wgrhal__ext_8h_a6b52c6e6e4572bd12226f63be7c79d18} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!SPI\_TX\_OFFSET@{SPI\_TX\_OFFSET}}
+\index{SPI\_TX\_OFFSET@{SPI\_TX\_OFFSET}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{SPI\_TX\_OFFSET}{SPI\_TX\_OFFSET}}
+{\footnotesize\ttfamily \#define SPI\+\_\+\+TX\+\_\+\+OFFSET~0x000C}
+
+
+
+Offset für das SPI-\/\+Sende-\/\+Register. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00088}{88}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a7127e0daa675b16ed7296dc55b84e158}\label{wgrhal__ext_8h_a7127e0daa675b16ed7296dc55b84e158} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!SSD1351\_HEIGHT@{SSD1351\_HEIGHT}}
+\index{SSD1351\_HEIGHT@{SSD1351\_HEIGHT}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{SSD1351\_HEIGHT}{SSD1351\_HEIGHT}}
+{\footnotesize\ttfamily \#define SSD1351\+\_\+\+HEIGHT~128}
+
+
+
+Höhe des SSD1351 Displays in Pixel. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00569}{569}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a3929ab48ddcf6fb2201a54bb294bf559}\label{wgrhal__ext_8h_a3929ab48ddcf6fb2201a54bb294bf559} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!SSD1351\_SPI\_TIMEOUT@{SSD1351\_SPI\_TIMEOUT}}
+\index{SSD1351\_SPI\_TIMEOUT@{SSD1351\_SPI\_TIMEOUT}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{SSD1351\_SPI\_TIMEOUT}{SSD1351\_SPI\_TIMEOUT}}
+{\footnotesize\ttfamily \#define SSD1351\+\_\+\+SPI\+\_\+\+TIMEOUT~10}
+
+
+
+SPI-\/\+Zeitlimit in Millisekunden für das Display. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00597}{597}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a70220322cc09e14d4c9d4ec83bce5105}\label{wgrhal__ext_8h_a70220322cc09e14d4c9d4ec83bce5105} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!SSD1351\_WIDTH@{SSD1351\_WIDTH}}
+\index{SSD1351\_WIDTH@{SSD1351\_WIDTH}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{SSD1351\_WIDTH}{SSD1351\_WIDTH}}
+{\footnotesize\ttfamily \#define SSD1351\+\_\+\+WIDTH~128}
+
+
+
+Breite des SSD1351 Displays in Pixel. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00565}{565}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a9e49f77907cdc627bd2ef57c1ab873aa}\label{wgrhal__ext_8h_a9e49f77907cdc627bd2ef57c1ab873aa} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!STATUS\_BAR\_ROWS@{STATUS\_BAR\_ROWS}}
+\index{STATUS\_BAR\_ROWS@{STATUS\_BAR\_ROWS}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{STATUS\_BAR\_ROWS}{STATUS\_BAR\_ROWS}}
+{\footnotesize\ttfamily \#define STATUS\+\_\+\+BAR\+\_\+\+ROWS~1}
+
+
+
+Anzahl der Zeilen für die Statusleiste. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00581}{581}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a2b8bbe172f3ac2be7a9071d3380de254}\label{wgrhal__ext_8h_a2b8bbe172f3ac2be7a9071d3380de254} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!TERM\_COLS@{TERM\_COLS}}
+\index{TERM\_COLS@{TERM\_COLS}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{TERM\_COLS}{TERM\_COLS}}
+{\footnotesize\ttfamily \#define TERM\+\_\+\+COLS~(\mbox{\hyperlink{wgrhal__ext_8h_a70220322cc09e14d4c9d4ec83bce5105}{SSD1351\+\_\+\+WIDTH}} / \mbox{\hyperlink{wgrhal__ext_8h_a655981006fca173dd2e056bf81a63dc3}{CHAR\+\_\+\+WIDTH}})}
+
+
+
+Anzahl der Spalten im Terminal. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00589}{589}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_ad9516ae2b52ec127d4a068fce97778fa}\label{wgrhal__ext_8h_ad9516ae2b52ec127d4a068fce97778fa} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!TERM\_ROWS@{TERM\_ROWS}}
+\index{TERM\_ROWS@{TERM\_ROWS}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{TERM\_ROWS}{TERM\_ROWS}}
+{\footnotesize\ttfamily \#define TERM\+\_\+\+ROWS~(\mbox{\hyperlink{wgrhal__ext_8h_a73d000c72093c777a738c00054401aa2}{TOTAL\+\_\+\+ROWS}})}
+
+
+
+Anzahl der Zeilen im Terminal. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00593}{593}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a73d000c72093c777a738c00054401aa2}\label{wgrhal__ext_8h_a73d000c72093c777a738c00054401aa2} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!TOTAL\_ROWS@{TOTAL\_ROWS}}
+\index{TOTAL\_ROWS@{TOTAL\_ROWS}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{TOTAL\_ROWS}{TOTAL\_ROWS}}
+{\footnotesize\ttfamily \#define TOTAL\+\_\+\+ROWS~(\mbox{\hyperlink{wgrhal__ext_8h_a7127e0daa675b16ed7296dc55b84e158}{SSD1351\+\_\+\+HEIGHT}} / \mbox{\hyperlink{wgrhal__ext_8h_ae2eecd07a9b6a2256002a15b28e388f2}{CHAR\+\_\+\+HEIGHT}})}
+
+
+
+Gesamte Anzahl der Textzeilen auf dem Display. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00585}{585}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+\Hypertarget{wgrhal__ext_8h_a2c93cee954a5373b0a3795805d6f26b5}\label{wgrhal__ext_8h_a2c93cee954a5373b0a3795805d6f26b5} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!WS\_BASE\_ADDR@{WS\_BASE\_ADDR}}
+\index{WS\_BASE\_ADDR@{WS\_BASE\_ADDR}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{WS\_BASE\_ADDR}{WS\_BASE\_ADDR}}
+{\footnotesize\ttfamily \#define WS\+\_\+\+BASE\+\_\+\+ADDR~0x00000900}
+
+
+
+Basisadresse für die WS2812B LED-\/\+Steuerung. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00101}{101}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+
+
+\doxysubsection{Dokumentation der Aufzählungstypen}
+\Hypertarget{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824d}\label{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824d} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!note\_t@{note\_t}}
+\index{note\_t@{note\_t}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{note\_t}{note\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824d}{note\+\_\+t}}}
+
+
+
+Aufzählung der Noten im Halbtonsystem. 
+
+\begin{DoxyEnumFields}{Aufzählungswerte}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NOTE\_C@{NOTE\_C}!wgrhal\_ext.h@{wgrhal\_ext.h}}\index{wgrhal\_ext.h@{wgrhal\_ext.h}!NOTE\_C@{NOTE\_C}}}\Hypertarget{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824daac4b3e5a948277dc7d42c5298696b643}\label{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824daac4b3e5a948277dc7d42c5298696b643} 
+NOTE\+\_\+C&Note C \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NOTE\_Cs@{NOTE\_Cs}!wgrhal\_ext.h@{wgrhal\_ext.h}}\index{wgrhal\_ext.h@{wgrhal\_ext.h}!NOTE\_Cs@{NOTE\_Cs}}}\Hypertarget{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dab79ac4a6338bf8831f579346525aeaab}\label{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dab79ac4a6338bf8831f579346525aeaab} 
+NOTE\+\_\+\+Cs&Cis \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NOTE\_D@{NOTE\_D}!wgrhal\_ext.h@{wgrhal\_ext.h}}\index{wgrhal\_ext.h@{wgrhal\_ext.h}!NOTE\_D@{NOTE\_D}}}\Hypertarget{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dab468ea843861010685e6b1973ab1ed11}\label{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dab468ea843861010685e6b1973ab1ed11} 
+NOTE\+\_\+D&Note D \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NOTE\_Ds@{NOTE\_Ds}!wgrhal\_ext.h@{wgrhal\_ext.h}}\index{wgrhal\_ext.h@{wgrhal\_ext.h}!NOTE\_Ds@{NOTE\_Ds}}}\Hypertarget{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824daa0ebc767d8abf72e3d74d2efa0da1218}\label{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824daa0ebc767d8abf72e3d74d2efa0da1218} 
+NOTE\+\_\+\+Ds&Dis \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NOTE\_E@{NOTE\_E}!wgrhal\_ext.h@{wgrhal\_ext.h}}\index{wgrhal\_ext.h@{wgrhal\_ext.h}!NOTE\_E@{NOTE\_E}}}\Hypertarget{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dafd38d7809b7b7bfceeee3967231db005}\label{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dafd38d7809b7b7bfceeee3967231db005} 
+NOTE\+\_\+E&Note E \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NOTE\_F@{NOTE\_F}!wgrhal\_ext.h@{wgrhal\_ext.h}}\index{wgrhal\_ext.h@{wgrhal\_ext.h}!NOTE\_F@{NOTE\_F}}}\Hypertarget{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dac3ebb29875350ea174964b23306efd53}\label{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dac3ebb29875350ea174964b23306efd53} 
+NOTE\+\_\+F&Note F \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NOTE\_Fs@{NOTE\_Fs}!wgrhal\_ext.h@{wgrhal\_ext.h}}\index{wgrhal\_ext.h@{wgrhal\_ext.h}!NOTE\_Fs@{NOTE\_Fs}}}\Hypertarget{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dace11ef7b884d399f77813a2bd6d6d1cf}\label{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dace11ef7b884d399f77813a2bd6d6d1cf} 
+NOTE\+\_\+\+Fs&Fis \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NOTE\_G@{NOTE\_G}!wgrhal\_ext.h@{wgrhal\_ext.h}}\index{wgrhal\_ext.h@{wgrhal\_ext.h}!NOTE\_G@{NOTE\_G}}}\Hypertarget{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824da998b06d705333f1827ddf1523dbc68bf}\label{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824da998b06d705333f1827ddf1523dbc68bf} 
+NOTE\+\_\+G&Note G \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NOTE\_Gs@{NOTE\_Gs}!wgrhal\_ext.h@{wgrhal\_ext.h}}\index{wgrhal\_ext.h@{wgrhal\_ext.h}!NOTE\_Gs@{NOTE\_Gs}}}\Hypertarget{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824da29821966d8a6d038139c36866d1917e6}\label{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824da29821966d8a6d038139c36866d1917e6} 
+NOTE\+\_\+\+Gs&Gis \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NOTE\_A@{NOTE\_A}!wgrhal\_ext.h@{wgrhal\_ext.h}}\index{wgrhal\_ext.h@{wgrhal\_ext.h}!NOTE\_A@{NOTE\_A}}}\Hypertarget{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824da22bb65ef2a36b986252340f5a8824c9c}\label{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824da22bb65ef2a36b986252340f5a8824c9c} 
+NOTE\+\_\+A&Note A \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NOTE\_As@{NOTE\_As}!wgrhal\_ext.h@{wgrhal\_ext.h}}\index{wgrhal\_ext.h@{wgrhal\_ext.h}!NOTE\_As@{NOTE\_As}}}\Hypertarget{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824da69ab559db383797d326215596ef5d2c5}\label{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824da69ab559db383797d326215596ef5d2c5} 
+NOTE\+\_\+\+As&Ais \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NOTE\_B@{NOTE\_B}!wgrhal\_ext.h@{wgrhal\_ext.h}}\index{wgrhal\_ext.h@{wgrhal\_ext.h}!NOTE\_B@{NOTE\_B}}}\Hypertarget{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dac82f183484003f9f7e7444aab8aaf21f}\label{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824dac82f183484003f9f7e7444aab8aaf21f} 
+NOTE\+\_\+B&Note B \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8h_source_l00363}{363}} der Datei \mbox{\hyperlink{wgrhal__ext_8h_source}{wgrhal\+\_\+ext.\+h}}.
+
+
+
+\doxysubsection{Dokumentation der Funktionen}
+\Hypertarget{wgrhal__ext_8h_ae7984b2f911f2b3f7fbd342af6cb2860}\label{wgrhal__ext_8h_ae7984b2f911f2b3f7fbd342af6cb2860} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!calloc@{calloc}}
+\index{calloc@{calloc}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{calloc()}{calloc()}}
+{\footnotesize\ttfamily void \texorpdfstring{$\ast$}{*} calloc (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{nmemb,  }\item[{uint32\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Allokiert einen Speicherblock für ein Array und initialisiert diesen mit 0. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em nmemb} & Anzahl der Elemente. \\
+\hline
+{\em size} & Größe eines Elements in Byte. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Zeiger auf den allokierten Speicher oder NULL bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00662}{662}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a48522df03d2fe5773a2132bb94150095}\label{wgrhal__ext_8h_a48522df03d2fe5773a2132bb94150095} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!clear\_terminal@{clear\_terminal}}
+\index{clear\_terminal@{clear\_terminal}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{clear\_terminal()}{clear\_terminal()}}
+{\footnotesize\ttfamily void clear\+\_\+terminal (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Löscht das gesamte Terminal. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00878}{878}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a178294b85d339dafb2e6f963e5f59158}\label{wgrhal__ext_8h_a178294b85d339dafb2e6f963e5f59158} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!clear\_terminal\_row@{clear\_terminal\_row}}
+\index{clear\_terminal\_row@{clear\_terminal\_row}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{clear\_terminal\_row()}{clear\_terminal\_row()}}
+{\footnotesize\ttfamily void clear\+\_\+terminal\+\_\+row (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{row }\end{DoxyParamCaption})}
+
+
+
+Löscht eine bestimmte Terminalzeile. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em row} & Zu löschende Zeile. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00870}{870}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a8b15d1325bb1f93192138818ea215abc}\label{wgrhal__ext_8h_a8b15d1325bb1f93192138818ea215abc} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!div\_calc@{div\_calc}}
+\index{div\_calc@{div\_calc}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{div\_calc()}{div\_calc()}}
+{\footnotesize\ttfamily int32\+\_\+t div\+\_\+calc (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{dividend,  }\item[{uint32\+\_\+t}]{divisor,  }\item[{\mbox{\hyperlink{structdiv__result__t}{div\+\_\+result\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{result }\end{DoxyParamCaption})}
+
+
+
+Führt eine Division durch und liefert Quotient und Rest. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em dividend} & Dividend. \\
+\hline
+{\em divisor} & Divisor. \\
+\hline
+{\em result} & Zeiger auf eine div\+\_\+result\+\_\+t-\/\+Struktur, in der Quotient und Rest gespeichert werden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Fehler (z.\+B. Division durch 0 oder ungültiger Pointer). 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00052}{52}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a06f79ce6d4aff01a889c0266652782b7}\label{wgrhal__ext_8h_a06f79ce6d4aff01a889c0266652782b7} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!div\_calc\_quotient@{div\_calc\_quotient}}
+\index{div\_calc\_quotient@{div\_calc\_quotient}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{div\_calc\_quotient()}{div\_calc\_quotient()}}
+{\footnotesize\ttfamily uint32\+\_\+t div\+\_\+calc\+\_\+quotient (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{dividend,  }\item[{uint32\+\_\+t}]{divisor }\end{DoxyParamCaption})}
+
+
+
+Berechnet den Quotienten einer Division. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em dividend} & Dividend. \\
+\hline
+{\em divisor} & Divisor. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Quotient oder -\/1 bei Division durch 0. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00071}{71}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a7855393560d93c0f822b54a6c99da054}\label{wgrhal__ext_8h_a7855393560d93c0f822b54a6c99da054} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!div\_calc\_remainder@{div\_calc\_remainder}}
+\index{div\_calc\_remainder@{div\_calc\_remainder}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{div\_calc\_remainder()}{div\_calc\_remainder()}}
+{\footnotesize\ttfamily uint32\+\_\+t div\+\_\+calc\+\_\+remainder (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{dividend,  }\item[{uint32\+\_\+t}]{divisor }\end{DoxyParamCaption})}
+
+
+
+Berechnet den Rest einer Division. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em dividend} & Dividend. \\
+\hline
+{\em divisor} & Divisor. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Rest oder -\/1 bei Division durch 0. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00087}{87}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_aeb8e4ee8de074f9c3aa97a33390a61f5}\label{wgrhal__ext_8h_aeb8e4ee8de074f9c3aa97a33390a61f5} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!draw\_char\_cell@{draw\_char\_cell}}
+\index{draw\_char\_cell@{draw\_char\_cell}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{draw\_char\_cell()}{draw\_char\_cell()}}
+{\footnotesize\ttfamily void draw\+\_\+char\+\_\+cell (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{row,  }\item[{uint8\+\_\+t}]{col,  }\item[{char}]{c }\end{DoxyParamCaption})}
+
+
+
+Zeichnet ein einzelnes Zeichen in einer Terminalzelle. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em row} & Zeile. \\
+\hline
+{\em col} & Spalte. \\
+\hline
+{\em c} & Zu zeichnendes Zeichen. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00865}{865}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_aeca95990a79934d19aa360ccae9cad66}\label{wgrhal__ext_8h_aeca95990a79934d19aa360ccae9cad66} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!draw\_char\_cell\_custom@{draw\_char\_cell\_custom}}
+\index{draw\_char\_cell\_custom@{draw\_char\_cell\_custom}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{draw\_char\_cell\_custom()}{draw\_char\_cell\_custom()}}
+{\footnotesize\ttfamily void draw\+\_\+char\+\_\+cell\+\_\+custom (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{row,  }\item[{uint8\+\_\+t}]{col,  }\item[{char}]{c,  }\item[{uint16\+\_\+t}]{fg,  }\item[{uint16\+\_\+t}]{bg }\end{DoxyParamCaption})}
+
+
+
+Zeichnet ein einzelnes Zeichen in einer Terminalzelle mit individuellen Farben. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em row} & Zeile. \\
+\hline
+{\em col} & Spalte. \\
+\hline
+{\em c} & Zu zeichnendes Zeichen. \\
+\hline
+{\em fg} & Vordergrundfarbe. \\
+\hline
+{\em bg} & Hintergrundfarbe. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00833}{833}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a75cf98fe97ad9ba13aa5d8ee3a115ef3}\label{wgrhal__ext_8h_a75cf98fe97ad9ba13aa5d8ee3a115ef3} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!draw\_status\_bar@{draw\_status\_bar}}
+\index{draw\_status\_bar@{draw\_status\_bar}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{draw\_status\_bar()}{draw\_status\_bar()}}
+{\footnotesize\ttfamily void draw\+\_\+status\+\_\+bar (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{text,  }\item[{uint16\+\_\+t}]{bg\+\_\+color,  }\item[{uint16\+\_\+t}]{fg\+\_\+color }\end{DoxyParamCaption})}
+
+
+
+Zeichnet eine Statusleiste am oberen Displayrand. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em text} & Anzuzeigender Text. \\
+\hline
+{\em bg\+\_\+color} & Hintergrundfarbe. \\
+\hline
+{\em fg\+\_\+color} & Textfarbe. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00888}{888}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_afbedc913aa4651b3c3b4b3aecd9b4711}\label{wgrhal__ext_8h_afbedc913aa4651b3c3b4b3aecd9b4711} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!free@{free}}
+\index{free@{free}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{free()}{free()}}
+{\footnotesize\ttfamily void free (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{ptr }\end{DoxyParamCaption})}
+
+
+
+Gibt einen zuvor allokierten Speicherblock frei. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em ptr} & Zeiger auf den Speicherblock. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00598}{598}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a94f3eff1b69ffc55702cc2b5c76be225}\label{wgrhal__ext_8h_a94f3eff1b69ffc55702cc2b5c76be225} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!heap\_free\_space@{heap\_free\_space}}
+\index{heap\_free\_space@{heap\_free\_space}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{heap\_free\_space()}{heap\_free\_space()}}
+{\footnotesize\ttfamily uint32\+\_\+t heap\+\_\+free\+\_\+space (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Ermittelt den aktuell freien Heap-\/\+Speicher. 
+
+\begin{DoxyReturn}{Rückgabe}
+Freier Speicher in Byte. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00533}{533}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a668494d15010e49e11710bbb69d82849}\label{wgrhal__ext_8h_a668494d15010e49e11710bbb69d82849} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!malloc@{malloc}}
+\index{malloc@{malloc}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{malloc()}{malloc()}}
+{\footnotesize\ttfamily void \texorpdfstring{$\ast$}{*} malloc (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Allokiert einen Speicherblock. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em size} & Größe des benötigten Speichers in Byte. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Zeiger auf den allokierten Speicher oder NULL bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00563}{563}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a93e6d124ab3e946dda1be285e9bd64f8}\label{wgrhal__ext_8h_a93e6d124ab3e946dda1be285e9bd64f8} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!mult\_calc@{mult\_calc}}
+\index{mult\_calc@{mult\_calc}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{mult\_calc()}{mult\_calc()}}
+{\footnotesize\ttfamily uint32\+\_\+t mult\+\_\+calc (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{multiplicand,  }\item[{uint32\+\_\+t}]{multiplier }\end{DoxyParamCaption})}
+
+
+
+Berechnet das 32-\/Bit-\/\+Ergebnis einer Multiplikation. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em multiplicand} & Erster Faktor. \\
+\hline
+{\em multiplier} & Zweiter Faktor. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Niederwertiger 32-\/Bit-\/\+Teil des Multiplikationsergebnisses. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00041}{41}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_aefe47454ba911638f42fd3541aadf02f}\label{wgrhal__ext_8h_aefe47454ba911638f42fd3541aadf02f} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!mult\_calc\_64@{mult\_calc\_64}}
+\index{mult\_calc\_64@{mult\_calc\_64}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{mult\_calc\_64()}{mult\_calc\_64()}}
+{\footnotesize\ttfamily uint64\+\_\+t mult\+\_\+calc\+\_\+64 (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{multiplicand,  }\item[{uint32\+\_\+t}]{multiplier }\end{DoxyParamCaption})}
+
+
+
+Berechnet das 64-\/Bit-\/\+Ergebnis einer Multiplikation. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em multiplicand} & Erster Faktor. \\
+\hline
+{\em multiplier} & Zweiter Faktor. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+64-\/Bit-\/\+Ergebnis der Multiplikation. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00027}{27}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a357ed3f4d4a087b28d03edf2ab7ba4b4}\label{wgrhal__ext_8h_a357ed3f4d4a087b28d03edf2ab7ba4b4} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!print\_error@{print\_error}}
+\index{print\_error@{print\_error}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{print\_error()}{print\_error()}}
+{\footnotesize\ttfamily void print\+\_\+error (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{label }\end{DoxyParamCaption})}
+
+
+
+Gibt ein Label als Fehlernachricht aus. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em label} & Beschriftung. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00997}{997}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a5a9606b3393552243cf58233bfc2031a}\label{wgrhal__ext_8h_a5a9606b3393552243cf58233bfc2031a} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!print\_ok@{print\_ok}}
+\index{print\_ok@{print\_ok}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{print\_ok()}{print\_ok()}}
+{\footnotesize\ttfamily void print\+\_\+ok (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{label }\end{DoxyParamCaption})}
+
+
+
+Gibt ein Label als OK-\/\+Nachricht aus. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em label} & Beschriftung. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00992}{992}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a9b337d8f2bdb36fd43e852959e4b52c9}\label{wgrhal__ext_8h_a9b337d8f2bdb36fd43e852959e4b52c9} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!print\_ok\_res@{print\_ok\_res}}
+\index{print\_ok\_res@{print\_ok\_res}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{print\_ok\_res()}{print\_ok\_res()}}
+{\footnotesize\ttfamily void print\+\_\+ok\+\_\+res (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{label,  }\item[{int32\+\_\+t}]{value }\end{DoxyParamCaption})}
+
+
+
+Gibt ein Label und einen numerischen Wert (als String) aus, farblich als OK markiert. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em label} & Beschriftung. \\
+\hline
+{\em value} & Numerischer Wert. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00984}{984}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a7cc06a846d5f35f046e9b75d22f75a27}\label{wgrhal__ext_8h_a7cc06a846d5f35f046e9b75d22f75a27} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!pwm\_free\_note\_buffer@{pwm\_free\_note\_buffer}}
+\index{pwm\_free\_note\_buffer@{pwm\_free\_note\_buffer}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{pwm\_free\_note\_buffer()}{pwm\_free\_note\_buffer()}}
+{\footnotesize\ttfamily void pwm\+\_\+free\+\_\+note\+\_\+buffer (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Gibt den für PWM-\/\+Noten reservierten Speicher frei. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00463}{463}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a8147f96c051d452b67914559f7fc3b95}\label{wgrhal__ext_8h_a8147f96c051d452b67914559f7fc3b95} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!pwm\_play\_note@{pwm\_play\_note}}
+\index{pwm\_play\_note@{pwm\_play\_note}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{pwm\_play\_note()}{pwm\_play\_note()}}
+{\footnotesize\ttfamily void pwm\+\_\+play\+\_\+note (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{wgrhal__ext_8h_a4cc1c8fb54f5a8cd2b7f59389a88824d}{note\+\_\+t}}}]{note,  }\item[{uint32\+\_\+t}]{octave }\end{DoxyParamCaption})}
+
+
+
+Spielt eine bestimmte Note in einer festgelegten Oktave über den PWM aus. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em note} & Gewünschte Note (note\+\_\+t). \\
+\hline
+{\em octave} & Oktave (z.\+B. 4). \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00424}{424}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a99474ba243b89cecc7331100c6d70f1b}\label{wgrhal__ext_8h_a99474ba243b89cecc7331100c6d70f1b} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!pwm\_precompute\_notes@{pwm\_precompute\_notes}}
+\index{pwm\_precompute\_notes@{pwm\_precompute\_notes}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{pwm\_precompute\_notes()}{pwm\_precompute\_notes()}}
+{\footnotesize\ttfamily int pwm\+\_\+precompute\+\_\+notes (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Berechnet Notenparameter für den PWM-\/\+Modus. 
+
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00401}{401}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a3ea768208788c66bbb114a11605f58b1}\label{wgrhal__ext_8h_a3ea768208788c66bbb114a11605f58b1} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!realloc@{realloc}}
+\index{realloc@{realloc}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{realloc()}{realloc()}}
+{\footnotesize\ttfamily void \texorpdfstring{$\ast$}{*} realloc (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{ptr,  }\item[{uint32\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Ändert die Größe eines allokierten Speicherblocks. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em ptr} & Zeiger auf den Speicherblock. \\
+\hline
+{\em size} & Neue Größe in Byte. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Zeiger auf den neuen Speicherblock oder NULL bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00635}{635}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a98fdfac41d69e687bf24135001264483}\label{wgrhal__ext_8h_a98fdfac41d69e687bf24135001264483} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_automatic\_cs@{spi\_automatic\_cs}}
+\index{spi\_automatic\_cs@{spi\_automatic\_cs}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_automatic\_cs()}{spi\_automatic\_cs()}}
+{\footnotesize\ttfamily void spi\+\_\+automatic\+\_\+cs (\begin{DoxyParamCaption}\item[{bool}]{active }\end{DoxyParamCaption})}
+
+
+
+Aktiviert oder deaktiviert den automatischen Chipselect (CS) der SPI-\/\+Schnittstelle. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em active} & true zum Aktivieren, false zum Deaktivieren. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00123}{123}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_ae95fe5e6e9e73c3559913ac290b1e121}\label{wgrhal__ext_8h_ae95fe5e6e9e73c3559913ac290b1e121} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_cs@{spi\_cs}}
+\index{spi\_cs@{spi\_cs}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_cs()}{spi\_cs()}}
+{\footnotesize\ttfamily void spi\+\_\+cs (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{active }\end{DoxyParamCaption})}
+
+
+
+Setzt den SPI-\/\+Chipselect-\/\+Zustand. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em active} & Aktiver Zustand (z. B. 0 oder 1). \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00137}{137}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_aa8d2d6d1632faf9abbe03c3ed90d54d4}\label{wgrhal__ext_8h_aa8d2d6d1632faf9abbe03c3ed90d54d4} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_disable@{spi\_disable}}
+\index{spi\_disable@{spi\_disable}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_disable()}{spi\_disable()}}
+{\footnotesize\ttfamily void spi\+\_\+disable (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deaktiviert die SPI-\/\+Schnittstelle. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00116}{116}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a72cf41d2f19954fefd27f681d6b39532}\label{wgrhal__ext_8h_a72cf41d2f19954fefd27f681d6b39532} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_enable@{spi\_enable}}
+\index{spi\_enable@{spi\_enable}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_enable()}{spi\_enable()}}
+{\footnotesize\ttfamily void spi\+\_\+enable (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Aktiviert die SPI-\/\+Schnittstelle. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00109}{109}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_af3aa3cb256e7218c92a5401214c8e071}\label{wgrhal__ext_8h_af3aa3cb256e7218c92a5401214c8e071} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_fifo\_full@{spi\_fifo\_full}}
+\index{spi\_fifo\_full@{spi\_fifo\_full}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_fifo\_full()}{spi\_fifo\_full()}}
+{\footnotesize\ttfamily uint32\+\_\+t spi\+\_\+fifo\+\_\+full (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Prüft, ob das SPI-\/\+FIFO voll ist. 
+
+\begin{DoxyReturn}{Rückgabe}
+1 wenn voll, sonst 0. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00168}{168}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_ad4460d14dbf91d47c7b9e99102545b2a}\label{wgrhal__ext_8h_ad4460d14dbf91d47c7b9e99102545b2a} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_get\_status@{spi\_get\_status}}
+\index{spi\_get\_status@{spi\_get\_status}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_get\_status()}{spi\_get\_status()}}
+{\footnotesize\ttfamily uint32\+\_\+t spi\+\_\+get\+\_\+status (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Liest den aktuellen Status der SPI-\/\+Schnittstelle. 
+
+\begin{DoxyReturn}{Rückgabe}
+Statuswert. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00163}{163}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_acfb3d227d2ed688604a81558e909eb1a}\label{wgrhal__ext_8h_acfb3d227d2ed688604a81558e909eb1a} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_is\_busy@{spi\_is\_busy}}
+\index{spi\_is\_busy@{spi\_is\_busy}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_is\_busy()}{spi\_is\_busy()}}
+{\footnotesize\ttfamily uint32\+\_\+t spi\+\_\+is\+\_\+busy (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Prüft, ob die SPI-\/\+Schnittstelle beschäftigt ist. 
+
+\begin{DoxyReturn}{Rückgabe}
+1 wenn beschäftigt, sonst 0. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00178}{178}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a03d0e45b168dc2df6ea158466e0d04ef}\label{wgrhal__ext_8h_a03d0e45b168dc2df6ea158466e0d04ef} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_is\_ready@{spi\_is\_ready}}
+\index{spi\_is\_ready@{spi\_is\_ready}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_is\_ready()}{spi\_is\_ready()}}
+{\footnotesize\ttfamily uint32\+\_\+t spi\+\_\+is\+\_\+ready (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Prüft, ob die SPI-\/\+Schnittstelle bereit ist. 
+
+\begin{DoxyReturn}{Rückgabe}
+1 wenn bereit, sonst 0. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00173}{173}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_ab6b0b6fd3822c75ce74f4a91f6038e7b}\label{wgrhal__ext_8h_ab6b0b6fd3822c75ce74f4a91f6038e7b} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_read\_buffer@{spi\_read\_buffer}}
+\index{spi\_read\_buffer@{spi\_read\_buffer}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_read\_buffer()}{spi\_read\_buffer()}}
+{\footnotesize\ttfamily int32\+\_\+t spi\+\_\+read\+\_\+buffer (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buf,  }\item[{uint32\+\_\+t}]{length,  }\item[{uint32\+\_\+t}]{timeout\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Liest einen Datenpuffer von der SPI-\/\+Schnittstelle. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em buf} & Zeiger auf den Zielpuffer. \\
+\hline
+{\em length} & Länge des Puffers. \\
+\hline
+{\em timeout\+\_\+ms} & Zeitlimit in Millisekunden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00284}{284}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a3328dcc992464c7b1a8e3be4d4d301b7}\label{wgrhal__ext_8h_a3328dcc992464c7b1a8e3be4d4d301b7} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_read\_byte@{spi\_read\_byte}}
+\index{spi\_read\_byte@{spi\_read\_byte}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_read\_byte()}{spi\_read\_byte()}}
+{\footnotesize\ttfamily int32\+\_\+t spi\+\_\+read\+\_\+byte (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{uint32\+\_\+t}]{timeout\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Liest ein Byte von der SPI-\/\+Schnittstelle. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em data} & Zeiger, in den das gelesene Byte gespeichert wird. \\
+\hline
+{\em timeout\+\_\+ms} & Zeitlimit in Millisekunden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Timeout. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00235}{235}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a089d1590cd52a2ce1b971782eba0d2a6}\label{wgrhal__ext_8h_a089d1590cd52a2ce1b971782eba0d2a6} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_rx\_empty@{spi\_rx\_empty}}
+\index{spi\_rx\_empty@{spi\_rx\_empty}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_rx\_empty()}{spi\_rx\_empty()}}
+{\footnotesize\ttfamily uint32\+\_\+t spi\+\_\+rx\+\_\+empty (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Prüft, ob der SPI-\/\+Empfangspuffer leer ist. 
+
+\begin{DoxyReturn}{Rückgabe}
+1 wenn leer, sonst 0. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00188}{188}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a1c061f54ef547d13afd752cc8a076afe}\label{wgrhal__ext_8h_a1c061f54ef547d13afd752cc8a076afe} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_rx\_full@{spi\_rx\_full}}
+\index{spi\_rx\_full@{spi\_rx\_full}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_rx\_full()}{spi\_rx\_full()}}
+{\footnotesize\ttfamily uint32\+\_\+t spi\+\_\+rx\+\_\+full (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Prüft, ob der SPI-\/\+Empfangspuffer voll ist. 
+
+\begin{DoxyReturn}{Rückgabe}
+1 wenn voll, sonst 0. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00183}{183}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_ab9abe019c6d6f6e2b751c90b4e1806d2}\label{wgrhal__ext_8h_ab9abe019c6d6f6e2b751c90b4e1806d2} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_set\_clock\_divider@{spi\_set\_clock\_divider}}
+\index{spi\_set\_clock\_divider@{spi\_set\_clock\_divider}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_set\_clock\_divider()}{spi\_set\_clock\_divider()}}
+{\footnotesize\ttfamily void spi\+\_\+set\+\_\+clock\+\_\+divider (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{divider }\end{DoxyParamCaption})}
+
+
+
+Konfiguriert den Taktteiler der SPI-\/\+Schnittstelle. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em divider} & Wert des Taktteilers. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00147}{147}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a07072aab0dab108f343d362458cb1bcf}\label{wgrhal__ext_8h_a07072aab0dab108f343d362458cb1bcf} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_set\_clock\_offet@{spi\_set\_clock\_offet}}
+\index{spi\_set\_clock\_offet@{spi\_set\_clock\_offet}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_set\_clock\_offet()}{spi\_set\_clock\_offet()}}
+{\footnotesize\ttfamily void spi\+\_\+set\+\_\+clock\+\_\+offet (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{offset }\end{DoxyParamCaption})}
+
+
+
+Setzt den Takt-\/\+Offset der SPI-\/\+Schnittstelle. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em offset} & Neuer Offsetwert. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{wgrhal__ext_8h_acadfa6b22a2ae9448dd9ab0a9a8bd70d}\label{wgrhal__ext_8h_acadfa6b22a2ae9448dd9ab0a9a8bd70d} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_tx\_empty@{spi\_tx\_empty}}
+\index{spi\_tx\_empty@{spi\_tx\_empty}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_tx\_empty()}{spi\_tx\_empty()}}
+{\footnotesize\ttfamily uint32\+\_\+t spi\+\_\+tx\+\_\+empty (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Prüft, ob der SPI-\/\+Sende-\/\+Puffer leer ist. 
+
+\begin{DoxyReturn}{Rückgabe}
+1 wenn leer, sonst 0. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00198}{198}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_aca268e16305fb4ffce7e7ea31d7bfbb3}\label{wgrhal__ext_8h_aca268e16305fb4ffce7e7ea31d7bfbb3} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_tx\_full@{spi\_tx\_full}}
+\index{spi\_tx\_full@{spi\_tx\_full}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_tx\_full()}{spi\_tx\_full()}}
+{\footnotesize\ttfamily uint32\+\_\+t spi\+\_\+tx\+\_\+full (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Prüft, ob der SPI-\/\+Sende-\/\+Puffer voll ist. 
+
+\begin{DoxyReturn}{Rückgabe}
+1 wenn voll, sonst 0. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00193}{193}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a55c3bbd2abcd08f4f430326eabe1f65d}\label{wgrhal__ext_8h_a55c3bbd2abcd08f4f430326eabe1f65d} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_wait\_rx\_data@{spi\_wait\_rx\_data}}
+\index{spi\_wait\_rx\_data@{spi\_wait\_rx\_data}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_wait\_rx\_data()}{spi\_wait\_rx\_data()}}
+{\footnotesize\ttfamily int32\+\_\+t spi\+\_\+wait\+\_\+rx\+\_\+data (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{timeout\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Wartet darauf, dass Daten im SPI-\/\+Empfangspuffer verfügbar sind. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em timeout\+\_\+ms} & Zeitlimit in Millisekunden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Timeout. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00203}{203}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a3dc731d61998c88de6acedbc4ea87cc9}\label{wgrhal__ext_8h_a3dc731d61998c88de6acedbc4ea87cc9} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_write\_buffer@{spi\_write\_buffer}}
+\index{spi\_write\_buffer@{spi\_write\_buffer}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_write\_buffer()}{spi\_write\_buffer()}}
+{\footnotesize\ttfamily int32\+\_\+t spi\+\_\+write\+\_\+buffer (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buf,  }\item[{uint32\+\_\+t}]{length,  }\item[{uint32\+\_\+t}]{timeout\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Sendet einen Datenpuffer über SPI. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em buf} & Zeiger auf den zu sendenden Puffer. \\
+\hline
+{\em length} & Länge des Puffers. \\
+\hline
+{\em timeout\+\_\+ms} & Zeitlimit in Millisekunden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00257}{257}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a1f5332945e38afd6ea84f36b824ffc6e}\label{wgrhal__ext_8h_a1f5332945e38afd6ea84f36b824ffc6e} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_write\_byte@{spi\_write\_byte}}
+\index{spi\_write\_byte@{spi\_write\_byte}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_write\_byte()}{spi\_write\_byte()}}
+{\footnotesize\ttfamily int32\+\_\+t spi\+\_\+write\+\_\+byte (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{data,  }\item[{uint32\+\_\+t}]{timeout\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Sendet ein Byte über die SPI-\/\+Schnittstelle. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em data} & Zu sendendes Byte. \\
+\hline
+{\em timeout\+\_\+ms} & Zeitlimit in Millisekunden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Timeout. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00218}{218}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a50c11097d3d8b3650486068a494265c0}\label{wgrhal__ext_8h_a50c11097d3d8b3650486068a494265c0} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!spi\_write\_uint32@{spi\_write\_uint32}}
+\index{spi\_write\_uint32@{spi\_write\_uint32}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{spi\_write\_uint32()}{spi\_write\_uint32()}}
+{\footnotesize\ttfamily int32\+\_\+t spi\+\_\+write\+\_\+uint32 (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{value,  }\item[{uint32\+\_\+t}]{timeout\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Sendet einen 32-\/Bit-\/\+Wert über SPI. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em value} & Zu sendender Wert. \\
+\hline
+{\em timeout\+\_\+ms} & Zeitlimit in Millisekunden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00274}{274}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_ace6ca749f8df6d872b24eb93a1fbd7bf}\label{wgrhal__ext_8h_ace6ca749f8df6d872b24eb93a1fbd7bf} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!ssd1351\_cursor\_x@{ssd1351\_cursor\_x}}
+\index{ssd1351\_cursor\_x@{ssd1351\_cursor\_x}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{ssd1351\_cursor\_x()}{ssd1351\_cursor\_x()}}
+{\footnotesize\ttfamily uint32\+\_\+t ssd1351\+\_\+cursor\+\_\+x (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Gibt die aktuelle X-\/\+Position des Cursors im SSD1351 Terminal zurück. 
+
+\begin{DoxyReturn}{Rückgabe}
+X-\/\+Koordinate des Cursors. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l01057}{1057}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a9ab152629363d8553c619759a817ae07}\label{wgrhal__ext_8h_a9ab152629363d8553c619759a817ae07} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!ssd1351\_draw\_pixel@{ssd1351\_draw\_pixel}}
+\index{ssd1351\_draw\_pixel@{ssd1351\_draw\_pixel}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{ssd1351\_draw\_pixel()}{ssd1351\_draw\_pixel()}}
+{\footnotesize\ttfamily void ssd1351\+\_\+draw\+\_\+pixel (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{x,  }\item[{uint8\+\_\+t}]{y,  }\item[{uint16\+\_\+t}]{color }\end{DoxyParamCaption})}
+
+
+
+Zeichnet einen einzelnen Pixel an einer bestimmten Position. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em x} & X-\/\+Koordinate. \\
+\hline
+{\em y} & Y-\/\+Koordinate. \\
+\hline
+{\em color} & Farbe des Pixels. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l01040}{1040}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a6fc07586d727b1ccc52789a4102794d8}\label{wgrhal__ext_8h_a6fc07586d727b1ccc52789a4102794d8} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!ssd1351\_fill\_screen@{ssd1351\_fill\_screen}}
+\index{ssd1351\_fill\_screen@{ssd1351\_fill\_screen}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{ssd1351\_fill\_screen()}{ssd1351\_fill\_screen()}}
+{\footnotesize\ttfamily void ssd1351\+\_\+fill\+\_\+screen (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{color }\end{DoxyParamCaption})}
+
+
+
+Füllt das gesamte Display mit einer Farbe. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em color} & Zu füllende Farbe. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l01026}{1026}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a39e790f52f13e44edafacac6178e96ed}\label{wgrhal__ext_8h_a39e790f52f13e44edafacac6178e96ed} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!ssd1351\_init@{ssd1351\_init}}
+\index{ssd1351\_init@{ssd1351\_init}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{ssd1351\_init()}{ssd1351\_init()}}
+{\footnotesize\ttfamily void ssd1351\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Initialisiert das SSD1351 Display. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00796}{796}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a2d926d9ad0e5bb865b81a2826c9550c1}\label{wgrhal__ext_8h_a2d926d9ad0e5bb865b81a2826c9550c1} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!ssd1351\_inv@{ssd1351\_inv}}
+\index{ssd1351\_inv@{ssd1351\_inv}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{ssd1351\_inv()}{ssd1351\_inv()}}
+{\footnotesize\ttfamily void ssd1351\+\_\+inv (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Schaltet den Invertierungsmodus des Displays um. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00741}{741}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_abb07cadf263aae6d0a0588fb5bae5509}\label{wgrhal__ext_8h_abb07cadf263aae6d0a0588fb5bae5509} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!ssd1351\_send\_command@{ssd1351\_send\_command}}
+\index{ssd1351\_send\_command@{ssd1351\_send\_command}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{ssd1351\_send\_command()}{ssd1351\_send\_command()}}
+{\footnotesize\ttfamily void ssd1351\+\_\+send\+\_\+command (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{cmd }\end{DoxyParamCaption})}
+
+
+
+Sendet einen einzelnen Befehl an das SSD1351 Display. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em cmd} & Befehlscode. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00763}{763}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_ae687afc3cfb297a94d8ec5e41fcd1606}\label{wgrhal__ext_8h_ae687afc3cfb297a94d8ec5e41fcd1606} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!ssd1351\_send\_command\_with\_data@{ssd1351\_send\_command\_with\_data}}
+\index{ssd1351\_send\_command\_with\_data@{ssd1351\_send\_command\_with\_data}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{ssd1351\_send\_command\_with\_data()}{ssd1351\_send\_command\_with\_data()}}
+{\footnotesize\ttfamily void ssd1351\+\_\+send\+\_\+command\+\_\+with\+\_\+data (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{cmd,  }\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{size\+\_\+t}]{len }\end{DoxyParamCaption})}
+
+
+
+Sendet einen Befehl mit zugehörigen Daten an das SSD1351 Display. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em cmd} & Befehlscode. \\
+\hline
+{\em data} & Zeiger auf den Datenpuffer. \\
+\hline
+{\em len} & Länge der Daten in Byte. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00771}{771}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a667d6e09a8b42c2e2dda69e22de7fd14}\label{wgrhal__ext_8h_a667d6e09a8b42c2e2dda69e22de7fd14} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!ssd1351\_send\_commands@{ssd1351\_send\_commands}}
+\index{ssd1351\_send\_commands@{ssd1351\_send\_commands}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{ssd1351\_send\_commands()}{ssd1351\_send\_commands()}}
+{\footnotesize\ttfamily void ssd1351\+\_\+send\+\_\+commands (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buf,  }\item[{size\+\_\+t}]{len }\end{DoxyParamCaption})}
+
+
+
+Sendet eine Folge von Befehlen an das SSD1351 Display. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em buf} & Zeiger auf den Befehlsbuffer. \\
+\hline
+{\em len} & Länge des Buffers in Byte. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00784}{784}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a19d09ca7edaced146d783f6ff279ab22}\label{wgrhal__ext_8h_a19d09ca7edaced146d783f6ff279ab22} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!ssd1351\_send\_data@{ssd1351\_send\_data}}
+\index{ssd1351\_send\_data@{ssd1351\_send\_data}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{ssd1351\_send\_data()}{ssd1351\_send\_data()}}
+{\footnotesize\ttfamily void ssd1351\+\_\+send\+\_\+data (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{size\+\_\+t}]{len }\end{DoxyParamCaption})}
+
+
+
+Sendet einen Datenpuffer an das SSD1351 Display. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em data} & Zeiger auf den Datenpuffer. \\
+\hline
+{\em len} & Länge des Puffers in Byte. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00755}{755}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a6204f42461c77701f2bce7c5133c9227}\label{wgrhal__ext_8h_a6204f42461c77701f2bce7c5133c9227} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!ssd1351\_set\_position@{ssd1351\_set\_position}}
+\index{ssd1351\_set\_position@{ssd1351\_set\_position}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{ssd1351\_set\_position()}{ssd1351\_set\_position()}}
+{\footnotesize\ttfamily void ssd1351\+\_\+set\+\_\+position (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{x,  }\item[{uint8\+\_\+t}]{y,  }\item[{uint8\+\_\+t}]{w,  }\item[{uint8\+\_\+t}]{h }\end{DoxyParamCaption})}
+
+
+
+Setzt die Schreibposition und den Bereich im SSD1351 Display. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em x} & Startspalte. \\
+\hline
+{\em y} & Startzeile. \\
+\hline
+{\em w} & Breite des Bereichs. \\
+\hline
+{\em h} & Höhe des Bereichs. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00819}{819}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_ad0f2bf8851ae861d1833ac9adbef76ee}\label{wgrhal__ext_8h_ad0f2bf8851ae861d1833ac9adbef76ee} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!terminal\_draw\_text@{terminal\_draw\_text}}
+\index{terminal\_draw\_text@{terminal\_draw\_text}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{terminal\_draw\_text()}{terminal\_draw\_text()}}
+{\footnotesize\ttfamily void terminal\+\_\+draw\+\_\+text (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{row,  }\item[{uint8\+\_\+t}]{col,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{str,  }\item[{uint16\+\_\+t}]{fg\+\_\+color,  }\item[{uint16\+\_\+t}]{bg\+\_\+color }\end{DoxyParamCaption})}
+
+
+
+Zeichnet einen Text an einer bestimmten Terminalposition mit definierten Vorder-\/ und Hintergrundfarben. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em row} & Zeile. \\
+\hline
+{\em col} & Spalte. \\
+\hline
+{\em str} & Zu zeichnender Text. \\
+\hline
+{\em fg\+\_\+color} & Vordergrundfarbe. \\
+\hline
+{\em bg\+\_\+color} & Hintergrundfarbe. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l01012}{1012}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_ac7df6c79623ec2973c46ee4543c3e412}\label{wgrhal__ext_8h_ac7df6c79623ec2973c46ee4543c3e412} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!terminal\_draw\_text\_default@{terminal\_draw\_text\_default}}
+\index{terminal\_draw\_text\_default@{terminal\_draw\_text\_default}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{terminal\_draw\_text\_default()}{terminal\_draw\_text\_default()}}
+{\footnotesize\ttfamily void terminal\+\_\+draw\+\_\+text\+\_\+default (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{row,  }\item[{uint8\+\_\+t}]{col,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{str }\end{DoxyParamCaption})}
+
+
+
+Zeichnet einen Text an einer bestimmten Terminalposition mit Standardfarben. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em row} & Zeile. \\
+\hline
+{\em col} & Spalte. \\
+\hline
+{\em str} & Zu zeichnender Text. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l01021}{1021}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a454bf513589123f93d86117554722eee}\label{wgrhal__ext_8h_a454bf513589123f93d86117554722eee} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!terminal\_init@{terminal\_init}}
+\index{terminal\_init@{terminal\_init}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{terminal\_init()}{terminal\_init()}}
+{\footnotesize\ttfamily void terminal\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Initialisiert das Terminal (Display) des SSD1351. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l01046}{1046}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a1644c0e09de3c89630b1555598a4c59e}\label{wgrhal__ext_8h_a1644c0e09de3c89630b1555598a4c59e} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!terminal\_native\_scroll@{terminal\_native\_scroll}}
+\index{terminal\_native\_scroll@{terminal\_native\_scroll}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{terminal\_native\_scroll()}{terminal\_native\_scroll()}}
+{\footnotesize\ttfamily void terminal\+\_\+native\+\_\+scroll (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Scrollt das Terminal um eine Zeile. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00907}{907}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a9ed513a0234474993cd3de2539d7ec41}\label{wgrhal__ext_8h_a9ed513a0234474993cd3de2539d7ec41} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!terminal\_print@{terminal\_print}}
+\index{terminal\_print@{terminal\_print}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{terminal\_print()}{terminal\_print()}}
+{\footnotesize\ttfamily void terminal\+\_\+print (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{str }\end{DoxyParamCaption})}
+
+
+
+Gibt einen String im Terminal aus. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em str} & Zu druckender String. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00968}{968}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a900ece5bb22b83e93781f4a5b782ef3d}\label{wgrhal__ext_8h_a900ece5bb22b83e93781f4a5b782ef3d} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!terminal\_print\_col@{terminal\_print\_col}}
+\index{terminal\_print\_col@{terminal\_print\_col}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{terminal\_print\_col()}{terminal\_print\_col()}}
+{\footnotesize\ttfamily void terminal\+\_\+print\+\_\+col (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{text,  }\item[{uint16\+\_\+t}]{color }\end{DoxyParamCaption})}
+
+
+
+Gibt einen String im Terminal mit einer bestimmten Textfarbe aus. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em text} & Zu druckender String. \\
+\hline
+{\em color} & Textfarbe. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00976}{976}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_aa3fdefc31ed502be97cb7fcecd7b0023}\label{wgrhal__ext_8h_aa3fdefc31ed502be97cb7fcecd7b0023} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!terminal\_put\_char@{terminal\_put\_char}}
+\index{terminal\_put\_char@{terminal\_put\_char}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{terminal\_put\_char()}{terminal\_put\_char()}}
+{\footnotesize\ttfamily void terminal\+\_\+put\+\_\+char (\begin{DoxyParamCaption}\item[{char}]{c }\end{DoxyParamCaption})}
+
+
+
+Gibt ein einzelnes Zeichen im Terminal aus und aktualisiert den Cursor. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em c} & Zu druckendes Zeichen. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00934}{934}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a15597185f1e377c687de825fccc8e994}\label{wgrhal__ext_8h_a15597185f1e377c687de825fccc8e994} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!terminal\_set\_bg\_color@{terminal\_set\_bg\_color}}
+\index{terminal\_set\_bg\_color@{terminal\_set\_bg\_color}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{terminal\_set\_bg\_color()}{terminal\_set\_bg\_color()}}
+{\footnotesize\ttfamily void terminal\+\_\+set\+\_\+bg\+\_\+color (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{color }\end{DoxyParamCaption})}
+
+
+
+Setzt die Hintergrundfarbe des Terminals. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em color} & Neue Hintergrundfarbe. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l01007}{1007}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_ab2435ec4e370f6ac2f49836f6e315414}\label{wgrhal__ext_8h_ab2435ec4e370f6ac2f49836f6e315414} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!terminal\_set\_text\_color@{terminal\_set\_text\_color}}
+\index{terminal\_set\_text\_color@{terminal\_set\_text\_color}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{terminal\_set\_text\_color()}{terminal\_set\_text\_color()}}
+{\footnotesize\ttfamily void terminal\+\_\+set\+\_\+text\+\_\+color (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{color }\end{DoxyParamCaption})}
+
+
+
+Setzt die Textfarbe des Terminals. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em color} & Neue Textfarbe. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l01002}{1002}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a096668775ca7f8d0c092ae4d2545859e}\label{wgrhal__ext_8h_a096668775ca7f8d0c092ae4d2545859e} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!ws2812\_clear@{ws2812\_clear}}
+\index{ws2812\_clear@{ws2812\_clear}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{ws2812\_clear()}{ws2812\_clear()}}
+{\footnotesize\ttfamily void ws2812\+\_\+clear (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Schaltet alle WS2812B LEDs aus. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00362}{362}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a3a9d90a6ad6b61fdfb98bf55ce9cabba}\label{wgrhal__ext_8h_a3a9d90a6ad6b61fdfb98bf55ce9cabba} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!ws2812\_fill@{ws2812\_fill}}
+\index{ws2812\_fill@{ws2812\_fill}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{ws2812\_fill()}{ws2812\_fill()}}
+{\footnotesize\ttfamily int32\+\_\+t ws2812\+\_\+fill (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structrgb__color__t}{rgb\+\_\+color\+\_\+t}}}]{color }\end{DoxyParamCaption})}
+
+
+
+Füllt alle WS2812B LEDs mit einer einheitlichen Farbe. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em color} & Farbe, mit der alle LEDs gefüllt werden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00349}{349}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_ab0dba5eb5a00fd9574b8152b3b5b1630}\label{wgrhal__ext_8h_ab0dba5eb5a00fd9574b8152b3b5b1630} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!ws2812\_get\_color@{ws2812\_get\_color}}
+\index{ws2812\_get\_color@{ws2812\_get\_color}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{ws2812\_get\_color()}{ws2812\_get\_color()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structrgb__color__t}{rgb\+\_\+color\+\_\+t}} ws2812\+\_\+get\+\_\+color (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{led }\end{DoxyParamCaption})}
+
+
+
+Liest die aktuell gesetzte Farbe einer WS2812B LED. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em led} & LED-\/\+Index (0-\/7). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Aktuelle Farbe als \doxylink{structrgb__color__t}{rgb\+\_\+color\+\_\+t}. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00318}{318}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a553be9db0223aadce39b0146c2bdaff0}\label{wgrhal__ext_8h_a553be9db0223aadce39b0146c2bdaff0} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!ws2812\_set\_color@{ws2812\_set\_color}}
+\index{ws2812\_set\_color@{ws2812\_set\_color}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{ws2812\_set\_color()}{ws2812\_set\_color()}}
+{\footnotesize\ttfamily int32\+\_\+t ws2812\+\_\+set\+\_\+color (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{led,  }\item[{\mbox{\hyperlink{structrgb__color__t}{rgb\+\_\+color\+\_\+t}}}]{color }\end{DoxyParamCaption})}
+
+
+
+Setzt die Farbe einer WS2812B LED. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em led} & LED-\/\+Index (0-\/7). \\
+\hline
+{\em color} & Neue Farbe als \doxylink{structrgb__color__t}{rgb\+\_\+color\+\_\+t}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei ungültigem LED-\/\+Index. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00307}{307}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+\Hypertarget{wgrhal__ext_8h_a39c01c0a563a990b0b1f2063026cd5e8}\label{wgrhal__ext_8h_a39c01c0a563a990b0b1f2063026cd5e8} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!ws2812\_write\_all@{ws2812\_write\_all}}
+\index{ws2812\_write\_all@{ws2812\_write\_all}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{ws2812\_write\_all()}{ws2812\_write\_all()}}
+{\footnotesize\ttfamily int32\+\_\+t ws2812\+\_\+write\+\_\+all (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structrgb__color__t}{rgb\+\_\+color\+\_\+t}}}]{colors\mbox{[}8\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Schreibt die Farben aller 8 WS2812B LEDs. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em colors} & Array von 8 rgb\+\_\+color\+\_\+t-\/\+Werten. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00332}{332}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+
+
+
+\doxysubsection{Variablen-\/\+Dokumentation}
+\Hypertarget{wgrhal__ext_8h_a3366cfbf70696bb80085e9e60d8b7a79}\label{wgrhal__ext_8h_a3366cfbf70696bb80085e9e60d8b7a79} 
+\index{wgrhal\_ext.h@{wgrhal\_ext.h}!note\_freq\_halfbase@{note\_freq\_halfbase}}
+\index{note\_freq\_halfbase@{note\_freq\_halfbase}!wgrhal\_ext.h@{wgrhal\_ext.h}}
+\doxysubsubsection{\texorpdfstring{note\_freq\_halfbase}{note\_freq\_halfbase}}
+{\footnotesize\ttfamily const uint8\+\_\+t note\+\_\+freq\+\_\+halfbase\mbox{[}12\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Frequenztabelle für Noten (Halbton-\/\+Basis). 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal__ext_8c_source_l00387}{387}} der Datei \mbox{\hyperlink{wgrhal__ext_8c_source}{wgrhal\+\_\+ext.\+c}}.
+

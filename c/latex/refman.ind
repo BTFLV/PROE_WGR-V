@@ -1,0 +1,1017 @@
+\begin{theindex}
+
+  \item {/home/runner/work/PROE\_WGR-\/V/PROE\_WGR-\/V/src/lib/wgrhal.c}, 
+		\hyperpage{11}, \hyperpage{34}
+  \item {/home/runner/work/PROE\_WGR-\/V/PROE\_WGR-\/V/src/lib/wgrhal.h}, 
+		\hyperpage{41}, \hyperpage{70}
+  \item {/home/runner/work/PROE\_WGR-\/V/PROE\_WGR-\/V/src/lib/wgrhal\_ext.c}, 
+		\hyperpage{72}, \hyperpage{99}
+  \item {/home/runner/work/PROE\_WGR-\/V/PROE\_WGR-\/V/src/lib/wgrhal\_ext.h}, 
+		\hyperpage{111}, \hyperpage{143}
+  \item {/home/runner/work/PROE\_WGR-\/V/PROE\_WGR-\/V/src/lib/wgrlib.c}, 
+		\hyperpage{147}
+  \item {/home/runner/work/PROE\_WGR-\/V/PROE\_WGR-\/V/src/lib/wgrtypes.h}, 
+		\hyperpage{158}
+
+  \indexspace
+
+  \item {Align}
+    \subitem {wgrhal\_ext.c}, \hyperpage{76}
+
+  \indexspace
+
+  \item {b}
+    \subitem {rgb\_color\_t}, \hyperpage{9}
+
+  \indexspace
+
+  \item {calloc}
+    \subitem {wgrhal\_ext.c}, \hyperpage{76}
+    \subitem {wgrhal\_ext.h}, \hyperpage{123}
+  \item {CHAR\_HEIGHT}
+    \subitem {wgrhal\_ext.h}, \hyperpage{116}
+  \item {CHAR\_WIDTH}
+    \subitem {wgrhal\_ext.h}, \hyperpage{116}
+  \item {clear\_terminal}
+    \subitem {wgrhal\_ext.c}, \hyperpage{77}
+    \subitem {wgrhal\_ext.h}, \hyperpage{123}
+  \item {clear\_terminal\_row}
+    \subitem {wgrhal\_ext.c}, \hyperpage{77}
+    \subitem {wgrhal\_ext.h}, \hyperpage{123}
+  \item {COLOR\_BLACK}
+    \subitem {wgrhal\_ext.h}, \hyperpage{116}
+  \item {COLOR\_BLUE}
+    \subitem {wgrhal\_ext.h}, \hyperpage{116}
+  \item {COLOR\_CYAN}
+    \subitem {wgrhal\_ext.h}, \hyperpage{116}
+  \item {COLOR\_GREEN}
+    \subitem {wgrhal\_ext.h}, \hyperpage{116}
+  \item {COLOR\_MAGENTA}
+    \subitem {wgrhal\_ext.h}, \hyperpage{116}
+  \item {COLOR\_RED}
+    \subitem {wgrhal\_ext.h}, \hyperpage{117}
+  \item {COLOR\_WHITE}
+    \subitem {wgrhal\_ext.h}, \hyperpage{117}
+  \item {COLOR\_YELLOW}
+    \subitem {wgrhal\_ext.h}, \hyperpage{117}
+
+  \indexspace
+
+  \item {DEBUG\_ADDR}
+    \subitem {wgrhal.h}, \hyperpage{46}
+  \item {debug\_write}
+    \subitem {wgrhal.c}, \hyperpage{14}
+    \subitem {wgrhal.h}, \hyperpage{51}
+  \item {DEFAULT\_TIMEOUT}
+    \subitem {wgrhal.h}, \hyperpage{46}
+  \item {delay}
+    \subitem {wgrhal.c}, \hyperpage{14}
+    \subitem {wgrhal.h}, \hyperpage{52}
+  \item {delay\_micro}
+    \subitem {wgrhal.c}, \hyperpage{14}
+    \subitem {wgrhal.h}, \hyperpage{52}
+  \item {DIV\_BASE\_ADDR}
+    \subitem {wgrhal\_ext.h}, \hyperpage{117}
+  \item {div\_calc}
+    \subitem {wgrhal\_ext.c}, \hyperpage{77}
+    \subitem {wgrhal\_ext.h}, \hyperpage{123}
+  \item {div\_calc\_quotient}
+    \subitem {wgrhal\_ext.c}, \hyperpage{78}
+    \subitem {wgrhal\_ext.h}, \hyperpage{124}
+  \item {div\_calc\_remainder}
+    \subitem {wgrhal\_ext.c}, \hyperpage{78}
+    \subitem {wgrhal\_ext.h}, \hyperpage{124}
+  \item {DIV\_END\_OFFSET}
+    \subitem {wgrhal\_ext.h}, \hyperpage{117}
+  \item {DIV\_INFO\_OFFSET}
+    \subitem {wgrhal\_ext.h}, \hyperpage{117}
+  \item {DIV\_QUO\_OFFSET}
+    \subitem {wgrhal\_ext.h}, \hyperpage{118}
+  \item {DIV\_REM\_OFFSET}
+    \subitem {wgrhal\_ext.h}, \hyperpage{118}
+  \item {div\_result\_t}, \hyperpage{5}
+    \subitem {dividend}, \hyperpage{5}
+    \subitem {divisor}, \hyperpage{5}
+    \subitem {quotient}, \hyperpage{6}
+    \subitem {remainder}, \hyperpage{6}
+  \item {DIV\_SOR\_OFFSET}
+    \subitem {wgrhal\_ext.h}, \hyperpage{118}
+  \item {dividend}
+    \subitem {div\_result\_t}, \hyperpage{5}
+  \item {divisor}
+    \subitem {div\_result\_t}, \hyperpage{5}
+  \item {divmod\_result}, \hyperpage{6}
+    \subitem {quotient}, \hyperpage{6}
+    \subitem {remainder}, \hyperpage{6}
+  \item {draw\_char\_cell}
+    \subitem {wgrhal\_ext.c}, \hyperpage{78}
+    \subitem {wgrhal\_ext.h}, \hyperpage{125}
+  \item {draw\_char\_cell\_custom}
+    \subitem {wgrhal\_ext.c}, \hyperpage{80}
+    \subitem {wgrhal\_ext.h}, \hyperpage{125}
+  \item {draw\_status\_bar}
+    \subitem {wgrhal\_ext.c}, \hyperpage{80}
+    \subitem {wgrhal\_ext.h}, \hyperpage{125}
+
+  \indexspace
+
+  \item {ENOMEM}
+    \subitem {wgrhal\_ext.c}, \hyperpage{76}
+  \item {errno}
+    \subitem {wgrhal\_ext.c}, \hyperpage{98}
+
+  \indexspace
+
+  \item {f}
+    \subitem {float\_union}, \hyperpage{7}
+  \item {float\_union}, \hyperpage{7}
+    \subitem {f}, \hyperpage{7}
+    \subitem {i}, \hyperpage{7}
+  \item {free}
+    \subitem {wgrhal\_ext.c}, \hyperpage{80}
+    \subitem {wgrhal\_ext.h}, \hyperpage{126}
+
+  \indexspace
+
+  \item {g}
+    \subitem {rgb\_color\_t}, \hyperpage{9}
+  \item {get\_sys\_clk}
+    \subitem {wgrhal.c}, \hyperpage{15}
+    \subitem {wgrhal.h}, \hyperpage{52}
+  \item {GPIO\_BASE\_ADDR}
+    \subitem {wgrhal.h}, \hyperpage{46}
+  \item {GPIO\_DIR\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{46}
+  \item {GPIO\_IN\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{46}
+  \item {GPIO\_OUT\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{46}
+  \item {GPIO\_OUT\_STEP}
+    \subitem {wgrhal.h}, \hyperpage{46}
+  \item {GPIO\_PIN\_COUNT}
+    \subitem {wgrhal.h}, \hyperpage{47}
+  \item {gpio\_read\_all\_pins}
+    \subitem {wgrhal.c}, \hyperpage{15}
+    \subitem {wgrhal.h}, \hyperpage{52}
+  \item {gpio\_read\_direction}
+    \subitem {wgrhal.c}, \hyperpage{15}
+    \subitem {wgrhal.h}, \hyperpage{53}
+  \item {gpio\_read\_pin}
+    \subitem {wgrhal.c}, \hyperpage{16}
+    \subitem {wgrhal.h}, \hyperpage{53}
+  \item {gpio\_set\_direction}
+    \subitem {wgrhal.c}, \hyperpage{16}
+    \subitem {wgrhal.h}, \hyperpage{53}
+  \item {gpio\_write\_pin}
+    \subitem {wgrhal.c}, \hyperpage{16}
+    \subitem {wgrhal.h}, \hyperpage{54}
+
+  \indexspace
+
+  \item {Header}
+    \subitem {wgrhal\_ext.c}, \hyperpage{76}
+  \item {header}, \hyperpage{7}
+    \subitem {next}, \hyperpage{8}
+    \subitem {size}, \hyperpage{8}
+    \subitem {x}, \hyperpage{8}
+  \item {heap\_free\_space}
+    \subitem {wgrhal\_ext.c}, \hyperpage{81}
+    \subitem {wgrhal\_ext.h}, \hyperpage{126}
+  \item {HOUSEKEEPING\_MS}
+    \subitem {wgrhal\_ext.h}, \hyperpage{118}
+  \item {HWREG32}
+    \subitem {wgrhal.h}, \hyperpage{47}
+    \subitem {wgrhal\_ext.h}, \hyperpage{118}
+
+  \indexspace
+
+  \item {i}
+    \subitem {float\_union}, \hyperpage{7}
+  \item {int\_to\_str}
+    \subitem {wgrhal.c}, \hyperpage{18}
+    \subitem {wgrhal.h}, \hyperpage{54}
+
+  \indexspace
+
+  \item {MALLOC}
+    \subitem {wgrhal.h}, \hyperpage{47}
+  \item {malloc}
+    \subitem {wgrhal\_ext.c}, \hyperpage{81}
+    \subitem {wgrhal\_ext.h}, \hyperpage{126}
+  \item {memcpy}
+    \subitem {wgrhal.c}, \hyperpage{18}
+    \subitem {wgrhal.h}, \hyperpage{54}
+  \item {memmove}
+    \subitem {wgrhal.c}, \hyperpage{18}
+    \subitem {wgrhal.h}, \hyperpage{55}
+  \item {memset}
+    \subitem {wgrhal.c}, \hyperpage{19}
+    \subitem {wgrhal.h}, \hyperpage{55}
+  \item {micros}
+    \subitem {wgrhal.c}, \hyperpage{19}
+    \subitem {wgrhal.h}, \hyperpage{56}
+  \item {micros\_long}
+    \subitem {wgrhal.c}, \hyperpage{19}
+    \subitem {wgrhal.h}, \hyperpage{56}
+  \item {micros\_reset}
+    \subitem {wgrhal.c}, \hyperpage{20}
+    \subitem {wgrhal.h}, \hyperpage{56}
+  \item {millis}
+    \subitem {wgrhal.c}, \hyperpage{20}
+    \subitem {wgrhal.h}, \hyperpage{56}
+  \item {millis\_long}
+    \subitem {wgrhal.c}, \hyperpage{20}
+    \subitem {wgrhal.h}, \hyperpage{57}
+  \item {millis\_reset}
+    \subitem {wgrhal.c}, \hyperpage{20}
+    \subitem {wgrhal.h}, \hyperpage{57}
+  \item {MUL1\_OFFSET}
+    \subitem {wgrhal\_ext.h}, \hyperpage{118}
+  \item {MUL2\_OFFSET}
+    \subitem {wgrhal\_ext.h}, \hyperpage{119}
+  \item {MULT\_BASE\_ADDR}
+    \subitem {wgrhal\_ext.h}, \hyperpage{119}
+  \item {mult\_calc}
+    \subitem {wgrhal\_ext.c}, \hyperpage{81}
+    \subitem {wgrhal\_ext.h}, \hyperpage{127}
+  \item {mult\_calc\_64}
+    \subitem {wgrhal\_ext.c}, \hyperpage{82}
+    \subitem {wgrhal\_ext.h}, \hyperpage{127}
+  \item {MULT\_INFO\_OFFSET}
+    \subitem {wgrhal\_ext.h}, \hyperpage{119}
+
+  \indexspace
+
+  \item {NALLOC}
+    \subitem {wgrhal\_ext.c}, \hyperpage{76}
+  \item {next}
+    \subitem {header}, \hyperpage{8}
+  \item {nop}
+    \subitem {wgrhal.h}, \hyperpage{47}
+  \item {NOTE\_A}
+    \subitem {wgrhal\_ext.h}, \hyperpage{122}
+  \item {NOTE\_As}
+    \subitem {wgrhal\_ext.h}, \hyperpage{122}
+  \item {NOTE\_B}
+    \subitem {wgrhal\_ext.h}, \hyperpage{122}
+  \item {NOTE\_C}
+    \subitem {wgrhal\_ext.h}, \hyperpage{122}
+  \item {NOTE\_Cs}
+    \subitem {wgrhal\_ext.h}, \hyperpage{122}
+  \item {NOTE\_D}
+    \subitem {wgrhal\_ext.h}, \hyperpage{122}
+  \item {NOTE\_Ds}
+    \subitem {wgrhal\_ext.h}, \hyperpage{122}
+  \item {NOTE\_E}
+    \subitem {wgrhal\_ext.h}, \hyperpage{122}
+  \item {NOTE\_F}
+    \subitem {wgrhal\_ext.h}, \hyperpage{122}
+  \item {note\_freq\_halfbase}
+    \subitem {wgrhal\_ext.c}, \hyperpage{98}
+    \subitem {wgrhal\_ext.h}, \hyperpage{142}
+  \item {NOTE\_Fs}
+    \subitem {wgrhal\_ext.h}, \hyperpage{122}
+  \item {NOTE\_G}
+    \subitem {wgrhal\_ext.h}, \hyperpage{122}
+  \item {NOTE\_Gs}
+    \subitem {wgrhal\_ext.h}, \hyperpage{122}
+  \item {note\_t}
+    \subitem {wgrhal\_ext.h}, \hyperpage{122}
+
+  \indexspace
+
+  \item {parse\_int\_multi}
+    \subitem {wgrhal.c}, \hyperpage{21}
+    \subitem {wgrhal.h}, \hyperpage{57}
+  \item {parse\_integer}
+    \subitem {wgrhal.c}, \hyperpage{22}
+    \subitem {wgrhal.h}, \hyperpage{58}
+  \item {print\_error}
+    \subitem {wgrhal\_ext.c}, \hyperpage{82}
+    \subitem {wgrhal\_ext.h}, \hyperpage{127}
+  \item {print\_ok}
+    \subitem {wgrhal\_ext.c}, \hyperpage{82}
+    \subitem {wgrhal\_ext.h}, \hyperpage{128}
+  \item {print\_ok\_res}
+    \subitem {wgrhal\_ext.c}, \hyperpage{84}
+    \subitem {wgrhal\_ext.h}, \hyperpage{128}
+  \item {ptrdiff\_t}
+    \subitem {wgrhal\_ext.c}, \hyperpage{76}
+  \item {PWM\_BASE\_ADDR}
+    \subitem {wgrhal.h}, \hyperpage{47}
+  \item {PWM\_COUNTER\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{47}
+  \item {PWM\_CTRL\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{48}
+  \item {PWM\_DUTY\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{48}
+  \item {pwm\_free\_note\_buffer}
+    \subitem {wgrhal\_ext.c}, \hyperpage{84}
+    \subitem {wgrhal\_ext.h}, \hyperpage{128}
+  \item {pwm\_get\_control}
+    \subitem {wgrhal.c}, \hyperpage{22}
+    \subitem {wgrhal.h}, \hyperpage{58}
+  \item {pwm\_get\_counter}
+    \subitem {wgrhal.c}, \hyperpage{22}
+    \subitem {wgrhal.h}, \hyperpage{58}
+  \item {pwm\_get\_duty}
+    \subitem {wgrhal.c}, \hyperpage{22}
+    \subitem {wgrhal.h}, \hyperpage{58}
+  \item {pwm\_get\_mode}
+    \subitem {wgrhal.h}, \hyperpage{59}
+  \item {pwm\_get\_period}
+    \subitem {wgrhal.c}, \hyperpage{23}
+    \subitem {wgrhal.h}, \hyperpage{59}
+  \item {pwm\_get\_pre\_counter}
+    \subitem {wgrhal.c}, \hyperpage{23}
+    \subitem {wgrhal.h}, \hyperpage{59}
+  \item {PWM\_NOTES}
+    \subitem {wgrhal.h}, \hyperpage{48}
+  \item {PWM\_PERIOD\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{48}
+  \item {pwm\_play\_note}
+    \subitem {wgrhal\_ext.c}, \hyperpage{84}
+    \subitem {wgrhal\_ext.h}, \hyperpage{128}
+  \item {pwm\_precompute\_notes}
+    \subitem {wgrhal\_ext.c}, \hyperpage{84}
+    \subitem {wgrhal\_ext.h}, \hyperpage{129}
+  \item {pwm\_set\_50\_percent\_mode}
+    \subitem {wgrhal.c}, \hyperpage{23}
+    \subitem {wgrhal.h}, \hyperpage{59}
+  \item {pwm\_set\_control}
+    \subitem {wgrhal.c}, \hyperpage{24}
+    \subitem {wgrhal.h}, \hyperpage{60}
+  \item {pwm\_set\_duty}
+    \subitem {wgrhal.c}, \hyperpage{24}
+    \subitem {wgrhal.h}, \hyperpage{60}
+  \item {pwm\_set\_mode}
+    \subitem {wgrhal.c}, \hyperpage{24}
+    \subitem {wgrhal.h}, \hyperpage{60}
+  \item {pwm\_set\_period}
+    \subitem {wgrhal.c}, \hyperpage{24}
+    \subitem {wgrhal.h}, \hyperpage{60}
+  \item {pwm\_set\_pre\_counter}
+    \subitem {wgrhal.c}, \hyperpage{25}
+    \subitem {wgrhal.h}, \hyperpage{61}
+
+  \indexspace
+
+  \item {quotient}
+    \subitem {div\_result\_t}, \hyperpage{6}
+    \subitem {divmod\_result}, \hyperpage{6}
+
+  \indexspace
+
+  \item {r}
+    \subitem {rgb\_color\_t}, \hyperpage{9}
+  \item {realloc}
+    \subitem {wgrhal\_ext.c}, \hyperpage{85}
+    \subitem {wgrhal\_ext.h}, \hyperpage{129}
+  \item {remainder}
+    \subitem {div\_result\_t}, \hyperpage{6}
+    \subitem {divmod\_result}, \hyperpage{6}
+  \item {RESH\_OFFSET}
+    \subitem {wgrhal\_ext.h}, \hyperpage{119}
+  \item {RESL\_OFFSET}
+    \subitem {wgrhal\_ext.h}, \hyperpage{119}
+  \item {rgb\_color\_t}, \hyperpage{8}
+    \subitem {b}, \hyperpage{9}
+    \subitem {g}, \hyperpage{9}
+    \subitem {r}, \hyperpage{9}
+
+  \indexspace
+
+  \item {size}
+    \subitem {header}, \hyperpage{8}
+  \item {spi\_automatic\_cs}
+    \subitem {wgrhal\_ext.c}, \hyperpage{85}
+    \subitem {wgrhal\_ext.h}, \hyperpage{129}
+  \item {SPI\_BASE\_ADDR}
+    \subitem {wgrhal\_ext.h}, \hyperpage{119}
+  \item {SPI\_CLK\_OFFSET}
+    \subitem {wgrhal\_ext.h}, \hyperpage{120}
+  \item {spi\_cs}
+    \subitem {wgrhal\_ext.c}, \hyperpage{85}
+    \subitem {wgrhal\_ext.h}, \hyperpage{130}
+  \item {SPI\_CS\_OFFSET}
+    \subitem {wgrhal\_ext.h}, \hyperpage{120}
+  \item {SPI\_CTRL\_OFFSET}
+    \subitem {wgrhal\_ext.h}, \hyperpage{120}
+  \item {spi\_disable}
+    \subitem {wgrhal\_ext.c}, \hyperpage{86}
+    \subitem {wgrhal\_ext.h}, \hyperpage{130}
+  \item {spi\_enable}
+    \subitem {wgrhal\_ext.c}, \hyperpage{86}
+    \subitem {wgrhal\_ext.h}, \hyperpage{130}
+  \item {spi\_fifo\_full}
+    \subitem {wgrhal\_ext.c}, \hyperpage{86}
+    \subitem {wgrhal\_ext.h}, \hyperpage{130}
+  \item {spi\_get\_status}
+    \subitem {wgrhal\_ext.c}, \hyperpage{86}
+    \subitem {wgrhal\_ext.h}, \hyperpage{131}
+  \item {spi\_is\_busy}
+    \subitem {wgrhal\_ext.c}, \hyperpage{86}
+    \subitem {wgrhal\_ext.h}, \hyperpage{131}
+  \item {spi\_is\_ready}
+    \subitem {wgrhal\_ext.c}, \hyperpage{87}
+    \subitem {wgrhal\_ext.h}, \hyperpage{131}
+  \item {spi\_read\_buffer}
+    \subitem {wgrhal\_ext.c}, \hyperpage{87}
+    \subitem {wgrhal\_ext.h}, \hyperpage{131}
+  \item {spi\_read\_byte}
+    \subitem {wgrhal\_ext.c}, \hyperpage{87}
+    \subitem {wgrhal\_ext.h}, \hyperpage{132}
+  \item {spi\_rx\_empty}
+    \subitem {wgrhal\_ext.c}, \hyperpage{88}
+    \subitem {wgrhal\_ext.h}, \hyperpage{132}
+  \item {spi\_rx\_full}
+    \subitem {wgrhal\_ext.c}, \hyperpage{88}
+    \subitem {wgrhal\_ext.h}, \hyperpage{132}
+  \item {SPI\_RX\_OFFSET}
+    \subitem {wgrhal\_ext.h}, \hyperpage{120}
+  \item {spi\_set\_clock\_divider}
+    \subitem {wgrhal\_ext.c}, \hyperpage{88}
+    \subitem {wgrhal\_ext.h}, \hyperpage{133}
+  \item {spi\_set\_clock\_offet}
+    \subitem {wgrhal\_ext.h}, \hyperpage{133}
+  \item {spi\_set\_clock\_offset}
+    \subitem {wgrhal\_ext.c}, \hyperpage{89}
+  \item {SPI\_STATUS\_OFFSET}
+    \subitem {wgrhal\_ext.h}, \hyperpage{120}
+  \item {spi\_tx\_empty}
+    \subitem {wgrhal\_ext.c}, \hyperpage{89}
+    \subitem {wgrhal\_ext.h}, \hyperpage{133}
+  \item {spi\_tx\_full}
+    \subitem {wgrhal\_ext.c}, \hyperpage{89}
+    \subitem {wgrhal\_ext.h}, \hyperpage{133}
+  \item {SPI\_TX\_OFFSET}
+    \subitem {wgrhal\_ext.h}, \hyperpage{120}
+  \item {spi\_wait\_rx\_data}
+    \subitem {wgrhal\_ext.c}, \hyperpage{89}
+    \subitem {wgrhal\_ext.h}, \hyperpage{134}
+  \item {spi\_write\_buffer}
+    \subitem {wgrhal\_ext.c}, \hyperpage{90}
+    \subitem {wgrhal\_ext.h}, \hyperpage{134}
+  \item {spi\_write\_byte}
+    \subitem {wgrhal\_ext.c}, \hyperpage{90}
+    \subitem {wgrhal\_ext.h}, \hyperpage{135}
+  \item {spi\_write\_uint32}
+    \subitem {wgrhal\_ext.c}, \hyperpage{90}
+    \subitem {wgrhal\_ext.h}, \hyperpage{135}
+  \item {SSD1351}
+    \subitem {wgrhal.h}, \hyperpage{48}
+  \item {ssd1351\_cursor\_x}
+    \subitem {wgrhal\_ext.c}, \hyperpage{91}
+    \subitem {wgrhal\_ext.h}, \hyperpage{135}
+  \item {ssd1351\_draw\_pixel}
+    \subitem {wgrhal\_ext.c}, \hyperpage{91}
+    \subitem {wgrhal\_ext.h}, \hyperpage{135}
+  \item {ssd1351\_fill\_screen}
+    \subitem {wgrhal\_ext.c}, \hyperpage{91}
+    \subitem {wgrhal\_ext.h}, \hyperpage{136}
+  \item {SSD1351\_HEIGHT}
+    \subitem {wgrhal\_ext.h}, \hyperpage{121}
+  \item {ssd1351\_init}
+    \subitem {wgrhal\_ext.c}, \hyperpage{92}
+    \subitem {wgrhal\_ext.h}, \hyperpage{136}
+  \item {ssd1351\_inv}
+    \subitem {wgrhal\_ext.c}, \hyperpage{92}
+    \subitem {wgrhal\_ext.h}, \hyperpage{136}
+  \item {ssd1351\_send\_command}
+    \subitem {wgrhal\_ext.c}, \hyperpage{92}
+    \subitem {wgrhal\_ext.h}, \hyperpage{136}
+  \item {ssd1351\_send\_command\_with\_data}
+    \subitem {wgrhal\_ext.c}, \hyperpage{92}
+    \subitem {wgrhal\_ext.h}, \hyperpage{137}
+  \item {ssd1351\_send\_commands}
+    \subitem {wgrhal\_ext.c}, \hyperpage{93}
+    \subitem {wgrhal\_ext.h}, \hyperpage{137}
+  \item {ssd1351\_send\_data}
+    \subitem {wgrhal\_ext.c}, \hyperpage{93}
+    \subitem {wgrhal\_ext.h}, \hyperpage{137}
+  \item {ssd1351\_set\_position}
+    \subitem {wgrhal\_ext.c}, \hyperpage{93}
+    \subitem {wgrhal\_ext.h}, \hyperpage{138}
+  \item {SSD1351\_SPI\_TIMEOUT}
+    \subitem {wgrhal\_ext.h}, \hyperpage{121}
+  \item {SSD1351\_WIDTH}
+    \subitem {wgrhal\_ext.h}, \hyperpage{121}
+  \item {STATUS\_BAR\_ROWS}
+    \subitem {wgrhal\_ext.h}, \hyperpage{121}
+  \item {strcmp}
+    \subitem {wgrhal.c}, \hyperpage{25}
+    \subitem {wgrhal.h}, \hyperpage{61}
+  \item {strcpy}
+    \subitem {wgrhal.c}, \hyperpage{25}
+    \subitem {wgrhal.h}, \hyperpage{61}
+  \item {strlen}
+    \subitem {wgrhal.c}, \hyperpage{26}
+    \subitem {wgrhal.h}, \hyperpage{62}
+  \item {strncmp}
+    \subitem {wgrhal.c}, \hyperpage{26}
+    \subitem {wgrhal.h}, \hyperpage{62}
+  \item {SYS\_CLK\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{48}
+  \item {SYSTEM\_CLOCK}
+    \subitem {wgrhal.h}, \hyperpage{49}
+
+  \indexspace
+
+  \item {TERM\_COLS}
+    \subitem {wgrhal\_ext.h}, \hyperpage{121}
+  \item {TERM\_ROWS}
+    \subitem {wgrhal\_ext.h}, \hyperpage{121}
+  \item {terminal\_draw\_text}
+    \subitem {wgrhal\_ext.c}, \hyperpage{94}
+    \subitem {wgrhal\_ext.h}, \hyperpage{138}
+  \item {terminal\_draw\_text\_default}
+    \subitem {wgrhal\_ext.c}, \hyperpage{94}
+    \subitem {wgrhal\_ext.h}, \hyperpage{138}
+  \item {terminal\_init}
+    \subitem {wgrhal\_ext.c}, \hyperpage{95}
+    \subitem {wgrhal\_ext.h}, \hyperpage{139}
+  \item {terminal\_native\_scroll}
+    \subitem {wgrhal\_ext.c}, \hyperpage{95}
+    \subitem {wgrhal\_ext.h}, \hyperpage{139}
+  \item {terminal\_print}
+    \subitem {wgrhal\_ext.c}, \hyperpage{95}
+    \subitem {wgrhal\_ext.h}, \hyperpage{139}
+  \item {terminal\_print\_col}
+    \subitem {wgrhal\_ext.c}, \hyperpage{95}
+    \subitem {wgrhal\_ext.h}, \hyperpage{139}
+  \item {terminal\_put\_char}
+    \subitem {wgrhal\_ext.c}, \hyperpage{95}
+    \subitem {wgrhal\_ext.h}, \hyperpage{140}
+  \item {terminal\_set\_bg\_color}
+    \subitem {wgrhal\_ext.c}, \hyperpage{96}
+    \subitem {wgrhal\_ext.h}, \hyperpage{140}
+  \item {terminal\_set\_text\_color}
+    \subitem {wgrhal\_ext.c}, \hyperpage{96}
+    \subitem {wgrhal\_ext.h}, \hyperpage{140}
+  \item {TIME\_BASE\_ADDR}
+    \subitem {wgrhal.h}, \hyperpage{49}
+  \item {TIME\_MIK\_H\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{49}
+  \item {TIME\_MIK\_L\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{49}
+  \item {TIME\_MS\_H\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{49}
+  \item {TIME\_MS\_L\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{49}
+  \item {TOTAL\_ROWS}
+    \subitem {wgrhal\_ext.h}, \hyperpage{122}
+
+  \indexspace
+
+  \item {UART\_BASE\_ADDR}
+    \subitem {wgrhal.h}, \hyperpage{50}
+  \item {UART\_BAUD\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{50}
+  \item {UART\_CTRL\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{50}
+  \item {uart\_disable}
+    \subitem {wgrhal.c}, \hyperpage{26}
+    \subitem {wgrhal.h}, \hyperpage{63}
+  \item {uart\_enable}
+    \subitem {wgrhal.c}, \hyperpage{27}
+    \subitem {wgrhal.h}, \hyperpage{63}
+  \item {uart\_get\_status}
+    \subitem {wgrhal.c}, \hyperpage{27}
+    \subitem {wgrhal.h}, \hyperpage{63}
+  \item {uart\_getchar}
+    \subitem {wgrhal.c}, \hyperpage{27}
+    \subitem {wgrhal.h}, \hyperpage{63}
+  \item {uart\_is\_busy}
+    \subitem {wgrhal.c}, \hyperpage{27}
+    \subitem {wgrhal.h}, \hyperpage{64}
+  \item {uart\_is\_ready}
+    \subitem {wgrhal.c}, \hyperpage{28}
+    \subitem {wgrhal.h}, \hyperpage{64}
+  \item {uart\_print}
+    \subitem {wgrhal.c}, \hyperpage{28}
+    \subitem {wgrhal.h}, \hyperpage{64}
+  \item {uart\_print\_int}
+    \subitem {wgrhal.c}, \hyperpage{28}
+    \subitem {wgrhal.h}, \hyperpage{64}
+  \item {uart\_print\_uint}
+    \subitem {wgrhal.c}, \hyperpage{29}
+    \subitem {wgrhal.h}, \hyperpage{65}
+  \item {uart\_putchar}
+    \subitem {wgrhal.c}, \hyperpage{29}
+    \subitem {wgrhal.h}, \hyperpage{65}
+  \item {uart\_putchar\_default\_timeout}
+    \subitem {wgrhal.c}, \hyperpage{29}
+    \subitem {wgrhal.h}, \hyperpage{65}
+  \item {uart\_read\_buffer}
+    \subitem {wgrhal.c}, \hyperpage{30}
+    \subitem {wgrhal.h}, \hyperpage{66}
+  \item {uart\_read\_byte}
+    \subitem {wgrhal.c}, \hyperpage{30}
+    \subitem {wgrhal.h}, \hyperpage{66}
+  \item {uart\_rx\_empty}
+    \subitem {wgrhal.c}, \hyperpage{30}
+    \subitem {wgrhal.h}, \hyperpage{66}
+  \item {uart\_rx\_full}
+    \subitem {wgrhal.c}, \hyperpage{31}
+    \subitem {wgrhal.h}, \hyperpage{67}
+  \item {UART\_RX\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{50}
+  \item {uart\_send\_uint32}
+    \subitem {wgrhal.c}, \hyperpage{31}
+    \subitem {wgrhal.h}, \hyperpage{67}
+  \item {uart\_set\_baud}
+    \subitem {wgrhal.c}, \hyperpage{31}
+    \subitem {wgrhal.h}, \hyperpage{67}
+  \item {UART\_STATUS\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{50}
+  \item {uart\_tx\_empty}
+    \subitem {wgrhal.c}, \hyperpage{32}
+    \subitem {wgrhal.h}, \hyperpage{68}
+  \item {uart\_tx\_full}
+    \subitem {wgrhal.c}, \hyperpage{32}
+    \subitem {wgrhal.h}, \hyperpage{68}
+  \item {UART\_TX\_OFFSET}
+    \subitem {wgrhal.h}, \hyperpage{50}
+  \item {uart\_wait\_rx\_data}
+    \subitem {wgrhal.c}, \hyperpage{32}
+    \subitem {wgrhal.h}, \hyperpage{68}
+  \item {uart\_wait\_tx\_full}
+    \subitem {wgrhal.c}, \hyperpage{32}
+    \subitem {wgrhal.h}, \hyperpage{68}
+  \item {uart\_write\_buffer}
+    \subitem {wgrhal.c}, \hyperpage{33}
+    \subitem {wgrhal.h}, \hyperpage{69}
+  \item {uart\_write\_byte}
+    \subitem {wgrhal.c}, \hyperpage{33}
+    \subitem {wgrhal.h}, \hyperpage{69}
+
+  \indexspace
+
+  \item {wgrhal.c}
+    \subitem {debug\_write}, \hyperpage{14}
+    \subitem {delay}, \hyperpage{14}
+    \subitem {delay\_micro}, \hyperpage{14}
+    \subitem {get\_sys\_clk}, \hyperpage{15}
+    \subitem {gpio\_read\_all\_pins}, \hyperpage{15}
+    \subitem {gpio\_read\_direction}, \hyperpage{15}
+    \subitem {gpio\_read\_pin}, \hyperpage{16}
+    \subitem {gpio\_set\_direction}, \hyperpage{16}
+    \subitem {gpio\_write\_pin}, \hyperpage{16}
+    \subitem {int\_to\_str}, \hyperpage{18}
+    \subitem {memcpy}, \hyperpage{18}
+    \subitem {memmove}, \hyperpage{18}
+    \subitem {memset}, \hyperpage{19}
+    \subitem {micros}, \hyperpage{19}
+    \subitem {micros\_long}, \hyperpage{19}
+    \subitem {micros\_reset}, \hyperpage{20}
+    \subitem {millis}, \hyperpage{20}
+    \subitem {millis\_long}, \hyperpage{20}
+    \subitem {millis\_reset}, \hyperpage{20}
+    \subitem {parse\_int\_multi}, \hyperpage{21}
+    \subitem {parse\_integer}, \hyperpage{22}
+    \subitem {pwm\_get\_control}, \hyperpage{22}
+    \subitem {pwm\_get\_counter}, \hyperpage{22}
+    \subitem {pwm\_get\_duty}, \hyperpage{22}
+    \subitem {pwm\_get\_period}, \hyperpage{23}
+    \subitem {pwm\_get\_pre\_counter}, \hyperpage{23}
+    \subitem {pwm\_set\_50\_percent\_mode}, \hyperpage{23}
+    \subitem {pwm\_set\_control}, \hyperpage{24}
+    \subitem {pwm\_set\_duty}, \hyperpage{24}
+    \subitem {pwm\_set\_mode}, \hyperpage{24}
+    \subitem {pwm\_set\_period}, \hyperpage{24}
+    \subitem {pwm\_set\_pre\_counter}, \hyperpage{25}
+    \subitem {strcmp}, \hyperpage{25}
+    \subitem {strcpy}, \hyperpage{25}
+    \subitem {strlen}, \hyperpage{26}
+    \subitem {strncmp}, \hyperpage{26}
+    \subitem {uart\_disable}, \hyperpage{26}
+    \subitem {uart\_enable}, \hyperpage{27}
+    \subitem {uart\_get\_status}, \hyperpage{27}
+    \subitem {uart\_getchar}, \hyperpage{27}
+    \subitem {uart\_is\_busy}, \hyperpage{27}
+    \subitem {uart\_is\_ready}, \hyperpage{28}
+    \subitem {uart\_print}, \hyperpage{28}
+    \subitem {uart\_print\_int}, \hyperpage{28}
+    \subitem {uart\_print\_uint}, \hyperpage{29}
+    \subitem {uart\_putchar}, \hyperpage{29}
+    \subitem {uart\_putchar\_default\_timeout}, \hyperpage{29}
+    \subitem {uart\_read\_buffer}, \hyperpage{30}
+    \subitem {uart\_read\_byte}, \hyperpage{30}
+    \subitem {uart\_rx\_empty}, \hyperpage{30}
+    \subitem {uart\_rx\_full}, \hyperpage{31}
+    \subitem {uart\_send\_uint32}, \hyperpage{31}
+    \subitem {uart\_set\_baud}, \hyperpage{31}
+    \subitem {uart\_tx\_empty}, \hyperpage{32}
+    \subitem {uart\_tx\_full}, \hyperpage{32}
+    \subitem {uart\_wait\_rx\_data}, \hyperpage{32}
+    \subitem {uart\_wait\_tx\_full}, \hyperpage{32}
+    \subitem {uart\_write\_buffer}, \hyperpage{33}
+    \subitem {uart\_write\_byte}, \hyperpage{33}
+  \item {wgrhal.h}
+    \subitem {DEBUG\_ADDR}, \hyperpage{46}
+    \subitem {debug\_write}, \hyperpage{51}
+    \subitem {DEFAULT\_TIMEOUT}, \hyperpage{46}
+    \subitem {delay}, \hyperpage{52}
+    \subitem {delay\_micro}, \hyperpage{52}
+    \subitem {get\_sys\_clk}, \hyperpage{52}
+    \subitem {GPIO\_BASE\_ADDR}, \hyperpage{46}
+    \subitem {GPIO\_DIR\_OFFSET}, \hyperpage{46}
+    \subitem {GPIO\_IN\_OFFSET}, \hyperpage{46}
+    \subitem {GPIO\_OUT\_OFFSET}, \hyperpage{46}
+    \subitem {GPIO\_OUT\_STEP}, \hyperpage{46}
+    \subitem {GPIO\_PIN\_COUNT}, \hyperpage{47}
+    \subitem {gpio\_read\_all\_pins}, \hyperpage{52}
+    \subitem {gpio\_read\_direction}, \hyperpage{53}
+    \subitem {gpio\_read\_pin}, \hyperpage{53}
+    \subitem {gpio\_set\_direction}, \hyperpage{53}
+    \subitem {gpio\_write\_pin}, \hyperpage{54}
+    \subitem {HWREG32}, \hyperpage{47}
+    \subitem {int\_to\_str}, \hyperpage{54}
+    \subitem {MALLOC}, \hyperpage{47}
+    \subitem {memcpy}, \hyperpage{54}
+    \subitem {memmove}, \hyperpage{55}
+    \subitem {memset}, \hyperpage{55}
+    \subitem {micros}, \hyperpage{56}
+    \subitem {micros\_long}, \hyperpage{56}
+    \subitem {micros\_reset}, \hyperpage{56}
+    \subitem {millis}, \hyperpage{56}
+    \subitem {millis\_long}, \hyperpage{57}
+    \subitem {millis\_reset}, \hyperpage{57}
+    \subitem {nop}, \hyperpage{47}
+    \subitem {parse\_int\_multi}, \hyperpage{57}
+    \subitem {parse\_integer}, \hyperpage{58}
+    \subitem {PWM\_BASE\_ADDR}, \hyperpage{47}
+    \subitem {PWM\_COUNTER\_OFFSET}, \hyperpage{47}
+    \subitem {PWM\_CTRL\_OFFSET}, \hyperpage{48}
+    \subitem {PWM\_DUTY\_OFFSET}, \hyperpage{48}
+    \subitem {pwm\_get\_control}, \hyperpage{58}
+    \subitem {pwm\_get\_counter}, \hyperpage{58}
+    \subitem {pwm\_get\_duty}, \hyperpage{58}
+    \subitem {pwm\_get\_mode}, \hyperpage{59}
+    \subitem {pwm\_get\_period}, \hyperpage{59}
+    \subitem {pwm\_get\_pre\_counter}, \hyperpage{59}
+    \subitem {PWM\_NOTES}, \hyperpage{48}
+    \subitem {PWM\_PERIOD\_OFFSET}, \hyperpage{48}
+    \subitem {pwm\_set\_50\_percent\_mode}, \hyperpage{59}
+    \subitem {pwm\_set\_control}, \hyperpage{60}
+    \subitem {pwm\_set\_duty}, \hyperpage{60}
+    \subitem {pwm\_set\_mode}, \hyperpage{60}
+    \subitem {pwm\_set\_period}, \hyperpage{60}
+    \subitem {pwm\_set\_pre\_counter}, \hyperpage{61}
+    \subitem {SSD1351}, \hyperpage{48}
+    \subitem {strcmp}, \hyperpage{61}
+    \subitem {strcpy}, \hyperpage{61}
+    \subitem {strlen}, \hyperpage{62}
+    \subitem {strncmp}, \hyperpage{62}
+    \subitem {SYS\_CLK\_OFFSET}, \hyperpage{48}
+    \subitem {SYSTEM\_CLOCK}, \hyperpage{49}
+    \subitem {TIME\_BASE\_ADDR}, \hyperpage{49}
+    \subitem {TIME\_MIK\_H\_OFFSET}, \hyperpage{49}
+    \subitem {TIME\_MIK\_L\_OFFSET}, \hyperpage{49}
+    \subitem {TIME\_MS\_H\_OFFSET}, \hyperpage{49}
+    \subitem {TIME\_MS\_L\_OFFSET}, \hyperpage{49}
+    \subitem {UART\_BASE\_ADDR}, \hyperpage{50}
+    \subitem {UART\_BAUD\_OFFSET}, \hyperpage{50}
+    \subitem {UART\_CTRL\_OFFSET}, \hyperpage{50}
+    \subitem {uart\_disable}, \hyperpage{63}
+    \subitem {uart\_enable}, \hyperpage{63}
+    \subitem {uart\_get\_status}, \hyperpage{63}
+    \subitem {uart\_getchar}, \hyperpage{63}
+    \subitem {uart\_is\_busy}, \hyperpage{64}
+    \subitem {uart\_is\_ready}, \hyperpage{64}
+    \subitem {uart\_print}, \hyperpage{64}
+    \subitem {uart\_print\_int}, \hyperpage{64}
+    \subitem {uart\_print\_uint}, \hyperpage{65}
+    \subitem {uart\_putchar}, \hyperpage{65}
+    \subitem {uart\_putchar\_default\_timeout}, \hyperpage{65}
+    \subitem {uart\_read\_buffer}, \hyperpage{66}
+    \subitem {uart\_read\_byte}, \hyperpage{66}
+    \subitem {uart\_rx\_empty}, \hyperpage{66}
+    \subitem {uart\_rx\_full}, \hyperpage{67}
+    \subitem {UART\_RX\_OFFSET}, \hyperpage{50}
+    \subitem {uart\_send\_uint32}, \hyperpage{67}
+    \subitem {uart\_set\_baud}, \hyperpage{67}
+    \subitem {UART\_STATUS\_OFFSET}, \hyperpage{50}
+    \subitem {uart\_tx\_empty}, \hyperpage{68}
+    \subitem {uart\_tx\_full}, \hyperpage{68}
+    \subitem {UART\_TX\_OFFSET}, \hyperpage{50}
+    \subitem {uart\_wait\_rx\_data}, \hyperpage{68}
+    \subitem {uart\_wait\_tx\_full}, \hyperpage{68}
+    \subitem {uart\_write\_buffer}, \hyperpage{69}
+    \subitem {uart\_write\_byte}, \hyperpage{69}
+  \item {wgrhal\_ext.c}
+    \subitem {Align}, \hyperpage{76}
+    \subitem {calloc}, \hyperpage{76}
+    \subitem {clear\_terminal}, \hyperpage{77}
+    \subitem {clear\_terminal\_row}, \hyperpage{77}
+    \subitem {div\_calc}, \hyperpage{77}
+    \subitem {div\_calc\_quotient}, \hyperpage{78}
+    \subitem {div\_calc\_remainder}, \hyperpage{78}
+    \subitem {draw\_char\_cell}, \hyperpage{78}
+    \subitem {draw\_char\_cell\_custom}, \hyperpage{80}
+    \subitem {draw\_status\_bar}, \hyperpage{80}
+    \subitem {ENOMEM}, \hyperpage{76}
+    \subitem {errno}, \hyperpage{98}
+    \subitem {free}, \hyperpage{80}
+    \subitem {Header}, \hyperpage{76}
+    \subitem {heap\_free\_space}, \hyperpage{81}
+    \subitem {malloc}, \hyperpage{81}
+    \subitem {mult\_calc}, \hyperpage{81}
+    \subitem {mult\_calc\_64}, \hyperpage{82}
+    \subitem {NALLOC}, \hyperpage{76}
+    \subitem {note\_freq\_halfbase}, \hyperpage{98}
+    \subitem {print\_error}, \hyperpage{82}
+    \subitem {print\_ok}, \hyperpage{82}
+    \subitem {print\_ok\_res}, \hyperpage{84}
+    \subitem {ptrdiff\_t}, \hyperpage{76}
+    \subitem {pwm\_free\_note\_buffer}, \hyperpage{84}
+    \subitem {pwm\_play\_note}, \hyperpage{84}
+    \subitem {pwm\_precompute\_notes}, \hyperpage{84}
+    \subitem {realloc}, \hyperpage{85}
+    \subitem {spi\_automatic\_cs}, \hyperpage{85}
+    \subitem {spi\_cs}, \hyperpage{85}
+    \subitem {spi\_disable}, \hyperpage{86}
+    \subitem {spi\_enable}, \hyperpage{86}
+    \subitem {spi\_fifo\_full}, \hyperpage{86}
+    \subitem {spi\_get\_status}, \hyperpage{86}
+    \subitem {spi\_is\_busy}, \hyperpage{86}
+    \subitem {spi\_is\_ready}, \hyperpage{87}
+    \subitem {spi\_read\_buffer}, \hyperpage{87}
+    \subitem {spi\_read\_byte}, \hyperpage{87}
+    \subitem {spi\_rx\_empty}, \hyperpage{88}
+    \subitem {spi\_rx\_full}, \hyperpage{88}
+    \subitem {spi\_set\_clock\_divider}, \hyperpage{88}
+    \subitem {spi\_set\_clock\_offset}, \hyperpage{89}
+    \subitem {spi\_tx\_empty}, \hyperpage{89}
+    \subitem {spi\_tx\_full}, \hyperpage{89}
+    \subitem {spi\_wait\_rx\_data}, \hyperpage{89}
+    \subitem {spi\_write\_buffer}, \hyperpage{90}
+    \subitem {spi\_write\_byte}, \hyperpage{90}
+    \subitem {spi\_write\_uint32}, \hyperpage{90}
+    \subitem {ssd1351\_cursor\_x}, \hyperpage{91}
+    \subitem {ssd1351\_draw\_pixel}, \hyperpage{91}
+    \subitem {ssd1351\_fill\_screen}, \hyperpage{91}
+    \subitem {ssd1351\_init}, \hyperpage{92}
+    \subitem {ssd1351\_inv}, \hyperpage{92}
+    \subitem {ssd1351\_send\_command}, \hyperpage{92}
+    \subitem {ssd1351\_send\_command\_with\_data}, \hyperpage{92}
+    \subitem {ssd1351\_send\_commands}, \hyperpage{93}
+    \subitem {ssd1351\_send\_data}, \hyperpage{93}
+    \subitem {ssd1351\_set\_position}, \hyperpage{93}
+    \subitem {terminal\_draw\_text}, \hyperpage{94}
+    \subitem {terminal\_draw\_text\_default}, \hyperpage{94}
+    \subitem {terminal\_init}, \hyperpage{95}
+    \subitem {terminal\_native\_scroll}, \hyperpage{95}
+    \subitem {terminal\_print}, \hyperpage{95}
+    \subitem {terminal\_print\_col}, \hyperpage{95}
+    \subitem {terminal\_put\_char}, \hyperpage{95}
+    \subitem {terminal\_set\_bg\_color}, \hyperpage{96}
+    \subitem {terminal\_set\_text\_color}, \hyperpage{96}
+    \subitem {ws2812\_clear}, \hyperpage{96}
+    \subitem {ws2812\_fill}, \hyperpage{96}
+    \subitem {ws2812\_get\_color}, \hyperpage{97}
+    \subitem {ws2812\_set\_color}, \hyperpage{97}
+    \subitem {ws2812\_write\_all}, \hyperpage{98}
+  \item {wgrhal\_ext.h}
+    \subitem {calloc}, \hyperpage{123}
+    \subitem {CHAR\_HEIGHT}, \hyperpage{116}
+    \subitem {CHAR\_WIDTH}, \hyperpage{116}
+    \subitem {clear\_terminal}, \hyperpage{123}
+    \subitem {clear\_terminal\_row}, \hyperpage{123}
+    \subitem {COLOR\_BLACK}, \hyperpage{116}
+    \subitem {COLOR\_BLUE}, \hyperpage{116}
+    \subitem {COLOR\_CYAN}, \hyperpage{116}
+    \subitem {COLOR\_GREEN}, \hyperpage{116}
+    \subitem {COLOR\_MAGENTA}, \hyperpage{116}
+    \subitem {COLOR\_RED}, \hyperpage{117}
+    \subitem {COLOR\_WHITE}, \hyperpage{117}
+    \subitem {COLOR\_YELLOW}, \hyperpage{117}
+    \subitem {DIV\_BASE\_ADDR}, \hyperpage{117}
+    \subitem {div\_calc}, \hyperpage{123}
+    \subitem {div\_calc\_quotient}, \hyperpage{124}
+    \subitem {div\_calc\_remainder}, \hyperpage{124}
+    \subitem {DIV\_END\_OFFSET}, \hyperpage{117}
+    \subitem {DIV\_INFO\_OFFSET}, \hyperpage{117}
+    \subitem {DIV\_QUO\_OFFSET}, \hyperpage{118}
+    \subitem {DIV\_REM\_OFFSET}, \hyperpage{118}
+    \subitem {DIV\_SOR\_OFFSET}, \hyperpage{118}
+    \subitem {draw\_char\_cell}, \hyperpage{125}
+    \subitem {draw\_char\_cell\_custom}, \hyperpage{125}
+    \subitem {draw\_status\_bar}, \hyperpage{125}
+    \subitem {free}, \hyperpage{126}
+    \subitem {heap\_free\_space}, \hyperpage{126}
+    \subitem {HOUSEKEEPING\_MS}, \hyperpage{118}
+    \subitem {HWREG32}, \hyperpage{118}
+    \subitem {malloc}, \hyperpage{126}
+    \subitem {MUL1\_OFFSET}, \hyperpage{118}
+    \subitem {MUL2\_OFFSET}, \hyperpage{119}
+    \subitem {MULT\_BASE\_ADDR}, \hyperpage{119}
+    \subitem {mult\_calc}, \hyperpage{127}
+    \subitem {mult\_calc\_64}, \hyperpage{127}
+    \subitem {MULT\_INFO\_OFFSET}, \hyperpage{119}
+    \subitem {NOTE\_A}, \hyperpage{122}
+    \subitem {NOTE\_As}, \hyperpage{122}
+    \subitem {NOTE\_B}, \hyperpage{122}
+    \subitem {NOTE\_C}, \hyperpage{122}
+    \subitem {NOTE\_Cs}, \hyperpage{122}
+    \subitem {NOTE\_D}, \hyperpage{122}
+    \subitem {NOTE\_Ds}, \hyperpage{122}
+    \subitem {NOTE\_E}, \hyperpage{122}
+    \subitem {NOTE\_F}, \hyperpage{122}
+    \subitem {note\_freq\_halfbase}, \hyperpage{142}
+    \subitem {NOTE\_Fs}, \hyperpage{122}
+    \subitem {NOTE\_G}, \hyperpage{122}
+    \subitem {NOTE\_Gs}, \hyperpage{122}
+    \subitem {note\_t}, \hyperpage{122}
+    \subitem {print\_error}, \hyperpage{127}
+    \subitem {print\_ok}, \hyperpage{128}
+    \subitem {print\_ok\_res}, \hyperpage{128}
+    \subitem {pwm\_free\_note\_buffer}, \hyperpage{128}
+    \subitem {pwm\_play\_note}, \hyperpage{128}
+    \subitem {pwm\_precompute\_notes}, \hyperpage{129}
+    \subitem {realloc}, \hyperpage{129}
+    \subitem {RESH\_OFFSET}, \hyperpage{119}
+    \subitem {RESL\_OFFSET}, \hyperpage{119}
+    \subitem {spi\_automatic\_cs}, \hyperpage{129}
+    \subitem {SPI\_BASE\_ADDR}, \hyperpage{119}
+    \subitem {SPI\_CLK\_OFFSET}, \hyperpage{120}
+    \subitem {spi\_cs}, \hyperpage{130}
+    \subitem {SPI\_CS\_OFFSET}, \hyperpage{120}
+    \subitem {SPI\_CTRL\_OFFSET}, \hyperpage{120}
+    \subitem {spi\_disable}, \hyperpage{130}
+    \subitem {spi\_enable}, \hyperpage{130}
+    \subitem {spi\_fifo\_full}, \hyperpage{130}
+    \subitem {spi\_get\_status}, \hyperpage{131}
+    \subitem {spi\_is\_busy}, \hyperpage{131}
+    \subitem {spi\_is\_ready}, \hyperpage{131}
+    \subitem {spi\_read\_buffer}, \hyperpage{131}
+    \subitem {spi\_read\_byte}, \hyperpage{132}
+    \subitem {spi\_rx\_empty}, \hyperpage{132}
+    \subitem {spi\_rx\_full}, \hyperpage{132}
+    \subitem {SPI\_RX\_OFFSET}, \hyperpage{120}
+    \subitem {spi\_set\_clock\_divider}, \hyperpage{133}
+    \subitem {spi\_set\_clock\_offet}, \hyperpage{133}
+    \subitem {SPI\_STATUS\_OFFSET}, \hyperpage{120}
+    \subitem {spi\_tx\_empty}, \hyperpage{133}
+    \subitem {spi\_tx\_full}, \hyperpage{133}
+    \subitem {SPI\_TX\_OFFSET}, \hyperpage{120}
+    \subitem {spi\_wait\_rx\_data}, \hyperpage{134}
+    \subitem {spi\_write\_buffer}, \hyperpage{134}
+    \subitem {spi\_write\_byte}, \hyperpage{135}
+    \subitem {spi\_write\_uint32}, \hyperpage{135}
+    \subitem {ssd1351\_cursor\_x}, \hyperpage{135}
+    \subitem {ssd1351\_draw\_pixel}, \hyperpage{135}
+    \subitem {ssd1351\_fill\_screen}, \hyperpage{136}
+    \subitem {SSD1351\_HEIGHT}, \hyperpage{121}
+    \subitem {ssd1351\_init}, \hyperpage{136}
+    \subitem {ssd1351\_inv}, \hyperpage{136}
+    \subitem {ssd1351\_send\_command}, \hyperpage{136}
+    \subitem {ssd1351\_send\_command\_with\_data}, \hyperpage{137}
+    \subitem {ssd1351\_send\_commands}, \hyperpage{137}
+    \subitem {ssd1351\_send\_data}, \hyperpage{137}
+    \subitem {ssd1351\_set\_position}, \hyperpage{138}
+    \subitem {SSD1351\_SPI\_TIMEOUT}, \hyperpage{121}
+    \subitem {SSD1351\_WIDTH}, \hyperpage{121}
+    \subitem {STATUS\_BAR\_ROWS}, \hyperpage{121}
+    \subitem {TERM\_COLS}, \hyperpage{121}
+    \subitem {TERM\_ROWS}, \hyperpage{121}
+    \subitem {terminal\_draw\_text}, \hyperpage{138}
+    \subitem {terminal\_draw\_text\_default}, \hyperpage{138}
+    \subitem {terminal\_init}, \hyperpage{139}
+    \subitem {terminal\_native\_scroll}, \hyperpage{139}
+    \subitem {terminal\_print}, \hyperpage{139}
+    \subitem {terminal\_print\_col}, \hyperpage{139}
+    \subitem {terminal\_put\_char}, \hyperpage{140}
+    \subitem {terminal\_set\_bg\_color}, \hyperpage{140}
+    \subitem {terminal\_set\_text\_color}, \hyperpage{140}
+    \subitem {TOTAL\_ROWS}, \hyperpage{122}
+    \subitem {ws2812\_clear}, \hyperpage{141}
+    \subitem {ws2812\_fill}, \hyperpage{141}
+    \subitem {ws2812\_get\_color}, \hyperpage{141}
+    \subitem {ws2812\_set\_color}, \hyperpage{141}
+    \subitem {ws2812\_write\_all}, \hyperpage{142}
+    \subitem {WS\_BASE\_ADDR}, \hyperpage{122}
+  \item {ws2812\_clear}
+    \subitem {wgrhal\_ext.c}, \hyperpage{96}
+    \subitem {wgrhal\_ext.h}, \hyperpage{141}
+  \item {ws2812\_fill}
+    \subitem {wgrhal\_ext.c}, \hyperpage{96}
+    \subitem {wgrhal\_ext.h}, \hyperpage{141}
+  \item {ws2812\_get\_color}
+    \subitem {wgrhal\_ext.c}, \hyperpage{97}
+    \subitem {wgrhal\_ext.h}, \hyperpage{141}
+  \item {ws2812\_set\_color}
+    \subitem {wgrhal\_ext.c}, \hyperpage{97}
+    \subitem {wgrhal\_ext.h}, \hyperpage{141}
+  \item {ws2812\_write\_all}
+    \subitem {wgrhal\_ext.c}, \hyperpage{98}
+    \subitem {wgrhal\_ext.h}, \hyperpage{142}
+  \item {WS\_BASE\_ADDR}
+    \subitem {wgrhal\_ext.h}, \hyperpage{122}
+
+  \indexspace
+
+  \item {x}
+    \subitem {header}, \hyperpage{8}
+
+\end{theindex}

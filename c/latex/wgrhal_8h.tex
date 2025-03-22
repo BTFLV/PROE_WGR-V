@@ -1,0 +1,1816 @@
+\doxysection{/home/runner/work/\+PROE\+\_\+\+WGR-\/\+V/\+PROE\+\_\+\+WGR-\/\+V/src/lib/wgrhal.h-\/\+Dateireferenz}
+\hypertarget{wgrhal_8h}{}\label{wgrhal_8h}\index{/home/runner/work/PROE\_WGR-\/V/PROE\_WGR-\/V/src/lib/wgrhal.h@{/home/runner/work/PROE\_WGR-\/V/PROE\_WGR-\/V/src/lib/wgrhal.h}}
+
+
+Headerdatei der WGRHAL-\/\+Bibliothek.  
+
+
+{\ttfamily \#include "{}wgrtypes.\+h"{}}\newline
+\doxysubsubsection*{Makrodefinitionen}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a3e218828af7ddd3f4cd0d3772562b520}{MALLOC}}
+\item 
+\#define \mbox{\hyperlink{wgrhal_8h_af3200d9f3fb25c2d7a6cd400c515e9fe}{PWM\+\_\+\+NOTES}}
+\item 
+\#define \mbox{\hyperlink{wgrhal_8h_ac1214e0eb018818e8dc99d9018745498}{SSD1351}}
+\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a95982eccb57c2ae35f8ba3d8f0b05653}{SYSTEM\+\_\+\+CLOCK}}~10000000
+\begin{DoxyCompactList}\small\item\em Definiert die Systemtaktfrequenz in Hertz. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a233127f07098e18b97eb17ed883ecddd}{HWREG32}}(addr)~(\texorpdfstring{$\ast$}{*}((volatile uint32\+\_\+t \texorpdfstring{$\ast$}{*})(addr)))
+\begin{DoxyCompactList}\small\item\em Makro zur Adressierung von speicherabgebildeten Registern. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a6c92c29fa8e83ab85e05543010e10d7c}{nop}}()~\+\_\+\+\_\+asm\+\_\+\+\_\+ volatile("{}nop"{})
+\begin{DoxyCompactList}\small\item\em Nop-\/\+Operation. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a51227d859960e5d0f2be77fab5282b67}{DEBUG\+\_\+\+ADDR}}~0x00000100
+\begin{DoxyCompactList}\small\item\em Basisadresse für das Debug-\/\+Register. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a4b087ed9535f88e678cea65809f2a71f}{UART\+\_\+\+BASE\+\_\+\+ADDR}}~0x00000200
+\begin{DoxyCompactList}\small\item\em Basisadresse für den UART. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a989d4d0a06db63ad200e5c72bcc8bf93}{UART\+\_\+\+CTRL\+\_\+\+OFFSET}}~0x00
+\begin{DoxyCompactList}\small\item\em Offset für das UART-\/\+Steuerregister. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_aa8cc901180432c4cffd2eb8035575c17}{UART\+\_\+\+BAUD\+\_\+\+OFFSET}}~0x04
+\begin{DoxyCompactList}\small\item\em Offset für das UART-\/\+Baudratenregister. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_ab9b2fc544645ec0e9f169b0c870f8903}{UART\+\_\+\+STATUS\+\_\+\+OFFSET}}~0x08
+\begin{DoxyCompactList}\small\item\em Offset für das UART-\/\+Statusregister. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_af755c62618debd3616b6c1a9792f5cbe}{UART\+\_\+\+TX\+\_\+\+OFFSET}}~0x0C
+\begin{DoxyCompactList}\small\item\em Offset für das UART-\/\+Sende-\/\+Register. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a2868dfbb1160c5173d97b39e3268c927}{UART\+\_\+\+RX\+\_\+\+OFFSET}}~0x10
+\begin{DoxyCompactList}\small\item\em Offset für das UART-\/\+Empfangsregister. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_afe5f8f37c1de74a261039fb4291c945e}{TIME\+\_\+\+BASE\+\_\+\+ADDR}}~0x00000300
+\begin{DoxyCompactList}\small\item\em Basisadresse für Zeitfunktionen. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a96b57b095a24d69a0f9b9b050b32fb6c}{TIME\+\_\+\+MS\+\_\+\+L\+\_\+\+OFFSET}}~0x00
+\begin{DoxyCompactList}\small\item\em Offset für die niederwertigen 32-\/Bit des Millisekundenzählers. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a2827eb21062265342125de106821482f}{TIME\+\_\+\+MS\+\_\+\+H\+\_\+\+OFFSET}}~0x04
+\begin{DoxyCompactList}\small\item\em Offset für die höheren 32-\/Bit des Millisekundenzählers. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a92caf1a6a903d7dc72ba08c31ee3cb48}{TIME\+\_\+\+MIK\+\_\+\+L\+\_\+\+OFFSET}}~0x08
+\begin{DoxyCompactList}\small\item\em Offset für die niederwertigen 32-\/Bit des Mikrosekundenzählers. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a96b658d460d0fa4754eca7240cbd4d8d}{TIME\+\_\+\+MIK\+\_\+\+H\+\_\+\+OFFSET}}~0x0C
+\begin{DoxyCompactList}\small\item\em Offset für die höheren 32-\/Bit des Mikrosekundenzählers. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_ac845b5a798541ea8389574b17a656a70}{SYS\+\_\+\+CLK\+\_\+\+OFFSET}}~0x10
+\begin{DoxyCompactList}\small\item\em Offset für den Systemtakt. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a41ba4dfa7dc3b7093d7a4c65956ba28e}{PWM\+\_\+\+BASE\+\_\+\+ADDR}}~0x00000400
+\begin{DoxyCompactList}\small\item\em Basisadresse für PWM-\/\+Funktionen. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a60a4125c411f4f5bb4b3f68a10c55c47}{PWM\+\_\+\+PERIOD\+\_\+\+OFFSET}}~0x00
+\begin{DoxyCompactList}\small\item\em Offset für das PWM-\/\+Periode-\/\+Register. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_ae221e068414fd14a55de07e9fd16a9ed}{PWM\+\_\+\+DUTY\+\_\+\+OFFSET}}~0x04
+\begin{DoxyCompactList}\small\item\em Offset für das PWM-\/\+Duty-\/\+Cycle-\/\+Register. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a9ec75dcb387c22645d9cdabb55602d0d}{PWM\+\_\+\+COUNTER\+\_\+\+OFFSET}}~0x08
+\begin{DoxyCompactList}\small\item\em Offset für das PWM-\/\+Zählerregister. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_ad526c6b01661b11cb8d2a09959541777}{PWM\+\_\+\+CTRL\+\_\+\+OFFSET}}~0x0C
+\begin{DoxyCompactList}\small\item\em Offset für das PWM-\/\+Steuerregister. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a45d36b41a075f38c101d52a2224aede5}{GPIO\+\_\+\+BASE\+\_\+\+ADDR}}~0x00000800
+\begin{DoxyCompactList}\small\item\em Basisadresse für GPIO-\/\+Funktionen. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a4ed8ddd4e8f61e0f566c4a1a13c52148}{GPIO\+\_\+\+DIR\+\_\+\+OFFSET}}~0x0000
+\begin{DoxyCompactList}\small\item\em Offset für das GPIO-\/\+Richtungsregister. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a528947cd8c496a119625d4ec207fea80}{GPIO\+\_\+\+IN\+\_\+\+OFFSET}}~0x0004
+\begin{DoxyCompactList}\small\item\em Offset für das GPIO-\/\+Eingangsregister. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a047ad2a350522c925ada88d19eb41af5}{GPIO\+\_\+\+OUT\+\_\+\+OFFSET}}~0x0008
+\begin{DoxyCompactList}\small\item\em Offset für das GPIO-\/\+Ausgangsregister. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a4f9fd4d6996de44e77ca9b36b7e3c904}{GPIO\+\_\+\+OUT\+\_\+\+STEP}}~0x04
+\begin{DoxyCompactList}\small\item\em Schrittweite zwischen den Ausgangsregistern der einzelnen Pins. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_a226e7ff497e286c3391041c1dc2f2bc2}{GPIO\+\_\+\+PIN\+\_\+\+COUNT}}~8
+\begin{DoxyCompactList}\small\item\em Anzahl der verfügbaren GPIO-\/\+Pins. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{wgrhal_8h_aad2dd72565852b91c809cd4685833b17}{DEFAULT\+\_\+\+TIMEOUT}}~10
+\begin{DoxyCompactList}\small\item\em Standard-\/\+Zeitüberschreitung in Millisekunden. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Funktionen}
+\begin{DoxyCompactItemize}
+\item 
+void \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{wgrhal_8h_a95a645d666986374a1a4f4c044d7dc49}{memcpy}} (void \texorpdfstring{$\ast$}{*}dest, const void \texorpdfstring{$\ast$}{*}src, uint32\+\_\+t n)
+\begin{DoxyCompactList}\small\item\em Kopiert n Bytes von src nach dest. \end{DoxyCompactList}\item 
+void \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{wgrhal_8h_abad4a00a034620e2f61d2c63b3fc4a03}{memset}} (void \texorpdfstring{$\ast$}{*}dest, int32\+\_\+t c, uint32\+\_\+t n)
+\begin{DoxyCompactList}\small\item\em Setzt n Bytes im Zielpuffer auf den Wert c. \end{DoxyCompactList}\item 
+void \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{wgrhal_8h_abd0b7308d29c607a1ed59eb93eea4cf4}{memmove}} (void \texorpdfstring{$\ast$}{*}dest, const void \texorpdfstring{$\ast$}{*}src, uint32\+\_\+t n)
+\begin{DoxyCompactList}\small\item\em Kopiert n Bytes von src nach dest, wobei sich überlappende Speicherbereiche korrekt behandelt werden. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_adb355892c2a2bf574f79bd8a4979183c}{strlen}} (const char \texorpdfstring{$\ast$}{*}s)
+\begin{DoxyCompactList}\small\item\em Bestimmt die Länge eines Strings. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal_8h_a90626f44fb128936392b79bc8c06d03f}{strcmp}} (const char \texorpdfstring{$\ast$}{*}s1, const char \texorpdfstring{$\ast$}{*}s2)
+\begin{DoxyCompactList}\small\item\em Vergleicht zwei Strings. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal_8h_abc6cd736990d62c806bf6df4db9cfa6a}{strncmp}} (const char \texorpdfstring{$\ast$}{*}s1, const char \texorpdfstring{$\ast$}{*}s2, uint32\+\_\+t n)
+\begin{DoxyCompactList}\small\item\em Vergleicht maximal n Zeichen zweier Strings. \end{DoxyCompactList}\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{wgrhal_8h_ac5082c8ce4f0cddd88bf4d0d2e738308}{strcpy}} (char \texorpdfstring{$\ast$}{*}dest, const char \texorpdfstring{$\ast$}{*}src)
+\begin{DoxyCompactList}\small\item\em Kopiert einen String von src nach dest. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a279deaab164f1dd539d3999bcf11dad3}{int\+\_\+to\+\_\+str}} (int32\+\_\+t num, int base, char \texorpdfstring{$\ast$}{*}str)
+\begin{DoxyCompactList}\small\item\em Konvertiert eine Ganzzahl in einen String. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal_8h_a4b65c59095f63a809c91ec69ec3074ae}{parse\+\_\+integer}} (const char \texorpdfstring{$\ast$}{*}str)
+\begin{DoxyCompactList}\small\item\em Parst einen String in eine Ganzzahl. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal_8h_a330863c892e5645fd360459f6d5b5e6f}{parse\+\_\+int\+\_\+multi}} (const char \texorpdfstring{$\ast$}{*}str, const char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}next)
+\begin{DoxyCompactList}\small\item\em Parst eine Ganzzahl aus einem String und gibt den Zeiger auf das nächste Zeichen zurück. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a759c0174e318b3bc4de8e1cfafee21a8}{debug\+\_\+write}} (uint32\+\_\+t value)
+\begin{DoxyCompactList}\small\item\em Schreibt einen Wert in das Debug-\/\+Register. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_affcbd24efeade3b1444100dbbc614e88}{uart\+\_\+enable}} (void)
+\begin{DoxyCompactList}\small\item\em Aktiviert die UART-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a9dbcc0696f2607e16da1f55d3b4d6d94}{uart\+\_\+disable}} (void)
+\begin{DoxyCompactList}\small\item\em Deaktiviert die UART-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a5498909af441b90cee1c9c4544226b64}{uart\+\_\+set\+\_\+baud}} (baud\+\_\+sel\+\_\+t baud)
+\begin{DoxyCompactList}\small\item\em Setzt die Baudrate der UART-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_a5bad7d6d8194b738aa1e7937f5bea84d}{uart\+\_\+get\+\_\+status}} (void)
+\begin{DoxyCompactList}\small\item\em Liest den Status der UART-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_ab1a6ded4eaa90bfdc80af584f3856afe}{uart\+\_\+is\+\_\+ready}} (void)
+\begin{DoxyCompactList}\small\item\em Prüft, ob die UART bereit ist. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_a061b29af542b7c7c337e248556b02dfa}{uart\+\_\+is\+\_\+busy}} (void)
+\begin{DoxyCompactList}\small\item\em Prüft, ob die UART beschäftigt ist. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_a368ea109761a8b90658982b360613c48}{uart\+\_\+rx\+\_\+full}} (void)
+\begin{DoxyCompactList}\small\item\em Prüft, ob der UART-\/\+Empfangspuffer voll ist. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_a37ba439230aef6646b6b288e305c5df5}{uart\+\_\+rx\+\_\+empty}} (void)
+\begin{DoxyCompactList}\small\item\em Prüft, ob der UART-\/\+Empfangspuffer leer ist. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_ab65244cd0320f59c465f63d172423def}{uart\+\_\+tx\+\_\+full}} (void)
+\begin{DoxyCompactList}\small\item\em Prüft, ob der UART-\/\+Sende-\/\+Puffer voll ist. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_a11dc5096bf94f813b70e38175ea15921}{uart\+\_\+tx\+\_\+empty}} (void)
+\begin{DoxyCompactList}\small\item\em Prüft, ob der UART-\/\+Sende-\/\+Puffer leer ist. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal_8h_abb6b9516c857f33ff60f5d9ea6397289}{uart\+\_\+wait\+\_\+tx\+\_\+full}} (uint32\+\_\+t timeout\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Wartet darauf, dass der Sende-\/\+Puffer voll wird, bis zu einer Zeitüberschreitung. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal_8h_a52de6181dcc87428e54f9e064fb4ca95}{uart\+\_\+wait\+\_\+rx\+\_\+data}} (uint32\+\_\+t timeout\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Wartet darauf, dass Daten im Empfangspuffer vorhanden sind, bis zu einer Zeitüberschreitung. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal_8h_ac7bcd54c54129cff9aec91b77647b48f}{uart\+\_\+write\+\_\+byte}} (uint8\+\_\+t data, uint32\+\_\+t timeout\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Sendet ein Byte über die UART-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal_8h_a54b4bc733797705c34c61275c8878f33}{uart\+\_\+putchar}} (char c, uint32\+\_\+t timeout\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Sendet ein Zeichen über die UART-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a7a36588204aa52f8b494f2dc42d239f8}{uart\+\_\+putchar\+\_\+default\+\_\+timeout}} (char c)
+\begin{DoxyCompactList}\small\item\em Sendet ein Zeichen über die UART-\/\+Schnittstelle mit voreingestelltem Timeout. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal_8h_a1e061505c3bb90fa503f2dda687ea1f7}{uart\+\_\+write\+\_\+buffer}} (const uint8\+\_\+t \texorpdfstring{$\ast$}{*}buffer, uint32\+\_\+t length, uint32\+\_\+t timeout\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Sendet einen Puffer von Bytes über die UART-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal_8h_a34060cf101cd230661ecf470d6c7f905}{uart\+\_\+read\+\_\+byte}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, uint32\+\_\+t timeout\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Liest ein Byte von der UART-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{wgrhal_8h_a2e02fbd2d390932b95c512d1efc9298f}{uart\+\_\+getchar}} (uint32\+\_\+t timeout\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Liest ein Zeichen von der UART-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+int32\+\_\+t \mbox{\hyperlink{wgrhal_8h_a179a667316a09ff82a4dd13a7f259fa9}{uart\+\_\+read\+\_\+buffer}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}buf, uint32\+\_\+t length, uint32\+\_\+t timeout\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Liest einen Puffer von Bytes von der UART-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_aae84c2911b61766867c7ab0c7274ecef}{uart\+\_\+send\+\_\+uint32}} (uint32\+\_\+t value, uint32\+\_\+t timeout\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Sendet einen 32-\/Bit-\/\+Wert über die UART-\/\+Schnittstelle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_ac59e57f479a6a34f22fb83f3e675c2f0}{uart\+\_\+print\+\_\+uint}} (uint32\+\_\+t num, int32\+\_\+t base)
+\begin{DoxyCompactList}\small\item\em Gibt eine positive Ganzzahl in einem bestimmten Zahlensystem über die UART aus. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_adb6af6188fa7e2c1d4263b3dbf0399e1}{uart\+\_\+print\+\_\+int}} (int32\+\_\+t num)
+\begin{DoxyCompactList}\small\item\em Gibt eine Ganzzahl über die UART aus. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a7f6fa26b16ca6ba80a0c419d8d2a0b87}{uart\+\_\+print}} (const char \texorpdfstring{$\ast$}{*}s)
+\begin{DoxyCompactList}\small\item\em Gibt einen String über die UART aus. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_a199173dcd33a926fbd3c006db991ba5a}{get\+\_\+sys\+\_\+clk}} (void)
+\begin{DoxyCompactList}\small\item\em Liest die Systemtaktfrequenz. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a9b473803ac0157bb41b51c353bc43c08}{millis\+\_\+reset}} (void)
+\begin{DoxyCompactList}\small\item\em Setzt den Millisekunden-\/\+Zähler zurück. \end{DoxyCompactList}\item 
+uint64\+\_\+t \mbox{\hyperlink{wgrhal_8h_a69fc319ca14af94ec2ba0d631e184ffe}{millis\+\_\+long}} (void)
+\begin{DoxyCompactList}\small\item\em Liest einen langen Millisekunden-\/\+Zähler. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_acd8d13c328bebdf9eddea27ff9448c2d}{millis}} (void)
+\begin{DoxyCompactList}\small\item\em Liest den aktuellen Millisekunden-\/\+Zähler (32-\/Bit). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a78ac519de74f6baf904aac203bd2a31b}{micros\+\_\+reset}} (void)
+\begin{DoxyCompactList}\small\item\em Setzt den Mikrosekunden-\/\+Zähler zurück. \end{DoxyCompactList}\item 
+uint64\+\_\+t \mbox{\hyperlink{wgrhal_8h_acf09b93a53eb37613a82a2ed6840db2a}{micros\+\_\+long}} (void)
+\begin{DoxyCompactList}\small\item\em Liest einen langen Mikrosekunden-\/\+Zähler. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_af543edc4b91ee97e556de2f0bbc709ad}{micros}} (void)
+\begin{DoxyCompactList}\small\item\em Liest den aktuellen Mikrosekunden-\/\+Zähler (32-\/Bit). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a7f2dfce1046bdd2a2b753643726c2346}{delay}} (uint32\+\_\+t ms)
+\begin{DoxyCompactList}\small\item\em Verzögert die Ausführung um eine bestimmte Anzahl an Millisekunden. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a5469f8bd37c97e06aa5dc66508096fa3}{delay\+\_\+micro}} (uint32\+\_\+t microsec)
+\begin{DoxyCompactList}\small\item\em Verzögert die Ausführung um eine bestimmte Anzahl an Mikrosekunden. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a604372620fe1947712e1db5116b750c6}{pwm\+\_\+set\+\_\+period}} (uint32\+\_\+t period)
+\begin{DoxyCompactList}\small\item\em Setzt die PWM-\/\+Periode. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a93d8058a4f2abcda0453fb2755e101aa}{pwm\+\_\+set\+\_\+duty}} (uint32\+\_\+t duty)
+\begin{DoxyCompactList}\small\item\em Setzt das PWM-\/\+Duty-\/\+Cycle. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_ae40114c581d29452dc2acebb8761363a}{pwm\+\_\+get\+\_\+period}} (void)
+\begin{DoxyCompactList}\small\item\em Liest die aktuelle PWM-\/\+Periode. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_a5a620c4306a75d13e548749cd3ac1fd9}{pwm\+\_\+get\+\_\+duty}} (void)
+\begin{DoxyCompactList}\small\item\em Liest das aktuelle PWM-\/\+Duty-\/\+Cycle. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_ab7064391af52aef671dca3a094743b5f}{pwm\+\_\+get\+\_\+counter}} (void)
+\begin{DoxyCompactList}\small\item\em Liest den aktuellen PWM-\/\+Zählerstand. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a82572b171349440e47a51e29afd8599f}{pwm\+\_\+set\+\_\+control}} (uint32\+\_\+t control)
+\begin{DoxyCompactList}\small\item\em Setzt den PWM-\/\+Kontrollwert. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_ad5174fddb86649f8478ea36cac1a7b22}{pwm\+\_\+get\+\_\+control}} (void)
+\begin{DoxyCompactList}\small\item\em Liest den aktuellen PWM-\/\+Kontrollwert. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a033dcf0c1737988edd74033e69723258}{pwm\+\_\+set\+\_\+mode}} (uint8\+\_\+t enable\+\_\+pwm)
+\begin{DoxyCompactList}\small\item\em Aktiviert oder deaktiviert den PWM-\/\+Modus. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_a0c1471f235cc668807a3ffe9d8a9af94}{pwm\+\_\+get\+\_\+mode}} (void)
+\begin{DoxyCompactList}\small\item\em Liest den aktuellen PWM-\/\+Modus. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a0cdeefddfdeab6338f2bad39f29c2400}{pwm\+\_\+set\+\_\+50\+\_\+percent\+\_\+mode}} (uint8\+\_\+t enable)
+\begin{DoxyCompactList}\small\item\em Aktiviert oder deaktiviert den 50\%-\/Modus des PWM. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a6cddac9bea648b64721d5c3dc5aa0153}{pwm\+\_\+set\+\_\+pre\+\_\+counter}} (uint16\+\_\+t pre\+\_\+counter)
+\begin{DoxyCompactList}\small\item\em Setzt den Pre-\/\+Counter für PWM. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{wgrhal_8h_afe5b9796f4ed3357cc7b0c37dd4d2e2e}{pwm\+\_\+get\+\_\+pre\+\_\+counter}} (void)
+\begin{DoxyCompactList}\small\item\em Liest den aktuellen Pre-\/\+Counter für PWM. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a1972136571b7dfd12ff17f3f015e71a4}{gpio\+\_\+write\+\_\+pin}} (uint8\+\_\+t pin, uint8\+\_\+t value)
+\begin{DoxyCompactList}\small\item\em Schreibt einen Wert auf einen GPIO-\/\+Pin. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{wgrhal_8h_a4200d51a56d86fc62107485be45c70c5}{gpio\+\_\+read\+\_\+all\+\_\+pins}} (void)
+\begin{DoxyCompactList}\small\item\em Liest alle GPIO-\/\+Pins. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{wgrhal_8h_acfbe059f7f415b042d596b82be67ca29}{gpio\+\_\+read\+\_\+pin}} (uint8\+\_\+t pin)
+\begin{DoxyCompactList}\small\item\em Liest den Zustand eines bestimmten GPIO-\/\+Pins. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{wgrhal_8h_a10f55a4d19eea63ec44ff055bdd83b48}{gpio\+\_\+set\+\_\+direction}} (uint8\+\_\+t pin, uint8\+\_\+t direction)
+\begin{DoxyCompactList}\small\item\em Setzt die Richtung eines GPIO-\/\+Pins. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{wgrhal_8h_a31c8f77e0a043ca90c6e7a02725cf68e}{gpio\+\_\+read\+\_\+direction}} (uint8\+\_\+t pin)
+\begin{DoxyCompactList}\small\item\em Liest die Richtung eines GPIO-\/\+Pins. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Ausführliche Beschreibung}
+Headerdatei der WGRHAL-\/\+Bibliothek. 
+
+Diese Datei enthält Definitionen und Deklarationen für Standard-\/\+Memory-\/\+Funktionen, String-\/\+Funktionen, Debug-\/\+Ausgaben, UART, Zeitfunktionen, PWM und GPIO für den WGR-\/\+V-\/\+Prozessor. 
+
+Definiert in Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+
+
+\doxysubsection{Makro-\/\+Dokumentation}
+\Hypertarget{wgrhal_8h_a51227d859960e5d0f2be77fab5282b67}\label{wgrhal_8h_a51227d859960e5d0f2be77fab5282b67} 
+\index{wgrhal.h@{wgrhal.h}!DEBUG\_ADDR@{DEBUG\_ADDR}}
+\index{DEBUG\_ADDR@{DEBUG\_ADDR}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{DEBUG\_ADDR}{DEBUG\_ADDR}}
+{\footnotesize\ttfamily \#define DEBUG\+\_\+\+ADDR~0x00000100}
+
+
+
+Basisadresse für das Debug-\/\+Register. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00038}{38}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_aad2dd72565852b91c809cd4685833b17}\label{wgrhal_8h_aad2dd72565852b91c809cd4685833b17} 
+\index{wgrhal.h@{wgrhal.h}!DEFAULT\_TIMEOUT@{DEFAULT\_TIMEOUT}}
+\index{DEFAULT\_TIMEOUT@{DEFAULT\_TIMEOUT}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{DEFAULT\_TIMEOUT}{DEFAULT\_TIMEOUT}}
+{\footnotesize\ttfamily \#define DEFAULT\+\_\+\+TIMEOUT~10}
+
+
+
+Standard-\/\+Zeitüberschreitung in Millisekunden. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00139}{139}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a45d36b41a075f38c101d52a2224aede5}\label{wgrhal_8h_a45d36b41a075f38c101d52a2224aede5} 
+\index{wgrhal.h@{wgrhal.h}!GPIO\_BASE\_ADDR@{GPIO\_BASE\_ADDR}}
+\index{GPIO\_BASE\_ADDR@{GPIO\_BASE\_ADDR}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{GPIO\_BASE\_ADDR}{GPIO\_BASE\_ADDR}}
+{\footnotesize\ttfamily \#define GPIO\+\_\+\+BASE\+\_\+\+ADDR~0x00000800}
+
+
+
+Basisadresse für GPIO-\/\+Funktionen. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00114}{114}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a4ed8ddd4e8f61e0f566c4a1a13c52148}\label{wgrhal_8h_a4ed8ddd4e8f61e0f566c4a1a13c52148} 
+\index{wgrhal.h@{wgrhal.h}!GPIO\_DIR\_OFFSET@{GPIO\_DIR\_OFFSET}}
+\index{GPIO\_DIR\_OFFSET@{GPIO\_DIR\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{GPIO\_DIR\_OFFSET}{GPIO\_DIR\_OFFSET}}
+{\footnotesize\ttfamily \#define GPIO\+\_\+\+DIR\+\_\+\+OFFSET~0x0000}
+
+
+
+Offset für das GPIO-\/\+Richtungsregister. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00118}{118}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a528947cd8c496a119625d4ec207fea80}\label{wgrhal_8h_a528947cd8c496a119625d4ec207fea80} 
+\index{wgrhal.h@{wgrhal.h}!GPIO\_IN\_OFFSET@{GPIO\_IN\_OFFSET}}
+\index{GPIO\_IN\_OFFSET@{GPIO\_IN\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{GPIO\_IN\_OFFSET}{GPIO\_IN\_OFFSET}}
+{\footnotesize\ttfamily \#define GPIO\+\_\+\+IN\+\_\+\+OFFSET~0x0004}
+
+
+
+Offset für das GPIO-\/\+Eingangsregister. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00122}{122}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a047ad2a350522c925ada88d19eb41af5}\label{wgrhal_8h_a047ad2a350522c925ada88d19eb41af5} 
+\index{wgrhal.h@{wgrhal.h}!GPIO\_OUT\_OFFSET@{GPIO\_OUT\_OFFSET}}
+\index{GPIO\_OUT\_OFFSET@{GPIO\_OUT\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{GPIO\_OUT\_OFFSET}{GPIO\_OUT\_OFFSET}}
+{\footnotesize\ttfamily \#define GPIO\+\_\+\+OUT\+\_\+\+OFFSET~0x0008}
+
+
+
+Offset für das GPIO-\/\+Ausgangsregister. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00126}{126}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a4f9fd4d6996de44e77ca9b36b7e3c904}\label{wgrhal_8h_a4f9fd4d6996de44e77ca9b36b7e3c904} 
+\index{wgrhal.h@{wgrhal.h}!GPIO\_OUT\_STEP@{GPIO\_OUT\_STEP}}
+\index{GPIO\_OUT\_STEP@{GPIO\_OUT\_STEP}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{GPIO\_OUT\_STEP}{GPIO\_OUT\_STEP}}
+{\footnotesize\ttfamily \#define GPIO\+\_\+\+OUT\+\_\+\+STEP~0x04}
+
+
+
+Schrittweite zwischen den Ausgangsregistern der einzelnen Pins. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00130}{130}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a226e7ff497e286c3391041c1dc2f2bc2}\label{wgrhal_8h_a226e7ff497e286c3391041c1dc2f2bc2} 
+\index{wgrhal.h@{wgrhal.h}!GPIO\_PIN\_COUNT@{GPIO\_PIN\_COUNT}}
+\index{GPIO\_PIN\_COUNT@{GPIO\_PIN\_COUNT}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{GPIO\_PIN\_COUNT}{GPIO\_PIN\_COUNT}}
+{\footnotesize\ttfamily \#define GPIO\+\_\+\+PIN\+\_\+\+COUNT~8}
+
+
+
+Anzahl der verfügbaren GPIO-\/\+Pins. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00134}{134}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a233127f07098e18b97eb17ed883ecddd}\label{wgrhal_8h_a233127f07098e18b97eb17ed883ecddd} 
+\index{wgrhal.h@{wgrhal.h}!HWREG32@{HWREG32}}
+\index{HWREG32@{HWREG32}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{HWREG32}{HWREG32}}
+{\footnotesize\ttfamily \#define HWREG32(\begin{DoxyParamCaption}\item[{}]{addr }\end{DoxyParamCaption})~(\texorpdfstring{$\ast$}{*}((volatile uint32\+\_\+t \texorpdfstring{$\ast$}{*})(addr)))}
+
+
+
+Makro zur Adressierung von speicherabgebildeten Registern. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00027}{27}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a3e218828af7ddd3f4cd0d3772562b520}\label{wgrhal_8h_a3e218828af7ddd3f4cd0d3772562b520} 
+\index{wgrhal.h@{wgrhal.h}!MALLOC@{MALLOC}}
+\index{MALLOC@{MALLOC}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{MALLOC}{MALLOC}}
+{\footnotesize\ttfamily \#define MALLOC}
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00012}{12}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a6c92c29fa8e83ab85e05543010e10d7c}\label{wgrhal_8h_a6c92c29fa8e83ab85e05543010e10d7c} 
+\index{wgrhal.h@{wgrhal.h}!nop@{nop}}
+\index{nop@{nop}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{nop}{nop}}
+{\footnotesize\ttfamily \#define nop(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\+\_\+\+\_\+asm\+\_\+\+\_\+ volatile("{}nop"{})}
+
+
+
+Nop-\/\+Operation. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00033}{33}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a41ba4dfa7dc3b7093d7a4c65956ba28e}\label{wgrhal_8h_a41ba4dfa7dc3b7093d7a4c65956ba28e} 
+\index{wgrhal.h@{wgrhal.h}!PWM\_BASE\_ADDR@{PWM\_BASE\_ADDR}}
+\index{PWM\_BASE\_ADDR@{PWM\_BASE\_ADDR}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{PWM\_BASE\_ADDR}{PWM\_BASE\_ADDR}}
+{\footnotesize\ttfamily \#define PWM\+\_\+\+BASE\+\_\+\+ADDR~0x00000400}
+
+
+
+Basisadresse für PWM-\/\+Funktionen. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00093}{93}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a9ec75dcb387c22645d9cdabb55602d0d}\label{wgrhal_8h_a9ec75dcb387c22645d9cdabb55602d0d} 
+\index{wgrhal.h@{wgrhal.h}!PWM\_COUNTER\_OFFSET@{PWM\_COUNTER\_OFFSET}}
+\index{PWM\_COUNTER\_OFFSET@{PWM\_COUNTER\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{PWM\_COUNTER\_OFFSET}{PWM\_COUNTER\_OFFSET}}
+{\footnotesize\ttfamily \#define PWM\+\_\+\+COUNTER\+\_\+\+OFFSET~0x08}
+
+
+
+Offset für das PWM-\/\+Zählerregister. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00105}{105}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_ad526c6b01661b11cb8d2a09959541777}\label{wgrhal_8h_ad526c6b01661b11cb8d2a09959541777} 
+\index{wgrhal.h@{wgrhal.h}!PWM\_CTRL\_OFFSET@{PWM\_CTRL\_OFFSET}}
+\index{PWM\_CTRL\_OFFSET@{PWM\_CTRL\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{PWM\_CTRL\_OFFSET}{PWM\_CTRL\_OFFSET}}
+{\footnotesize\ttfamily \#define PWM\+\_\+\+CTRL\+\_\+\+OFFSET~0x0C}
+
+
+
+Offset für das PWM-\/\+Steuerregister. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00109}{109}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_ae221e068414fd14a55de07e9fd16a9ed}\label{wgrhal_8h_ae221e068414fd14a55de07e9fd16a9ed} 
+\index{wgrhal.h@{wgrhal.h}!PWM\_DUTY\_OFFSET@{PWM\_DUTY\_OFFSET}}
+\index{PWM\_DUTY\_OFFSET@{PWM\_DUTY\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{PWM\_DUTY\_OFFSET}{PWM\_DUTY\_OFFSET}}
+{\footnotesize\ttfamily \#define PWM\+\_\+\+DUTY\+\_\+\+OFFSET~0x04}
+
+
+
+Offset für das PWM-\/\+Duty-\/\+Cycle-\/\+Register. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00101}{101}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_af3200d9f3fb25c2d7a6cd400c515e9fe}\label{wgrhal_8h_af3200d9f3fb25c2d7a6cd400c515e9fe} 
+\index{wgrhal.h@{wgrhal.h}!PWM\_NOTES@{PWM\_NOTES}}
+\index{PWM\_NOTES@{PWM\_NOTES}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{PWM\_NOTES}{PWM\_NOTES}}
+{\footnotesize\ttfamily \#define PWM\+\_\+\+NOTES}
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00013}{13}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a60a4125c411f4f5bb4b3f68a10c55c47}\label{wgrhal_8h_a60a4125c411f4f5bb4b3f68a10c55c47} 
+\index{wgrhal.h@{wgrhal.h}!PWM\_PERIOD\_OFFSET@{PWM\_PERIOD\_OFFSET}}
+\index{PWM\_PERIOD\_OFFSET@{PWM\_PERIOD\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{PWM\_PERIOD\_OFFSET}{PWM\_PERIOD\_OFFSET}}
+{\footnotesize\ttfamily \#define PWM\+\_\+\+PERIOD\+\_\+\+OFFSET~0x00}
+
+
+
+Offset für das PWM-\/\+Periode-\/\+Register. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00097}{97}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_ac1214e0eb018818e8dc99d9018745498}\label{wgrhal_8h_ac1214e0eb018818e8dc99d9018745498} 
+\index{wgrhal.h@{wgrhal.h}!SSD1351@{SSD1351}}
+\index{SSD1351@{SSD1351}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{SSD1351}{SSD1351}}
+{\footnotesize\ttfamily \#define SSD1351}
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00014}{14}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_ac845b5a798541ea8389574b17a656a70}\label{wgrhal_8h_ac845b5a798541ea8389574b17a656a70} 
+\index{wgrhal.h@{wgrhal.h}!SYS\_CLK\_OFFSET@{SYS\_CLK\_OFFSET}}
+\index{SYS\_CLK\_OFFSET@{SYS\_CLK\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{SYS\_CLK\_OFFSET}{SYS\_CLK\_OFFSET}}
+{\footnotesize\ttfamily \#define SYS\+\_\+\+CLK\+\_\+\+OFFSET~0x10}
+
+
+
+Offset für den Systemtakt. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00088}{88}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a95982eccb57c2ae35f8ba3d8f0b05653}\label{wgrhal_8h_a95982eccb57c2ae35f8ba3d8f0b05653} 
+\index{wgrhal.h@{wgrhal.h}!SYSTEM\_CLOCK@{SYSTEM\_CLOCK}}
+\index{SYSTEM\_CLOCK@{SYSTEM\_CLOCK}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{SYSTEM\_CLOCK}{SYSTEM\_CLOCK}}
+{\footnotesize\ttfamily \#define SYSTEM\+\_\+\+CLOCK~10000000}
+
+
+
+Definiert die Systemtaktfrequenz in Hertz. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00021}{21}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_afe5f8f37c1de74a261039fb4291c945e}\label{wgrhal_8h_afe5f8f37c1de74a261039fb4291c945e} 
+\index{wgrhal.h@{wgrhal.h}!TIME\_BASE\_ADDR@{TIME\_BASE\_ADDR}}
+\index{TIME\_BASE\_ADDR@{TIME\_BASE\_ADDR}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{TIME\_BASE\_ADDR}{TIME\_BASE\_ADDR}}
+{\footnotesize\ttfamily \#define TIME\+\_\+\+BASE\+\_\+\+ADDR~0x00000300}
+
+
+
+Basisadresse für Zeitfunktionen. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00068}{68}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a96b658d460d0fa4754eca7240cbd4d8d}\label{wgrhal_8h_a96b658d460d0fa4754eca7240cbd4d8d} 
+\index{wgrhal.h@{wgrhal.h}!TIME\_MIK\_H\_OFFSET@{TIME\_MIK\_H\_OFFSET}}
+\index{TIME\_MIK\_H\_OFFSET@{TIME\_MIK\_H\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{TIME\_MIK\_H\_OFFSET}{TIME\_MIK\_H\_OFFSET}}
+{\footnotesize\ttfamily \#define TIME\+\_\+\+MIK\+\_\+\+H\+\_\+\+OFFSET~0x0C}
+
+
+
+Offset für die höheren 32-\/Bit des Mikrosekundenzählers. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00084}{84}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a92caf1a6a903d7dc72ba08c31ee3cb48}\label{wgrhal_8h_a92caf1a6a903d7dc72ba08c31ee3cb48} 
+\index{wgrhal.h@{wgrhal.h}!TIME\_MIK\_L\_OFFSET@{TIME\_MIK\_L\_OFFSET}}
+\index{TIME\_MIK\_L\_OFFSET@{TIME\_MIK\_L\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{TIME\_MIK\_L\_OFFSET}{TIME\_MIK\_L\_OFFSET}}
+{\footnotesize\ttfamily \#define TIME\+\_\+\+MIK\+\_\+\+L\+\_\+\+OFFSET~0x08}
+
+
+
+Offset für die niederwertigen 32-\/Bit des Mikrosekundenzählers. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00080}{80}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a2827eb21062265342125de106821482f}\label{wgrhal_8h_a2827eb21062265342125de106821482f} 
+\index{wgrhal.h@{wgrhal.h}!TIME\_MS\_H\_OFFSET@{TIME\_MS\_H\_OFFSET}}
+\index{TIME\_MS\_H\_OFFSET@{TIME\_MS\_H\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{TIME\_MS\_H\_OFFSET}{TIME\_MS\_H\_OFFSET}}
+{\footnotesize\ttfamily \#define TIME\+\_\+\+MS\+\_\+\+H\+\_\+\+OFFSET~0x04}
+
+
+
+Offset für die höheren 32-\/Bit des Millisekundenzählers. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00076}{76}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a96b57b095a24d69a0f9b9b050b32fb6c}\label{wgrhal_8h_a96b57b095a24d69a0f9b9b050b32fb6c} 
+\index{wgrhal.h@{wgrhal.h}!TIME\_MS\_L\_OFFSET@{TIME\_MS\_L\_OFFSET}}
+\index{TIME\_MS\_L\_OFFSET@{TIME\_MS\_L\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{TIME\_MS\_L\_OFFSET}{TIME\_MS\_L\_OFFSET}}
+{\footnotesize\ttfamily \#define TIME\+\_\+\+MS\+\_\+\+L\+\_\+\+OFFSET~0x00}
+
+
+
+Offset für die niederwertigen 32-\/Bit des Millisekundenzählers. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00072}{72}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a4b087ed9535f88e678cea65809f2a71f}\label{wgrhal_8h_a4b087ed9535f88e678cea65809f2a71f} 
+\index{wgrhal.h@{wgrhal.h}!UART\_BASE\_ADDR@{UART\_BASE\_ADDR}}
+\index{UART\_BASE\_ADDR@{UART\_BASE\_ADDR}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{UART\_BASE\_ADDR}{UART\_BASE\_ADDR}}
+{\footnotesize\ttfamily \#define UART\+\_\+\+BASE\+\_\+\+ADDR~0x00000200}
+
+
+
+Basisadresse für den UART. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00043}{43}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_aa8cc901180432c4cffd2eb8035575c17}\label{wgrhal_8h_aa8cc901180432c4cffd2eb8035575c17} 
+\index{wgrhal.h@{wgrhal.h}!UART\_BAUD\_OFFSET@{UART\_BAUD\_OFFSET}}
+\index{UART\_BAUD\_OFFSET@{UART\_BAUD\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{UART\_BAUD\_OFFSET}{UART\_BAUD\_OFFSET}}
+{\footnotesize\ttfamily \#define UART\+\_\+\+BAUD\+\_\+\+OFFSET~0x04}
+
+
+
+Offset für das UART-\/\+Baudratenregister. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00051}{51}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a989d4d0a06db63ad200e5c72bcc8bf93}\label{wgrhal_8h_a989d4d0a06db63ad200e5c72bcc8bf93} 
+\index{wgrhal.h@{wgrhal.h}!UART\_CTRL\_OFFSET@{UART\_CTRL\_OFFSET}}
+\index{UART\_CTRL\_OFFSET@{UART\_CTRL\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{UART\_CTRL\_OFFSET}{UART\_CTRL\_OFFSET}}
+{\footnotesize\ttfamily \#define UART\+\_\+\+CTRL\+\_\+\+OFFSET~0x00}
+
+
+
+Offset für das UART-\/\+Steuerregister. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00047}{47}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_a2868dfbb1160c5173d97b39e3268c927}\label{wgrhal_8h_a2868dfbb1160c5173d97b39e3268c927} 
+\index{wgrhal.h@{wgrhal.h}!UART\_RX\_OFFSET@{UART\_RX\_OFFSET}}
+\index{UART\_RX\_OFFSET@{UART\_RX\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{UART\_RX\_OFFSET}{UART\_RX\_OFFSET}}
+{\footnotesize\ttfamily \#define UART\+\_\+\+RX\+\_\+\+OFFSET~0x10}
+
+
+
+Offset für das UART-\/\+Empfangsregister. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00063}{63}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_ab9b2fc544645ec0e9f169b0c870f8903}\label{wgrhal_8h_ab9b2fc544645ec0e9f169b0c870f8903} 
+\index{wgrhal.h@{wgrhal.h}!UART\_STATUS\_OFFSET@{UART\_STATUS\_OFFSET}}
+\index{UART\_STATUS\_OFFSET@{UART\_STATUS\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{UART\_STATUS\_OFFSET}{UART\_STATUS\_OFFSET}}
+{\footnotesize\ttfamily \#define UART\+\_\+\+STATUS\+\_\+\+OFFSET~0x08}
+
+
+
+Offset für das UART-\/\+Statusregister. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00055}{55}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+\Hypertarget{wgrhal_8h_af755c62618debd3616b6c1a9792f5cbe}\label{wgrhal_8h_af755c62618debd3616b6c1a9792f5cbe} 
+\index{wgrhal.h@{wgrhal.h}!UART\_TX\_OFFSET@{UART\_TX\_OFFSET}}
+\index{UART\_TX\_OFFSET@{UART\_TX\_OFFSET}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{UART\_TX\_OFFSET}{UART\_TX\_OFFSET}}
+{\footnotesize\ttfamily \#define UART\+\_\+\+TX\+\_\+\+OFFSET~0x0C}
+
+
+
+Offset für das UART-\/\+Sende-\/\+Register. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8h_source_l00059}{59}} der Datei \mbox{\hyperlink{wgrhal_8h_source}{wgrhal.\+h}}.
+
+
+
+\doxysubsection{Dokumentation der Funktionen}
+\Hypertarget{wgrhal_8h_a759c0174e318b3bc4de8e1cfafee21a8}\label{wgrhal_8h_a759c0174e318b3bc4de8e1cfafee21a8} 
+\index{wgrhal.h@{wgrhal.h}!debug\_write@{debug\_write}}
+\index{debug\_write@{debug\_write}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{debug\_write()}{debug\_write()}}
+{\footnotesize\ttfamily void debug\+\_\+write (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{value }\end{DoxyParamCaption})}
+
+
+
+Schreibt einen Wert in das Debug-\/\+Register. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em value} & Zu schreibender Wert. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00246}{246}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a7f2dfce1046bdd2a2b753643726c2346}\label{wgrhal_8h_a7f2dfce1046bdd2a2b753643726c2346} 
+\index{wgrhal.h@{wgrhal.h}!delay@{delay}}
+\index{delay@{delay}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{delay()}{delay()}}
+{\footnotesize\ttfamily void delay (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{ms }\end{DoxyParamCaption})}
+
+
+
+Verzögert die Ausführung um eine bestimmte Anzahl an Millisekunden. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em ms} & Anzahl der Millisekunden. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00545}{545}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a5469f8bd37c97e06aa5dc66508096fa3}\label{wgrhal_8h_a5469f8bd37c97e06aa5dc66508096fa3} 
+\index{wgrhal.h@{wgrhal.h}!delay\_micro@{delay\_micro}}
+\index{delay\_micro@{delay\_micro}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{delay\_micro()}{delay\_micro()}}
+{\footnotesize\ttfamily void delay\+\_\+micro (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{microsec }\end{DoxyParamCaption})}
+
+
+
+Verzögert die Ausführung um eine bestimmte Anzahl an Mikrosekunden. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em microsec} & Anzahl der Mikrosekunden. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00554}{554}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a199173dcd33a926fbd3c006db991ba5a}\label{wgrhal_8h_a199173dcd33a926fbd3c006db991ba5a} 
+\index{wgrhal.h@{wgrhal.h}!get\_sys\_clk@{get\_sys\_clk}}
+\index{get\_sys\_clk@{get\_sys\_clk}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{get\_sys\_clk()}{get\_sys\_clk()}}
+{\footnotesize\ttfamily uint32\+\_\+t get\+\_\+sys\+\_\+clk (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Liest die Systemtaktfrequenz. 
+
+\begin{DoxyReturn}{Rückgabe}
+Systemtakt in Hertz. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00492}{492}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a4200d51a56d86fc62107485be45c70c5}\label{wgrhal_8h_a4200d51a56d86fc62107485be45c70c5} 
+\index{wgrhal.h@{wgrhal.h}!gpio\_read\_all\_pins@{gpio\_read\_all\_pins}}
+\index{gpio\_read\_all\_pins@{gpio\_read\_all\_pins}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{gpio\_read\_all\_pins()}{gpio\_read\_all\_pins()}}
+{\footnotesize\ttfamily uint8\+\_\+t gpio\+\_\+read\+\_\+all\+\_\+pins (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Liest alle GPIO-\/\+Pins. 
+
+\begin{DoxyReturn}{Rückgabe}
+8-\/Bit Wert aller Pins. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00651}{651}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a31c8f77e0a043ca90c6e7a02725cf68e}\label{wgrhal_8h_a31c8f77e0a043ca90c6e7a02725cf68e} 
+\index{wgrhal.h@{wgrhal.h}!gpio\_read\_direction@{gpio\_read\_direction}}
+\index{gpio\_read\_direction@{gpio\_read\_direction}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{gpio\_read\_direction()}{gpio\_read\_direction()}}
+{\footnotesize\ttfamily uint8\+\_\+t gpio\+\_\+read\+\_\+direction (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{pin }\end{DoxyParamCaption})}
+
+
+
+Liest die Richtung eines GPIO-\/\+Pins. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em pin} & Pin-\/\+Nummer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Richtung des Pins (1 für Ausgang, 0 für Eingang). 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00681}{681}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_acfbe059f7f415b042d596b82be67ca29}\label{wgrhal_8h_acfbe059f7f415b042d596b82be67ca29} 
+\index{wgrhal.h@{wgrhal.h}!gpio\_read\_pin@{gpio\_read\_pin}}
+\index{gpio\_read\_pin@{gpio\_read\_pin}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{gpio\_read\_pin()}{gpio\_read\_pin()}}
+{\footnotesize\ttfamily uint8\+\_\+t gpio\+\_\+read\+\_\+pin (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{pin }\end{DoxyParamCaption})}
+
+
+
+Liest den Zustand eines bestimmten GPIO-\/\+Pins. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em pin} & Pin-\/\+Nummer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Zustand des Pins (0 oder 1). 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00656}{656}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a10f55a4d19eea63ec44ff055bdd83b48}\label{wgrhal_8h_a10f55a4d19eea63ec44ff055bdd83b48} 
+\index{wgrhal.h@{wgrhal.h}!gpio\_set\_direction@{gpio\_set\_direction}}
+\index{gpio\_set\_direction@{gpio\_set\_direction}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{gpio\_set\_direction()}{gpio\_set\_direction()}}
+{\footnotesize\ttfamily void gpio\+\_\+set\+\_\+direction (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{pin,  }\item[{uint8\+\_\+t}]{direction }\end{DoxyParamCaption})}
+
+
+
+Setzt die Richtung eines GPIO-\/\+Pins. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em pin} & Pin-\/\+Nummer. \\
+\hline
+{\em direction} & Richtung (1 für Ausgang, 0 für Eingang). \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00665}{665}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a1972136571b7dfd12ff17f3f015e71a4}\label{wgrhal_8h_a1972136571b7dfd12ff17f3f015e71a4} 
+\index{wgrhal.h@{wgrhal.h}!gpio\_write\_pin@{gpio\_write\_pin}}
+\index{gpio\_write\_pin@{gpio\_write\_pin}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{gpio\_write\_pin()}{gpio\_write\_pin()}}
+{\footnotesize\ttfamily void gpio\+\_\+write\+\_\+pin (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{pin,  }\item[{uint8\+\_\+t}]{value }\end{DoxyParamCaption})}
+
+
+
+Schreibt einen Wert auf einen GPIO-\/\+Pin. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em pin} & Pin-\/\+Nummer. \\
+\hline
+{\em value} & Zu schreibender Wert. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00643}{643}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a279deaab164f1dd539d3999bcf11dad3}\label{wgrhal_8h_a279deaab164f1dd539d3999bcf11dad3} 
+\index{wgrhal.h@{wgrhal.h}!int\_to\_str@{int\_to\_str}}
+\index{int\_to\_str@{int\_to\_str}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{int\_to\_str()}{int\_to\_str()}}
+{\footnotesize\ttfamily void int\+\_\+to\+\_\+str (\begin{DoxyParamCaption}\item[{int32\+\_\+t}]{num,  }\item[{int}]{base,  }\item[{char \texorpdfstring{$\ast$}{*}}]{str }\end{DoxyParamCaption})}
+
+
+
+Konvertiert eine Ganzzahl in einen String. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em num} & Zu konvertierende Zahl. \\
+\hline
+{\em base} & Zahlensystembasis (zwischen 2 und 16). \\
+\hline
+{\em str} & Zielpuffer, in dem der resultierende String gespeichert wird. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00122}{122}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a95a645d666986374a1a4f4c044d7dc49}\label{wgrhal_8h_a95a645d666986374a1a4f4c044d7dc49} 
+\index{wgrhal.h@{wgrhal.h}!memcpy@{memcpy}}
+\index{memcpy@{memcpy}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{memcpy()}{memcpy()}}
+{\footnotesize\ttfamily void \texorpdfstring{$\ast$}{*} memcpy (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{dest,  }\item[{const void \texorpdfstring{$\ast$}{*}}]{src,  }\item[{uint32\+\_\+t}]{n }\end{DoxyParamCaption})}
+
+
+
+Kopiert n Bytes von src nach dest. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em dest} & Zielpuffer, in den die Bytes kopiert werden. \\
+\hline
+{\em src} & Quellpuffer, von dem die Bytes gelesen werden. \\
+\hline
+{\em n} & Anzahl der zu kopierenden Bytes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Zeiger auf den Zielpuffer. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00026}{26}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_abd0b7308d29c607a1ed59eb93eea4cf4}\label{wgrhal_8h_abd0b7308d29c607a1ed59eb93eea4cf4} 
+\index{wgrhal.h@{wgrhal.h}!memmove@{memmove}}
+\index{memmove@{memmove}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{memmove()}{memmove()}}
+{\footnotesize\ttfamily void \texorpdfstring{$\ast$}{*} memmove (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{dest,  }\item[{const void \texorpdfstring{$\ast$}{*}}]{src,  }\item[{uint32\+\_\+t}]{n }\end{DoxyParamCaption})}
+
+
+
+Kopiert n Bytes von src nach dest, wobei sich überlappende Speicherbereiche korrekt behandelt werden. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em dest} & Zielpuffer. \\
+\hline
+{\em src} & Quellpuffer. \\
+\hline
+{\em n} & Anzahl der zu kopierenden Bytes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Zeiger auf den Zielpuffer. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00047}{47}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_abad4a00a034620e2f61d2c63b3fc4a03}\label{wgrhal_8h_abad4a00a034620e2f61d2c63b3fc4a03} 
+\index{wgrhal.h@{wgrhal.h}!memset@{memset}}
+\index{memset@{memset}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{memset()}{memset()}}
+{\footnotesize\ttfamily void \texorpdfstring{$\ast$}{*} memset (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{dest,  }\item[{int32\+\_\+t}]{c,  }\item[{uint32\+\_\+t}]{n }\end{DoxyParamCaption})}
+
+
+
+Setzt n Bytes im Zielpuffer auf den Wert c. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em dest} & Zielpuffer, in dem der Wert gesetzt wird. \\
+\hline
+{\em c} & Zu setzender Wert. \\
+\hline
+{\em n} & Anzahl der Bytes, die gesetzt werden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Zeiger auf den Zielpuffer. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00037}{37}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_af543edc4b91ee97e556de2f0bbc709ad}\label{wgrhal_8h_af543edc4b91ee97e556de2f0bbc709ad} 
+\index{wgrhal.h@{wgrhal.h}!micros@{micros}}
+\index{micros@{micros}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{micros()}{micros()}}
+{\footnotesize\ttfamily uint32\+\_\+t micros (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Liest den aktuellen Mikrosekunden-\/\+Zähler (32-\/Bit). 
+
+\begin{DoxyReturn}{Rückgabe}
+Mikrosekunden-\/\+Zähler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00540}{540}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_acf09b93a53eb37613a82a2ed6840db2a}\label{wgrhal_8h_acf09b93a53eb37613a82a2ed6840db2a} 
+\index{wgrhal.h@{wgrhal.h}!micros\_long@{micros\_long}}
+\index{micros\_long@{micros\_long}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{micros\_long()}{micros\_long()}}
+{\footnotesize\ttfamily uint64\+\_\+t micros\+\_\+long (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Liest einen langen Mikrosekunden-\/\+Zähler. 
+
+\begin{DoxyReturn}{Rückgabe}
+64-\/Bit Mikrosekunden-\/\+Zähler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00526}{526}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a78ac519de74f6baf904aac203bd2a31b}\label{wgrhal_8h_a78ac519de74f6baf904aac203bd2a31b} 
+\index{wgrhal.h@{wgrhal.h}!micros\_reset@{micros\_reset}}
+\index{micros\_reset@{micros\_reset}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{micros\_reset()}{micros\_reset()}}
+{\footnotesize\ttfamily void micros\+\_\+reset (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Setzt den Mikrosekunden-\/\+Zähler zurück. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00521}{521}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_acd8d13c328bebdf9eddea27ff9448c2d}\label{wgrhal_8h_acd8d13c328bebdf9eddea27ff9448c2d} 
+\index{wgrhal.h@{wgrhal.h}!millis@{millis}}
+\index{millis@{millis}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{millis()}{millis()}}
+{\footnotesize\ttfamily uint32\+\_\+t millis (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Liest den aktuellen Millisekunden-\/\+Zähler (32-\/Bit). 
+
+\begin{DoxyReturn}{Rückgabe}
+Millisekunden-\/\+Zähler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00516}{516}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a69fc319ca14af94ec2ba0d631e184ffe}\label{wgrhal_8h_a69fc319ca14af94ec2ba0d631e184ffe} 
+\index{wgrhal.h@{wgrhal.h}!millis\_long@{millis\_long}}
+\index{millis\_long@{millis\_long}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{millis\_long()}{millis\_long()}}
+{\footnotesize\ttfamily uint64\+\_\+t millis\+\_\+long (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Liest einen langen Millisekunden-\/\+Zähler. 
+
+\begin{DoxyReturn}{Rückgabe}
+64-\/Bit Millisekunden-\/\+Zähler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00502}{502}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a9b473803ac0157bb41b51c353bc43c08}\label{wgrhal_8h_a9b473803ac0157bb41b51c353bc43c08} 
+\index{wgrhal.h@{wgrhal.h}!millis\_reset@{millis\_reset}}
+\index{millis\_reset@{millis\_reset}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{millis\_reset()}{millis\_reset()}}
+{\footnotesize\ttfamily void millis\+\_\+reset (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Setzt den Millisekunden-\/\+Zähler zurück. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00497}{497}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a330863c892e5645fd360459f6d5b5e6f}\label{wgrhal_8h_a330863c892e5645fd360459f6d5b5e6f} 
+\index{wgrhal.h@{wgrhal.h}!parse\_int\_multi@{parse\_int\_multi}}
+\index{parse\_int\_multi@{parse\_int\_multi}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{parse\_int\_multi()}{parse\_int\_multi()}}
+{\footnotesize\ttfamily int32\+\_\+t parse\+\_\+int\+\_\+multi (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{str,  }\item[{const char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{next }\end{DoxyParamCaption})}
+
+
+
+Parst eine Ganzzahl aus einem String und gibt den Zeiger auf das nächste Zeichen zurück. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em str} & Zu parsender String. \\
+\hline
+{\em next} & Zeiger auf den Reststring nach der Ganzzahl. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Die geparste Ganzzahl oder -\/1 bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00205}{205}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a4b65c59095f63a809c91ec69ec3074ae}\label{wgrhal_8h_a4b65c59095f63a809c91ec69ec3074ae} 
+\index{wgrhal.h@{wgrhal.h}!parse\_integer@{parse\_integer}}
+\index{parse\_integer@{parse\_integer}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{parse\_integer()}{parse\_integer()}}
+{\footnotesize\ttfamily int32\+\_\+t parse\+\_\+integer (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{str }\end{DoxyParamCaption})}
+
+
+
+Parst einen String in eine Ganzzahl. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em str} & Zu parsender String. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Die geparste Ganzzahl oder -\/1 bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00165}{165}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_ad5174fddb86649f8478ea36cac1a7b22}\label{wgrhal_8h_ad5174fddb86649f8478ea36cac1a7b22} 
+\index{wgrhal.h@{wgrhal.h}!pwm\_get\_control@{pwm\_get\_control}}
+\index{pwm\_get\_control@{pwm\_get\_control}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{pwm\_get\_control()}{pwm\_get\_control()}}
+{\footnotesize\ttfamily uint32\+\_\+t pwm\+\_\+get\+\_\+control (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Liest den aktuellen PWM-\/\+Kontrollwert. 
+
+\begin{DoxyReturn}{Rückgabe}
+Aktueller Kontrollwert. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00599}{599}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_ab7064391af52aef671dca3a094743b5f}\label{wgrhal_8h_ab7064391af52aef671dca3a094743b5f} 
+\index{wgrhal.h@{wgrhal.h}!pwm\_get\_counter@{pwm\_get\_counter}}
+\index{pwm\_get\_counter@{pwm\_get\_counter}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{pwm\_get\_counter()}{pwm\_get\_counter()}}
+{\footnotesize\ttfamily uint32\+\_\+t pwm\+\_\+get\+\_\+counter (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Liest den aktuellen PWM-\/\+Zählerstand. 
+
+\begin{DoxyReturn}{Rückgabe}
+Aktueller Zählerstand. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00589}{589}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a5a620c4306a75d13e548749cd3ac1fd9}\label{wgrhal_8h_a5a620c4306a75d13e548749cd3ac1fd9} 
+\index{wgrhal.h@{wgrhal.h}!pwm\_get\_duty@{pwm\_get\_duty}}
+\index{pwm\_get\_duty@{pwm\_get\_duty}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{pwm\_get\_duty()}{pwm\_get\_duty()}}
+{\footnotesize\ttfamily uint32\+\_\+t pwm\+\_\+get\+\_\+duty (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Liest das aktuelle PWM-\/\+Duty-\/\+Cycle. 
+
+\begin{DoxyReturn}{Rückgabe}
+Aktueller Duty-\/\+Cycle. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00584}{584}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a0c1471f235cc668807a3ffe9d8a9af94}\label{wgrhal_8h_a0c1471f235cc668807a3ffe9d8a9af94} 
+\index{wgrhal.h@{wgrhal.h}!pwm\_get\_mode@{pwm\_get\_mode}}
+\index{pwm\_get\_mode@{pwm\_get\_mode}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{pwm\_get\_mode()}{pwm\_get\_mode()}}
+{\footnotesize\ttfamily uint32\+\_\+t pwm\+\_\+get\+\_\+mode (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Liest den aktuellen PWM-\/\+Modus. 
+
+\begin{DoxyReturn}{Rückgabe}
+1 wenn aktiviert, sonst 0. 
+\end{DoxyReturn}
+\Hypertarget{wgrhal_8h_ae40114c581d29452dc2acebb8761363a}\label{wgrhal_8h_ae40114c581d29452dc2acebb8761363a} 
+\index{wgrhal.h@{wgrhal.h}!pwm\_get\_period@{pwm\_get\_period}}
+\index{pwm\_get\_period@{pwm\_get\_period}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{pwm\_get\_period()}{pwm\_get\_period()}}
+{\footnotesize\ttfamily uint32\+\_\+t pwm\+\_\+get\+\_\+period (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Liest die aktuelle PWM-\/\+Periode. 
+
+\begin{DoxyReturn}{Rückgabe}
+Aktuelle Periode. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00579}{579}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_afe5b9796f4ed3357cc7b0c37dd4d2e2e}\label{wgrhal_8h_afe5b9796f4ed3357cc7b0c37dd4d2e2e} 
+\index{wgrhal.h@{wgrhal.h}!pwm\_get\_pre\_counter@{pwm\_get\_pre\_counter}}
+\index{pwm\_get\_pre\_counter@{pwm\_get\_pre\_counter}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{pwm\_get\_pre\_counter()}{pwm\_get\_pre\_counter()}}
+{\footnotesize\ttfamily uint32\+\_\+t pwm\+\_\+get\+\_\+pre\+\_\+counter (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Liest den aktuellen Pre-\/\+Counter für PWM. 
+
+\begin{DoxyReturn}{Rückgabe}
+Aktueller Pre-\/\+Counter-\/\+Wert. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00631}{631}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a0cdeefddfdeab6338f2bad39f29c2400}\label{wgrhal_8h_a0cdeefddfdeab6338f2bad39f29c2400} 
+\index{wgrhal.h@{wgrhal.h}!pwm\_set\_50\_percent\_mode@{pwm\_set\_50\_percent\_mode}}
+\index{pwm\_set\_50\_percent\_mode@{pwm\_set\_50\_percent\_mode}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{pwm\_set\_50\_percent\_mode()}{pwm\_set\_50\_percent\_mode()}}
+{\footnotesize\ttfamily void pwm\+\_\+set\+\_\+50\+\_\+percent\+\_\+mode (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{enable }\end{DoxyParamCaption})}
+
+
+
+Aktiviert oder deaktiviert den 50\%-\/Modus des PWM. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em enable} & 1 zum Aktivieren, 0 zum Deaktivieren. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00614}{614}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a82572b171349440e47a51e29afd8599f}\label{wgrhal_8h_a82572b171349440e47a51e29afd8599f} 
+\index{wgrhal.h@{wgrhal.h}!pwm\_set\_control@{pwm\_set\_control}}
+\index{pwm\_set\_control@{pwm\_set\_control}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{pwm\_set\_control()}{pwm\_set\_control()}}
+{\footnotesize\ttfamily void pwm\+\_\+set\+\_\+control (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{control }\end{DoxyParamCaption})}
+
+
+
+Setzt den PWM-\/\+Kontrollwert. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em control} & Neuer Kontrollwert. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00594}{594}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a93d8058a4f2abcda0453fb2755e101aa}\label{wgrhal_8h_a93d8058a4f2abcda0453fb2755e101aa} 
+\index{wgrhal.h@{wgrhal.h}!pwm\_set\_duty@{pwm\_set\_duty}}
+\index{pwm\_set\_duty@{pwm\_set\_duty}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{pwm\_set\_duty()}{pwm\_set\_duty()}}
+{\footnotesize\ttfamily void pwm\+\_\+set\+\_\+duty (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{duty }\end{DoxyParamCaption})}
+
+
+
+Setzt das PWM-\/\+Duty-\/\+Cycle. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em duty} & Neuer Duty-\/\+Cycle. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00574}{574}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a033dcf0c1737988edd74033e69723258}\label{wgrhal_8h_a033dcf0c1737988edd74033e69723258} 
+\index{wgrhal.h@{wgrhal.h}!pwm\_set\_mode@{pwm\_set\_mode}}
+\index{pwm\_set\_mode@{pwm\_set\_mode}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{pwm\_set\_mode()}{pwm\_set\_mode()}}
+{\footnotesize\ttfamily void pwm\+\_\+set\+\_\+mode (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{enable\+\_\+pwm }\end{DoxyParamCaption})}
+
+
+
+Aktiviert oder deaktiviert den PWM-\/\+Modus. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em enable\+\_\+pwm} & 1 zum Aktivieren, 0 zum Deaktivieren. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00604}{604}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a604372620fe1947712e1db5116b750c6}\label{wgrhal_8h_a604372620fe1947712e1db5116b750c6} 
+\index{wgrhal.h@{wgrhal.h}!pwm\_set\_period@{pwm\_set\_period}}
+\index{pwm\_set\_period@{pwm\_set\_period}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{pwm\_set\_period()}{pwm\_set\_period()}}
+{\footnotesize\ttfamily void pwm\+\_\+set\+\_\+period (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{period }\end{DoxyParamCaption})}
+
+
+
+Setzt die PWM-\/\+Periode. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em period} & Neue Periode. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00569}{569}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a6cddac9bea648b64721d5c3dc5aa0153}\label{wgrhal_8h_a6cddac9bea648b64721d5c3dc5aa0153} 
+\index{wgrhal.h@{wgrhal.h}!pwm\_set\_pre\_counter@{pwm\_set\_pre\_counter}}
+\index{pwm\_set\_pre\_counter@{pwm\_set\_pre\_counter}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{pwm\_set\_pre\_counter()}{pwm\_set\_pre\_counter()}}
+{\footnotesize\ttfamily void pwm\+\_\+set\+\_\+pre\+\_\+counter (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{pre\+\_\+counter }\end{DoxyParamCaption})}
+
+
+
+Setzt den Pre-\/\+Counter für PWM. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em pre\+\_\+counter} & Neuer Pre-\/\+Counter-\/\+Wert. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00624}{624}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a90626f44fb128936392b79bc8c06d03f}\label{wgrhal_8h_a90626f44fb128936392b79bc8c06d03f} 
+\index{wgrhal.h@{wgrhal.h}!strcmp@{strcmp}}
+\index{strcmp@{strcmp}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{strcmp()}{strcmp()}}
+{\footnotesize\ttfamily int32\+\_\+t strcmp (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{s1,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{s2 }\end{DoxyParamCaption})}
+
+
+
+Vergleicht zwei Strings. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em s1} & Erster String. \\
+\hline
+{\em s2} & Zweiter String. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Differenz der ersten unterschiedlichen Zeichen, oder 0, wenn die Strings gleich sind. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00086}{86}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_ac5082c8ce4f0cddd88bf4d0d2e738308}\label{wgrhal_8h_ac5082c8ce4f0cddd88bf4d0d2e738308} 
+\index{wgrhal.h@{wgrhal.h}!strcpy@{strcpy}}
+\index{strcpy@{strcpy}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{strcpy()}{strcpy()}}
+{\footnotesize\ttfamily char \texorpdfstring{$\ast$}{*} strcpy (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{dest,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{src }\end{DoxyParamCaption})}
+
+
+
+Kopiert einen String von src nach dest. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em dest} & Zielpuffer, in den der String kopiert wird. \\
+\hline
+{\em src} & Quellstring. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Zeiger auf den Zielpuffer. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00114}{114}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_adb355892c2a2bf574f79bd8a4979183c}\label{wgrhal_8h_adb355892c2a2bf574f79bd8a4979183c} 
+\index{wgrhal.h@{wgrhal.h}!strlen@{strlen}}
+\index{strlen@{strlen}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{strlen()}{strlen()}}
+{\footnotesize\ttfamily uint32\+\_\+t strlen (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{s }\end{DoxyParamCaption})}
+
+
+
+Bestimmt die Länge eines Strings. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em s} & Zeiger auf den Null-\/terminierten String. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Länge des Strings ohne das Nullzeichen. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00076}{76}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_abc6cd736990d62c806bf6df4db9cfa6a}\label{wgrhal_8h_abc6cd736990d62c806bf6df4db9cfa6a} 
+\index{wgrhal.h@{wgrhal.h}!strncmp@{strncmp}}
+\index{strncmp@{strncmp}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{strncmp()}{strncmp()}}
+{\footnotesize\ttfamily int32\+\_\+t strncmp (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{s1,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{s2,  }\item[{uint32\+\_\+t}]{n }\end{DoxyParamCaption})}
+
+
+
+Vergleicht maximal n Zeichen zweier Strings. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em s1} & Erster String. \\
+\hline
+{\em s2} & Zweiter String. \\
+\hline
+{\em n} & Maximale Anzahl zu vergleichender Zeichen. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0, wenn die ersten n Zeichen gleich sind, sonst Differenz der ersten unterschiedlichen Zeichen. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00096}{96}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a9dbcc0696f2607e16da1f55d3b4d6d94}\label{wgrhal_8h_a9dbcc0696f2607e16da1f55d3b4d6d94} 
+\index{wgrhal.h@{wgrhal.h}!uart\_disable@{uart\_disable}}
+\index{uart\_disable@{uart\_disable}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_disable()}{uart\_disable()}}
+{\footnotesize\ttfamily void uart\+\_\+disable (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deaktiviert die UART-\/\+Schnittstelle. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00263}{263}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_affcbd24efeade3b1444100dbbc614e88}\label{wgrhal_8h_affcbd24efeade3b1444100dbbc614e88} 
+\index{wgrhal.h@{wgrhal.h}!uart\_enable@{uart\_enable}}
+\index{uart\_enable@{uart\_enable}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_enable()}{uart\_enable()}}
+{\footnotesize\ttfamily void uart\+\_\+enable (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Aktiviert die UART-\/\+Schnittstelle. 
+
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00257}{257}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a5bad7d6d8194b738aa1e7937f5bea84d}\label{wgrhal_8h_a5bad7d6d8194b738aa1e7937f5bea84d} 
+\index{wgrhal.h@{wgrhal.h}!uart\_get\_status@{uart\_get\_status}}
+\index{uart\_get\_status@{uart\_get\_status}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_get\_status()}{uart\_get\_status()}}
+{\footnotesize\ttfamily uint32\+\_\+t uart\+\_\+get\+\_\+status (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Liest den Status der UART-\/\+Schnittstelle. 
+
+\begin{DoxyReturn}{Rückgabe}
+Statuswert der UART. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00278}{278}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a2e02fbd2d390932b95c512d1efc9298f}\label{wgrhal_8h_a2e02fbd2d390932b95c512d1efc9298f} 
+\index{wgrhal.h@{wgrhal.h}!uart\_getchar@{uart\_getchar}}
+\index{uart\_getchar@{uart\_getchar}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_getchar()}{uart\_getchar()}}
+{\footnotesize\ttfamily char uart\+\_\+getchar (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{timeout\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Liest ein Zeichen von der UART-\/\+Schnittstelle. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em timeout\+\_\+ms} & Zeitlimit in Millisekunden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+Gelesenes Zeichen oder -\/1 bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00399}{399}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a061b29af542b7c7c337e248556b02dfa}\label{wgrhal_8h_a061b29af542b7c7c337e248556b02dfa} 
+\index{wgrhal.h@{wgrhal.h}!uart\_is\_busy@{uart\_is\_busy}}
+\index{uart\_is\_busy@{uart\_is\_busy}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_is\_busy()}{uart\_is\_busy()}}
+{\footnotesize\ttfamily uint32\+\_\+t uart\+\_\+is\+\_\+busy (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Prüft, ob die UART beschäftigt ist. 
+
+\begin{DoxyReturn}{Rückgabe}
+1, wenn beschäftigt, sonst 0. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00288}{288}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_ab1a6ded4eaa90bfdc80af584f3856afe}\label{wgrhal_8h_ab1a6ded4eaa90bfdc80af584f3856afe} 
+\index{wgrhal.h@{wgrhal.h}!uart\_is\_ready@{uart\_is\_ready}}
+\index{uart\_is\_ready@{uart\_is\_ready}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_is\_ready()}{uart\_is\_ready()}}
+{\footnotesize\ttfamily uint32\+\_\+t uart\+\_\+is\+\_\+ready (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Prüft, ob die UART bereit ist. 
+
+\begin{DoxyReturn}{Rückgabe}
+1, wenn bereit, sonst 0. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00283}{283}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a7f6fa26b16ca6ba80a0c419d8d2a0b87}\label{wgrhal_8h_a7f6fa26b16ca6ba80a0c419d8d2a0b87} 
+\index{wgrhal.h@{wgrhal.h}!uart\_print@{uart\_print}}
+\index{uart\_print@{uart\_print}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_print()}{uart\_print()}}
+{\footnotesize\ttfamily void uart\+\_\+print (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{s }\end{DoxyParamCaption})}
+
+
+
+Gibt einen String über die UART aus. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em s} & Zu druckender String. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00478}{478}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_adb6af6188fa7e2c1d4263b3dbf0399e1}\label{wgrhal_8h_adb6af6188fa7e2c1d4263b3dbf0399e1} 
+\index{wgrhal.h@{wgrhal.h}!uart\_print\_int@{uart\_print\_int}}
+\index{uart\_print\_int@{uart\_print\_int}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_print\_int()}{uart\_print\_int()}}
+{\footnotesize\ttfamily void uart\+\_\+print\+\_\+int (\begin{DoxyParamCaption}\item[{int32\+\_\+t}]{num }\end{DoxyParamCaption})}
+
+
+
+Gibt eine Ganzzahl über die UART aus. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em num} & Zu druckende Zahl. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00467}{467}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_ac59e57f479a6a34f22fb83f3e675c2f0}\label{wgrhal_8h_ac59e57f479a6a34f22fb83f3e675c2f0} 
+\index{wgrhal.h@{wgrhal.h}!uart\_print\_uint@{uart\_print\_uint}}
+\index{uart\_print\_uint@{uart\_print\_uint}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_print\_uint()}{uart\_print\_uint()}}
+{\footnotesize\ttfamily void uart\+\_\+print\+\_\+uint (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{num,  }\item[{int32\+\_\+t}]{base }\end{DoxyParamCaption})}
+
+
+
+Gibt eine positive Ganzzahl in einem bestimmten Zahlensystem über die UART aus. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em num} & Zu druckende Zahl. \\
+\hline
+{\em base} & Zahlensystembasis. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00438}{438}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a54b4bc733797705c34c61275c8878f33}\label{wgrhal_8h_a54b4bc733797705c34c61275c8878f33} 
+\index{wgrhal.h@{wgrhal.h}!uart\_putchar@{uart\_putchar}}
+\index{uart\_putchar@{uart\_putchar}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_putchar()}{uart\_putchar()}}
+{\footnotesize\ttfamily int32\+\_\+t uart\+\_\+putchar (\begin{DoxyParamCaption}\item[{char}]{c,  }\item[{uint32\+\_\+t}]{timeout\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Sendet ein Zeichen über die UART-\/\+Schnittstelle. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em c} & Zu sendendes Zeichen. \\
+\hline
+{\em timeout\+\_\+ms} & Zeitlimit in Millisekunden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00359}{359}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a7a36588204aa52f8b494f2dc42d239f8}\label{wgrhal_8h_a7a36588204aa52f8b494f2dc42d239f8} 
+\index{wgrhal.h@{wgrhal.h}!uart\_putchar\_default\_timeout@{uart\_putchar\_default\_timeout}}
+\index{uart\_putchar\_default\_timeout@{uart\_putchar\_default\_timeout}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_putchar\_default\_timeout()}{uart\_putchar\_default\_timeout()}}
+{\footnotesize\ttfamily void uart\+\_\+putchar\+\_\+default\+\_\+timeout (\begin{DoxyParamCaption}\item[{char}]{c }\end{DoxyParamCaption})}
+
+
+
+Sendet ein Zeichen über die UART-\/\+Schnittstelle mit voreingestelltem Timeout. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em c} & Zu sendendes Zeichen. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00364}{364}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a179a667316a09ff82a4dd13a7f259fa9}\label{wgrhal_8h_a179a667316a09ff82a4dd13a7f259fa9} 
+\index{wgrhal.h@{wgrhal.h}!uart\_read\_buffer@{uart\_read\_buffer}}
+\index{uart\_read\_buffer@{uart\_read\_buffer}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_read\_buffer()}{uart\_read\_buffer()}}
+{\footnotesize\ttfamily int32\+\_\+t uart\+\_\+read\+\_\+buffer (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buf,  }\item[{uint32\+\_\+t}]{length,  }\item[{uint32\+\_\+t}]{timeout\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Liest einen Puffer von Bytes von der UART-\/\+Schnittstelle. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em buf} & Zielpuffer für die gelesenen Bytes. \\
+\hline
+{\em length} & Anzahl der zu lesenden Bytes. \\
+\hline
+{\em timeout\+\_\+ms} & Zeitlimit in Millisekunden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00410}{410}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a34060cf101cd230661ecf470d6c7f905}\label{wgrhal_8h_a34060cf101cd230661ecf470d6c7f905} 
+\index{wgrhal.h@{wgrhal.h}!uart\_read\_byte@{uart\_read\_byte}}
+\index{uart\_read\_byte@{uart\_read\_byte}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_read\_byte()}{uart\_read\_byte()}}
+{\footnotesize\ttfamily int32\+\_\+t uart\+\_\+read\+\_\+byte (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{uint32\+\_\+t}]{timeout\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Liest ein Byte von der UART-\/\+Schnittstelle. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em data} & Zeiger, in den das gelesene Byte gespeichert wird. \\
+\hline
+{\em timeout\+\_\+ms} & Zeitlimit in Millisekunden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00388}{388}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a37ba439230aef6646b6b288e305c5df5}\label{wgrhal_8h_a37ba439230aef6646b6b288e305c5df5} 
+\index{wgrhal.h@{wgrhal.h}!uart\_rx\_empty@{uart\_rx\_empty}}
+\index{uart\_rx\_empty@{uart\_rx\_empty}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_rx\_empty()}{uart\_rx\_empty()}}
+{\footnotesize\ttfamily uint32\+\_\+t uart\+\_\+rx\+\_\+empty (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Prüft, ob der UART-\/\+Empfangspuffer leer ist. 
+
+\begin{DoxyReturn}{Rückgabe}
+1, wenn leer, sonst 0. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00298}{298}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a368ea109761a8b90658982b360613c48}\label{wgrhal_8h_a368ea109761a8b90658982b360613c48} 
+\index{wgrhal.h@{wgrhal.h}!uart\_rx\_full@{uart\_rx\_full}}
+\index{uart\_rx\_full@{uart\_rx\_full}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_rx\_full()}{uart\_rx\_full()}}
+{\footnotesize\ttfamily uint32\+\_\+t uart\+\_\+rx\+\_\+full (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Prüft, ob der UART-\/\+Empfangspuffer voll ist. 
+
+\begin{DoxyReturn}{Rückgabe}
+1, wenn voll, sonst 0. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00293}{293}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_aae84c2911b61766867c7ab0c7274ecef}\label{wgrhal_8h_aae84c2911b61766867c7ab0c7274ecef} 
+\index{wgrhal.h@{wgrhal.h}!uart\_send\_uint32@{uart\_send\_uint32}}
+\index{uart\_send\_uint32@{uart\_send\_uint32}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_send\_uint32()}{uart\_send\_uint32()}}
+{\footnotesize\ttfamily void uart\+\_\+send\+\_\+uint32 (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{value,  }\item[{uint32\+\_\+t}]{timeout\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Sendet einen 32-\/Bit-\/\+Wert über die UART-\/\+Schnittstelle. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em value} & Zu sendender Wert. \\
+\hline
+{\em timeout\+\_\+ms} & Zeitlimit in Millisekunden. \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00427}{427}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a5498909af441b90cee1c9c4544226b64}\label{wgrhal_8h_a5498909af441b90cee1c9c4544226b64} 
+\index{wgrhal.h@{wgrhal.h}!uart\_set\_baud@{uart\_set\_baud}}
+\index{uart\_set\_baud@{uart\_set\_baud}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_set\_baud()}{uart\_set\_baud()}}
+{\footnotesize\ttfamily void uart\+\_\+set\+\_\+baud (\begin{DoxyParamCaption}\item[{baud\+\_\+sel\+\_\+t}]{baud }\end{DoxyParamCaption})}
+
+
+
+Setzt die Baudrate der UART-\/\+Schnittstelle. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em baud} & Auswahl der Baudrate (baud\+\_\+sel\+\_\+t). \\
+\hline
+\end{DoxyParams}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00269}{269}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a11dc5096bf94f813b70e38175ea15921}\label{wgrhal_8h_a11dc5096bf94f813b70e38175ea15921} 
+\index{wgrhal.h@{wgrhal.h}!uart\_tx\_empty@{uart\_tx\_empty}}
+\index{uart\_tx\_empty@{uart\_tx\_empty}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_tx\_empty()}{uart\_tx\_empty()}}
+{\footnotesize\ttfamily uint32\+\_\+t uart\+\_\+tx\+\_\+empty (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Prüft, ob der UART-\/\+Sende-\/\+Puffer leer ist. 
+
+\begin{DoxyReturn}{Rückgabe}
+1, wenn leer, sonst 0. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00308}{308}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_ab65244cd0320f59c465f63d172423def}\label{wgrhal_8h_ab65244cd0320f59c465f63d172423def} 
+\index{wgrhal.h@{wgrhal.h}!uart\_tx\_full@{uart\_tx\_full}}
+\index{uart\_tx\_full@{uart\_tx\_full}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_tx\_full()}{uart\_tx\_full()}}
+{\footnotesize\ttfamily uint32\+\_\+t uart\+\_\+tx\+\_\+full (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Prüft, ob der UART-\/\+Sende-\/\+Puffer voll ist. 
+
+\begin{DoxyReturn}{Rückgabe}
+1, wenn voll, sonst 0. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00303}{303}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a52de6181dcc87428e54f9e064fb4ca95}\label{wgrhal_8h_a52de6181dcc87428e54f9e064fb4ca95} 
+\index{wgrhal.h@{wgrhal.h}!uart\_wait\_rx\_data@{uart\_wait\_rx\_data}}
+\index{uart\_wait\_rx\_data@{uart\_wait\_rx\_data}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_wait\_rx\_data()}{uart\_wait\_rx\_data()}}
+{\footnotesize\ttfamily int32\+\_\+t uart\+\_\+wait\+\_\+rx\+\_\+data (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{timeout\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Wartet darauf, dass Daten im Empfangspuffer vorhanden sind, bis zu einer Zeitüberschreitung. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em timeout\+\_\+ms} & Zeitlimit in Millisekunden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Zeitüberschreitung. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00328}{328}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_abb6b9516c857f33ff60f5d9ea6397289}\label{wgrhal_8h_abb6b9516c857f33ff60f5d9ea6397289} 
+\index{wgrhal.h@{wgrhal.h}!uart\_wait\_tx\_full@{uart\_wait\_tx\_full}}
+\index{uart\_wait\_tx\_full@{uart\_wait\_tx\_full}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_wait\_tx\_full()}{uart\_wait\_tx\_full()}}
+{\footnotesize\ttfamily int32\+\_\+t uart\+\_\+wait\+\_\+tx\+\_\+full (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{timeout\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Wartet darauf, dass der Sende-\/\+Puffer voll wird, bis zu einer Zeitüberschreitung. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em timeout\+\_\+ms} & Zeitlimit in Millisekunden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Zeitüberschreitung. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00313}{313}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_a1e061505c3bb90fa503f2dda687ea1f7}\label{wgrhal_8h_a1e061505c3bb90fa503f2dda687ea1f7} 
+\index{wgrhal.h@{wgrhal.h}!uart\_write\_buffer@{uart\_write\_buffer}}
+\index{uart\_write\_buffer@{uart\_write\_buffer}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_write\_buffer()}{uart\_write\_buffer()}}
+{\footnotesize\ttfamily int32\+\_\+t uart\+\_\+write\+\_\+buffer (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{uint32\+\_\+t}]{length,  }\item[{uint32\+\_\+t}]{timeout\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Sendet einen Puffer von Bytes über die UART-\/\+Schnittstelle. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em buffer} & Zeiger auf den zu sendenden Datenpuffer. \\
+\hline
+{\em length} & Anzahl der zu sendenden Bytes. \\
+\hline
+{\em timeout\+\_\+ms} & Zeitlimit in Millisekunden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00369}{369}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+
+\Hypertarget{wgrhal_8h_ac7bcd54c54129cff9aec91b77647b48f}\label{wgrhal_8h_ac7bcd54c54129cff9aec91b77647b48f} 
+\index{wgrhal.h@{wgrhal.h}!uart\_write\_byte@{uart\_write\_byte}}
+\index{uart\_write\_byte@{uart\_write\_byte}!wgrhal.h@{wgrhal.h}}
+\doxysubsubsection{\texorpdfstring{uart\_write\_byte()}{uart\_write\_byte()}}
+{\footnotesize\ttfamily int32\+\_\+t uart\+\_\+write\+\_\+byte (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{data,  }\item[{uint32\+\_\+t}]{timeout\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Sendet ein Byte über die UART-\/\+Schnittstelle. 
+
+
+\begin{DoxyParams}{Parameter}
+{\em data} & Zu sendendes Byte. \\
+\hline
+{\em timeout\+\_\+ms} & Zeitlimit in Millisekunden. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Rückgabe}
+0 bei Erfolg, -\/1 bei Fehler. 
+\end{DoxyReturn}
+
+
+Definiert in Zeile \mbox{\hyperlink{wgrhal_8c_source_l00343}{343}} der Datei \mbox{\hyperlink{wgrhal_8c_source}{wgrhal.\+c}}.
+

@@ -1,0 +1,391 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\babel@toc {ngerman}{}\relax 
+\contentsline {chapter}{\numberline {1}Datenstruktur-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Verzeichnis}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Datenstrukturen}{1}{section.1.1}%
+\contentsline {chapter}{\numberline {2}Datei-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Verzeichnis}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Auflistung der Dateien}{3}{section.2.1}%
+\contentsline {chapter}{\numberline {3}Datenstruktur-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Dokumentation}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}div\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}result\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Strukturreferenz}{5}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Ausführliche Beschreibung}{5}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Dokumentation der Felder}{5}{subsection.3.1.2}%
+\contentsline {subsubsection}{\numberline {3.1.2.1}dividend}{5}{subsubsection.3.1.2.1}%
+\contentsline {subsubsection}{\numberline {3.1.2.2}divisor}{6}{subsubsection.3.1.2.2}%
+\contentsline {subsubsection}{\numberline {3.1.2.3}quotient}{6}{subsubsection.3.1.2.3}%
+\contentsline {subsubsection}{\numberline {3.1.2.4}remainder}{6}{subsubsection.3.1.2.4}%
+\contentsline {section}{\numberline {3.2}divmod\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}result Strukturreferenz}{6}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Ausführliche Beschreibung}{6}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Dokumentation der Felder}{6}{subsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.2.1}quotient}{6}{subsubsection.3.2.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2.2}remainder}{7}{subsubsection.3.2.2.2}%
+\contentsline {section}{\numberline {3.3}float\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}union Variantenreferenz}{7}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Ausführliche Beschreibung}{7}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Dokumentation der Felder}{7}{subsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.2.1}f}{7}{subsubsection.3.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.3.2.2}i}{7}{subsubsection.3.3.2.2}%
+\contentsline {section}{\numberline {3.4}header Variantenreferenz}{7}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Ausführliche Beschreibung}{8}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Dokumentation der Felder}{8}{subsection.3.4.2}%
+\contentsline {subsubsection}{\numberline {3.4.2.1}next}{8}{subsubsection.3.4.2.1}%
+\contentsline {subsubsection}{\numberline {3.4.2.2}size}{8}{subsubsection.3.4.2.2}%
+\contentsline {subsubsection}{\numberline {3.4.2.3}x}{8}{subsubsection.3.4.2.3}%
+\contentsline {section}{\numberline {3.5}rgb\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}color\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Strukturreferenz}{8}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Ausführliche Beschreibung}{8}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Dokumentation der Felder}{9}{subsection.3.5.2}%
+\contentsline {subsubsection}{\numberline {3.5.2.1}b}{9}{subsubsection.3.5.2.1}%
+\contentsline {subsubsection}{\numberline {3.5.2.2}g}{9}{subsubsection.3.5.2.2}%
+\contentsline {subsubsection}{\numberline {3.5.2.3}r}{9}{subsubsection.3.5.2.3}%
+\contentsline {chapter}{\numberline {4}Datei-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Dokumentation}{11}{chapter.4}%
+\contentsline {section}{\numberline {4.1}/home/runner/work/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}PROE\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}WGR-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}V/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}PROE\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}WGR-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}V/src/lib/wgrhal.c-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Dateireferenz}{11}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Ausführliche Beschreibung}{14}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Dokumentation der Funktionen}{14}{subsection.4.1.2}%
+\contentsline {subsubsection}{\numberline {4.1.2.1}debug\_write()}{14}{subsubsection.4.1.2.1}%
+\contentsline {subsubsection}{\numberline {4.1.2.2}delay()}{14}{subsubsection.4.1.2.2}%
+\contentsline {subsubsection}{\numberline {4.1.2.3}delay\_micro()}{15}{subsubsection.4.1.2.3}%
+\contentsline {subsubsection}{\numberline {4.1.2.4}get\_sys\_clk()}{15}{subsubsection.4.1.2.4}%
+\contentsline {subsubsection}{\numberline {4.1.2.5}gpio\_read\_all\_pins()}{15}{subsubsection.4.1.2.5}%
+\contentsline {subsubsection}{\numberline {4.1.2.6}gpio\_read\_direction()}{15}{subsubsection.4.1.2.6}%
+\contentsline {subsubsection}{\numberline {4.1.2.7}gpio\_read\_pin()}{16}{subsubsection.4.1.2.7}%
+\contentsline {subsubsection}{\numberline {4.1.2.8}gpio\_set\_direction()}{16}{subsubsection.4.1.2.8}%
+\contentsline {subsubsection}{\numberline {4.1.2.9}gpio\_write\_pin()}{16}{subsubsection.4.1.2.9}%
+\contentsline {subsubsection}{\numberline {4.1.2.10}int\_to\_str()}{18}{subsubsection.4.1.2.10}%
+\contentsline {subsubsection}{\numberline {4.1.2.11}memcpy()}{18}{subsubsection.4.1.2.11}%
+\contentsline {subsubsection}{\numberline {4.1.2.12}memmove()}{18}{subsubsection.4.1.2.12}%
+\contentsline {subsubsection}{\numberline {4.1.2.13}memset()}{19}{subsubsection.4.1.2.13}%
+\contentsline {subsubsection}{\numberline {4.1.2.14}micros()}{19}{subsubsection.4.1.2.14}%
+\contentsline {subsubsection}{\numberline {4.1.2.15}micros\_long()}{20}{subsubsection.4.1.2.15}%
+\contentsline {subsubsection}{\numberline {4.1.2.16}micros\_reset()}{20}{subsubsection.4.1.2.16}%
+\contentsline {subsubsection}{\numberline {4.1.2.17}millis()}{20}{subsubsection.4.1.2.17}%
+\contentsline {subsubsection}{\numberline {4.1.2.18}millis\_long()}{20}{subsubsection.4.1.2.18}%
+\contentsline {subsubsection}{\numberline {4.1.2.19}millis\_reset()}{21}{subsubsection.4.1.2.19}%
+\contentsline {subsubsection}{\numberline {4.1.2.20}parse\_int\_multi()}{21}{subsubsection.4.1.2.20}%
+\contentsline {subsubsection}{\numberline {4.1.2.21}parse\_integer()}{22}{subsubsection.4.1.2.21}%
+\contentsline {subsubsection}{\numberline {4.1.2.22}pwm\_get\_control()}{22}{subsubsection.4.1.2.22}%
+\contentsline {subsubsection}{\numberline {4.1.2.23}pwm\_get\_counter()}{22}{subsubsection.4.1.2.23}%
+\contentsline {subsubsection}{\numberline {4.1.2.24}pwm\_get\_duty()}{23}{subsubsection.4.1.2.24}%
+\contentsline {subsubsection}{\numberline {4.1.2.25}pwm\_get\_period()}{23}{subsubsection.4.1.2.25}%
+\contentsline {subsubsection}{\numberline {4.1.2.26}pwm\_get\_pre\_counter()}{23}{subsubsection.4.1.2.26}%
+\contentsline {subsubsection}{\numberline {4.1.2.27}pwm\_set\_50\_percent\_mode()}{23}{subsubsection.4.1.2.27}%
+\contentsline {subsubsection}{\numberline {4.1.2.28}pwm\_set\_control()}{24}{subsubsection.4.1.2.28}%
+\contentsline {subsubsection}{\numberline {4.1.2.29}pwm\_set\_duty()}{24}{subsubsection.4.1.2.29}%
+\contentsline {subsubsection}{\numberline {4.1.2.30}pwm\_set\_mode()}{24}{subsubsection.4.1.2.30}%
+\contentsline {subsubsection}{\numberline {4.1.2.31}pwm\_set\_period()}{24}{subsubsection.4.1.2.31}%
+\contentsline {subsubsection}{\numberline {4.1.2.32}pwm\_set\_pre\_counter()}{25}{subsubsection.4.1.2.32}%
+\contentsline {subsubsection}{\numberline {4.1.2.33}strcmp()}{25}{subsubsection.4.1.2.33}%
+\contentsline {subsubsection}{\numberline {4.1.2.34}strcpy()}{25}{subsubsection.4.1.2.34}%
+\contentsline {subsubsection}{\numberline {4.1.2.35}strlen()}{26}{subsubsection.4.1.2.35}%
+\contentsline {subsubsection}{\numberline {4.1.2.36}strncmp()}{26}{subsubsection.4.1.2.36}%
+\contentsline {subsubsection}{\numberline {4.1.2.37}uart\_disable()}{27}{subsubsection.4.1.2.37}%
+\contentsline {subsubsection}{\numberline {4.1.2.38}uart\_enable()}{27}{subsubsection.4.1.2.38}%
+\contentsline {subsubsection}{\numberline {4.1.2.39}uart\_get\_status()}{27}{subsubsection.4.1.2.39}%
+\contentsline {subsubsection}{\numberline {4.1.2.40}uart\_getchar()}{27}{subsubsection.4.1.2.40}%
+\contentsline {subsubsection}{\numberline {4.1.2.41}uart\_is\_busy()}{28}{subsubsection.4.1.2.41}%
+\contentsline {subsubsection}{\numberline {4.1.2.42}uart\_is\_ready()}{28}{subsubsection.4.1.2.42}%
+\contentsline {subsubsection}{\numberline {4.1.2.43}uart\_print()}{28}{subsubsection.4.1.2.43}%
+\contentsline {subsubsection}{\numberline {4.1.2.44}uart\_print\_int()}{28}{subsubsection.4.1.2.44}%
+\contentsline {subsubsection}{\numberline {4.1.2.45}uart\_print\_uint()}{29}{subsubsection.4.1.2.45}%
+\contentsline {subsubsection}{\numberline {4.1.2.46}uart\_putchar()}{29}{subsubsection.4.1.2.46}%
+\contentsline {subsubsection}{\numberline {4.1.2.47}uart\_putchar\_default\_timeout()}{29}{subsubsection.4.1.2.47}%
+\contentsline {subsubsection}{\numberline {4.1.2.48}uart\_read\_buffer()}{30}{subsubsection.4.1.2.48}%
+\contentsline {subsubsection}{\numberline {4.1.2.49}uart\_read\_byte()}{30}{subsubsection.4.1.2.49}%
+\contentsline {subsubsection}{\numberline {4.1.2.50}uart\_rx\_empty()}{31}{subsubsection.4.1.2.50}%
+\contentsline {subsubsection}{\numberline {4.1.2.51}uart\_rx\_full()}{31}{subsubsection.4.1.2.51}%
+\contentsline {subsubsection}{\numberline {4.1.2.52}uart\_send\_uint32()}{31}{subsubsection.4.1.2.52}%
+\contentsline {subsubsection}{\numberline {4.1.2.53}uart\_set\_baud()}{31}{subsubsection.4.1.2.53}%
+\contentsline {subsubsection}{\numberline {4.1.2.54}uart\_tx\_empty()}{32}{subsubsection.4.1.2.54}%
+\contentsline {subsubsection}{\numberline {4.1.2.55}uart\_tx\_full()}{32}{subsubsection.4.1.2.55}%
+\contentsline {subsubsection}{\numberline {4.1.2.56}uart\_wait\_rx\_data()}{32}{subsubsection.4.1.2.56}%
+\contentsline {subsubsection}{\numberline {4.1.2.57}uart\_wait\_tx\_full()}{33}{subsubsection.4.1.2.57}%
+\contentsline {subsubsection}{\numberline {4.1.2.58}uart\_write\_buffer()}{33}{subsubsection.4.1.2.58}%
+\contentsline {subsubsection}{\numberline {4.1.2.59}uart\_write\_byte()}{33}{subsubsection.4.1.2.59}%
+\contentsline {section}{\numberline {4.2}wgrhal.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c}{34}{section.4.2}%
+\contentsline {section}{\numberline {4.3}/home/runner/work/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}PROE\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}WGR-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}V/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}PROE\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}WGR-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}V/src/lib/wgrhal.h-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Dateireferenz}{41}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Ausführliche Beschreibung}{45}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Makro-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Dokumentation}{46}{subsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.2.1}DEBUG\_ADDR}{46}{subsubsection.4.3.2.1}%
+\contentsline {subsubsection}{\numberline {4.3.2.2}DEFAULT\_TIMEOUT}{46}{subsubsection.4.3.2.2}%
+\contentsline {subsubsection}{\numberline {4.3.2.3}GPIO\_BASE\_ADDR}{46}{subsubsection.4.3.2.3}%
+\contentsline {subsubsection}{\numberline {4.3.2.4}GPIO\_DIR\_OFFSET}{46}{subsubsection.4.3.2.4}%
+\contentsline {subsubsection}{\numberline {4.3.2.5}GPIO\_IN\_OFFSET}{46}{subsubsection.4.3.2.5}%
+\contentsline {subsubsection}{\numberline {4.3.2.6}GPIO\_OUT\_OFFSET}{46}{subsubsection.4.3.2.6}%
+\contentsline {subsubsection}{\numberline {4.3.2.7}GPIO\_OUT\_STEP}{47}{subsubsection.4.3.2.7}%
+\contentsline {subsubsection}{\numberline {4.3.2.8}GPIO\_PIN\_COUNT}{47}{subsubsection.4.3.2.8}%
+\contentsline {subsubsection}{\numberline {4.3.2.9}HWREG32}{47}{subsubsection.4.3.2.9}%
+\contentsline {subsubsection}{\numberline {4.3.2.10}MALLOC}{47}{subsubsection.4.3.2.10}%
+\contentsline {subsubsection}{\numberline {4.3.2.11}nop}{47}{subsubsection.4.3.2.11}%
+\contentsline {subsubsection}{\numberline {4.3.2.12}PWM\_BASE\_ADDR}{47}{subsubsection.4.3.2.12}%
+\contentsline {subsubsection}{\numberline {4.3.2.13}PWM\_COUNTER\_OFFSET}{48}{subsubsection.4.3.2.13}%
+\contentsline {subsubsection}{\numberline {4.3.2.14}PWM\_CTRL\_OFFSET}{48}{subsubsection.4.3.2.14}%
+\contentsline {subsubsection}{\numberline {4.3.2.15}PWM\_DUTY\_OFFSET}{48}{subsubsection.4.3.2.15}%
+\contentsline {subsubsection}{\numberline {4.3.2.16}PWM\_NOTES}{48}{subsubsection.4.3.2.16}%
+\contentsline {subsubsection}{\numberline {4.3.2.17}PWM\_PERIOD\_OFFSET}{48}{subsubsection.4.3.2.17}%
+\contentsline {subsubsection}{\numberline {4.3.2.18}SSD1351}{48}{subsubsection.4.3.2.18}%
+\contentsline {subsubsection}{\numberline {4.3.2.19}SYS\_CLK\_OFFSET}{49}{subsubsection.4.3.2.19}%
+\contentsline {subsubsection}{\numberline {4.3.2.20}SYSTEM\_CLOCK}{49}{subsubsection.4.3.2.20}%
+\contentsline {subsubsection}{\numberline {4.3.2.21}TIME\_BASE\_ADDR}{49}{subsubsection.4.3.2.21}%
+\contentsline {subsubsection}{\numberline {4.3.2.22}TIME\_MIK\_H\_OFFSET}{49}{subsubsection.4.3.2.22}%
+\contentsline {subsubsection}{\numberline {4.3.2.23}TIME\_MIK\_L\_OFFSET}{49}{subsubsection.4.3.2.23}%
+\contentsline {subsubsection}{\numberline {4.3.2.24}TIME\_MS\_H\_OFFSET}{49}{subsubsection.4.3.2.24}%
+\contentsline {subsubsection}{\numberline {4.3.2.25}TIME\_MS\_L\_OFFSET}{50}{subsubsection.4.3.2.25}%
+\contentsline {subsubsection}{\numberline {4.3.2.26}UART\_BASE\_ADDR}{50}{subsubsection.4.3.2.26}%
+\contentsline {subsubsection}{\numberline {4.3.2.27}UART\_BAUD\_OFFSET}{50}{subsubsection.4.3.2.27}%
+\contentsline {subsubsection}{\numberline {4.3.2.28}UART\_CTRL\_OFFSET}{50}{subsubsection.4.3.2.28}%
+\contentsline {subsubsection}{\numberline {4.3.2.29}UART\_RX\_OFFSET}{50}{subsubsection.4.3.2.29}%
+\contentsline {subsubsection}{\numberline {4.3.2.30}UART\_STATUS\_OFFSET}{50}{subsubsection.4.3.2.30}%
+\contentsline {subsubsection}{\numberline {4.3.2.31}UART\_TX\_OFFSET}{51}{subsubsection.4.3.2.31}%
+\contentsline {subsection}{\numberline {4.3.3}Dokumentation der Funktionen}{51}{subsection.4.3.3}%
+\contentsline {subsubsection}{\numberline {4.3.3.1}debug\_write()}{51}{subsubsection.4.3.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.3.2}delay()}{52}{subsubsection.4.3.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3.3}delay\_micro()}{52}{subsubsection.4.3.3.3}%
+\contentsline {subsubsection}{\numberline {4.3.3.4}get\_sys\_clk()}{52}{subsubsection.4.3.3.4}%
+\contentsline {subsubsection}{\numberline {4.3.3.5}gpio\_read\_all\_pins()}{53}{subsubsection.4.3.3.5}%
+\contentsline {subsubsection}{\numberline {4.3.3.6}gpio\_read\_direction()}{53}{subsubsection.4.3.3.6}%
+\contentsline {subsubsection}{\numberline {4.3.3.7}gpio\_read\_pin()}{53}{subsubsection.4.3.3.7}%
+\contentsline {subsubsection}{\numberline {4.3.3.8}gpio\_set\_direction()}{54}{subsubsection.4.3.3.8}%
+\contentsline {subsubsection}{\numberline {4.3.3.9}gpio\_write\_pin()}{54}{subsubsection.4.3.3.9}%
+\contentsline {subsubsection}{\numberline {4.3.3.10}int\_to\_str()}{54}{subsubsection.4.3.3.10}%
+\contentsline {subsubsection}{\numberline {4.3.3.11}memcpy()}{55}{subsubsection.4.3.3.11}%
+\contentsline {subsubsection}{\numberline {4.3.3.12}memmove()}{55}{subsubsection.4.3.3.12}%
+\contentsline {subsubsection}{\numberline {4.3.3.13}memset()}{55}{subsubsection.4.3.3.13}%
+\contentsline {subsubsection}{\numberline {4.3.3.14}micros()}{56}{subsubsection.4.3.3.14}%
+\contentsline {subsubsection}{\numberline {4.3.3.15}micros\_long()}{56}{subsubsection.4.3.3.15}%
+\contentsline {subsubsection}{\numberline {4.3.3.16}micros\_reset()}{56}{subsubsection.4.3.3.16}%
+\contentsline {subsubsection}{\numberline {4.3.3.17}millis()}{57}{subsubsection.4.3.3.17}%
+\contentsline {subsubsection}{\numberline {4.3.3.18}millis\_long()}{57}{subsubsection.4.3.3.18}%
+\contentsline {subsubsection}{\numberline {4.3.3.19}millis\_reset()}{57}{subsubsection.4.3.3.19}%
+\contentsline {subsubsection}{\numberline {4.3.3.20}parse\_int\_multi()}{57}{subsubsection.4.3.3.20}%
+\contentsline {subsubsection}{\numberline {4.3.3.21}parse\_integer()}{58}{subsubsection.4.3.3.21}%
+\contentsline {subsubsection}{\numberline {4.3.3.22}pwm\_get\_control()}{58}{subsubsection.4.3.3.22}%
+\contentsline {subsubsection}{\numberline {4.3.3.23}pwm\_get\_counter()}{58}{subsubsection.4.3.3.23}%
+\contentsline {subsubsection}{\numberline {4.3.3.24}pwm\_get\_duty()}{59}{subsubsection.4.3.3.24}%
+\contentsline {subsubsection}{\numberline {4.3.3.25}pwm\_get\_mode()}{59}{subsubsection.4.3.3.25}%
+\contentsline {subsubsection}{\numberline {4.3.3.26}pwm\_get\_period()}{59}{subsubsection.4.3.3.26}%
+\contentsline {subsubsection}{\numberline {4.3.3.27}pwm\_get\_pre\_counter()}{59}{subsubsection.4.3.3.27}%
+\contentsline {subsubsection}{\numberline {4.3.3.28}pwm\_set\_50\_percent\_mode()}{59}{subsubsection.4.3.3.28}%
+\contentsline {subsubsection}{\numberline {4.3.3.29}pwm\_set\_control()}{60}{subsubsection.4.3.3.29}%
+\contentsline {subsubsection}{\numberline {4.3.3.30}pwm\_set\_duty()}{60}{subsubsection.4.3.3.30}%
+\contentsline {subsubsection}{\numberline {4.3.3.31}pwm\_set\_mode()}{60}{subsubsection.4.3.3.31}%
+\contentsline {subsubsection}{\numberline {4.3.3.32}pwm\_set\_period()}{61}{subsubsection.4.3.3.32}%
+\contentsline {subsubsection}{\numberline {4.3.3.33}pwm\_set\_pre\_counter()}{61}{subsubsection.4.3.3.33}%
+\contentsline {subsubsection}{\numberline {4.3.3.34}strcmp()}{61}{subsubsection.4.3.3.34}%
+\contentsline {subsubsection}{\numberline {4.3.3.35}strcpy()}{61}{subsubsection.4.3.3.35}%
+\contentsline {subsubsection}{\numberline {4.3.3.36}strlen()}{62}{subsubsection.4.3.3.36}%
+\contentsline {subsubsection}{\numberline {4.3.3.37}strncmp()}{62}{subsubsection.4.3.3.37}%
+\contentsline {subsubsection}{\numberline {4.3.3.38}uart\_disable()}{63}{subsubsection.4.3.3.38}%
+\contentsline {subsubsection}{\numberline {4.3.3.39}uart\_enable()}{63}{subsubsection.4.3.3.39}%
+\contentsline {subsubsection}{\numberline {4.3.3.40}uart\_get\_status()}{63}{subsubsection.4.3.3.40}%
+\contentsline {subsubsection}{\numberline {4.3.3.41}uart\_getchar()}{63}{subsubsection.4.3.3.41}%
+\contentsline {subsubsection}{\numberline {4.3.3.42}uart\_is\_busy()}{64}{subsubsection.4.3.3.42}%
+\contentsline {subsubsection}{\numberline {4.3.3.43}uart\_is\_ready()}{64}{subsubsection.4.3.3.43}%
+\contentsline {subsubsection}{\numberline {4.3.3.44}uart\_print()}{64}{subsubsection.4.3.3.44}%
+\contentsline {subsubsection}{\numberline {4.3.3.45}uart\_print\_int()}{64}{subsubsection.4.3.3.45}%
+\contentsline {subsubsection}{\numberline {4.3.3.46}uart\_print\_uint()}{65}{subsubsection.4.3.3.46}%
+\contentsline {subsubsection}{\numberline {4.3.3.47}uart\_putchar()}{65}{subsubsection.4.3.3.47}%
+\contentsline {subsubsection}{\numberline {4.3.3.48}uart\_putchar\_default\_timeout()}{65}{subsubsection.4.3.3.48}%
+\contentsline {subsubsection}{\numberline {4.3.3.49}uart\_read\_buffer()}{66}{subsubsection.4.3.3.49}%
+\contentsline {subsubsection}{\numberline {4.3.3.50}uart\_read\_byte()}{66}{subsubsection.4.3.3.50}%
+\contentsline {subsubsection}{\numberline {4.3.3.51}uart\_rx\_empty()}{67}{subsubsection.4.3.3.51}%
+\contentsline {subsubsection}{\numberline {4.3.3.52}uart\_rx\_full()}{67}{subsubsection.4.3.3.52}%
+\contentsline {subsubsection}{\numberline {4.3.3.53}uart\_send\_uint32()}{67}{subsubsection.4.3.3.53}%
+\contentsline {subsubsection}{\numberline {4.3.3.54}uart\_set\_baud()}{67}{subsubsection.4.3.3.54}%
+\contentsline {subsubsection}{\numberline {4.3.3.55}uart\_tx\_empty()}{68}{subsubsection.4.3.3.55}%
+\contentsline {subsubsection}{\numberline {4.3.3.56}uart\_tx\_full()}{68}{subsubsection.4.3.3.56}%
+\contentsline {subsubsection}{\numberline {4.3.3.57}uart\_wait\_rx\_data()}{68}{subsubsection.4.3.3.57}%
+\contentsline {subsubsection}{\numberline {4.3.3.58}uart\_wait\_tx\_full()}{69}{subsubsection.4.3.3.58}%
+\contentsline {subsubsection}{\numberline {4.3.3.59}uart\_write\_buffer()}{69}{subsubsection.4.3.3.59}%
+\contentsline {subsubsection}{\numberline {4.3.3.60}uart\_write\_byte()}{69}{subsubsection.4.3.3.60}%
+\contentsline {section}{\numberline {4.4}wgrhal.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{70}{section.4.4}%
+\contentsline {section}{\numberline {4.5}/home/runner/work/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}PROE\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}WGR-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}V/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}PROE\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}WGR-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}V/src/lib/wgrhal\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ext.c-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Dateireferenz}{72}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Ausführliche Beschreibung}{75}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Makro-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Dokumentation}{76}{subsection.4.5.2}%
+\contentsline {subsubsection}{\numberline {4.5.2.1}ENOMEM}{76}{subsubsection.4.5.2.1}%
+\contentsline {subsubsection}{\numberline {4.5.2.2}NALLOC}{76}{subsubsection.4.5.2.2}%
+\contentsline {subsection}{\numberline {4.5.3}Dokumentation der benutzerdefinierten Typen}{76}{subsection.4.5.3}%
+\contentsline {subsubsection}{\numberline {4.5.3.1}Align}{76}{subsubsection.4.5.3.1}%
+\contentsline {subsubsection}{\numberline {4.5.3.2}Header}{76}{subsubsection.4.5.3.2}%
+\contentsline {subsubsection}{\numberline {4.5.3.3}ptrdiff\_t}{76}{subsubsection.4.5.3.3}%
+\contentsline {subsection}{\numberline {4.5.4}Dokumentation der Funktionen}{76}{subsection.4.5.4}%
+\contentsline {subsubsection}{\numberline {4.5.4.1}calloc()}{76}{subsubsection.4.5.4.1}%
+\contentsline {subsubsection}{\numberline {4.5.4.2}clear\_terminal()}{77}{subsubsection.4.5.4.2}%
+\contentsline {subsubsection}{\numberline {4.5.4.3}clear\_terminal\_row()}{77}{subsubsection.4.5.4.3}%
+\contentsline {subsubsection}{\numberline {4.5.4.4}div\_calc()}{77}{subsubsection.4.5.4.4}%
+\contentsline {subsubsection}{\numberline {4.5.4.5}div\_calc\_quotient()}{78}{subsubsection.4.5.4.5}%
+\contentsline {subsubsection}{\numberline {4.5.4.6}div\_calc\_remainder()}{78}{subsubsection.4.5.4.6}%
+\contentsline {subsubsection}{\numberline {4.5.4.7}draw\_char\_cell()}{78}{subsubsection.4.5.4.7}%
+\contentsline {subsubsection}{\numberline {4.5.4.8}draw\_char\_cell\_custom()}{80}{subsubsection.4.5.4.8}%
+\contentsline {subsubsection}{\numberline {4.5.4.9}draw\_status\_bar()}{80}{subsubsection.4.5.4.9}%
+\contentsline {subsubsection}{\numberline {4.5.4.10}free()}{80}{subsubsection.4.5.4.10}%
+\contentsline {subsubsection}{\numberline {4.5.4.11}heap\_free\_space()}{81}{subsubsection.4.5.4.11}%
+\contentsline {subsubsection}{\numberline {4.5.4.12}malloc()}{81}{subsubsection.4.5.4.12}%
+\contentsline {subsubsection}{\numberline {4.5.4.13}mult\_calc()}{81}{subsubsection.4.5.4.13}%
+\contentsline {subsubsection}{\numberline {4.5.4.14}mult\_calc\_64()}{82}{subsubsection.4.5.4.14}%
+\contentsline {subsubsection}{\numberline {4.5.4.15}print\_error()}{82}{subsubsection.4.5.4.15}%
+\contentsline {subsubsection}{\numberline {4.5.4.16}print\_ok()}{82}{subsubsection.4.5.4.16}%
+\contentsline {subsubsection}{\numberline {4.5.4.17}print\_ok\_res()}{84}{subsubsection.4.5.4.17}%
+\contentsline {subsubsection}{\numberline {4.5.4.18}pwm\_free\_note\_buffer()}{84}{subsubsection.4.5.4.18}%
+\contentsline {subsubsection}{\numberline {4.5.4.19}pwm\_play\_note()}{84}{subsubsection.4.5.4.19}%
+\contentsline {subsubsection}{\numberline {4.5.4.20}pwm\_precompute\_notes()}{84}{subsubsection.4.5.4.20}%
+\contentsline {subsubsection}{\numberline {4.5.4.21}realloc()}{85}{subsubsection.4.5.4.21}%
+\contentsline {subsubsection}{\numberline {4.5.4.22}spi\_automatic\_cs()}{85}{subsubsection.4.5.4.22}%
+\contentsline {subsubsection}{\numberline {4.5.4.23}spi\_cs()}{85}{subsubsection.4.5.4.23}%
+\contentsline {subsubsection}{\numberline {4.5.4.24}spi\_disable()}{86}{subsubsection.4.5.4.24}%
+\contentsline {subsubsection}{\numberline {4.5.4.25}spi\_enable()}{86}{subsubsection.4.5.4.25}%
+\contentsline {subsubsection}{\numberline {4.5.4.26}spi\_fifo\_full()}{86}{subsubsection.4.5.4.26}%
+\contentsline {subsubsection}{\numberline {4.5.4.27}spi\_get\_status()}{86}{subsubsection.4.5.4.27}%
+\contentsline {subsubsection}{\numberline {4.5.4.28}spi\_is\_busy()}{87}{subsubsection.4.5.4.28}%
+\contentsline {subsubsection}{\numberline {4.5.4.29}spi\_is\_ready()}{87}{subsubsection.4.5.4.29}%
+\contentsline {subsubsection}{\numberline {4.5.4.30}spi\_read\_buffer()}{87}{subsubsection.4.5.4.30}%
+\contentsline {subsubsection}{\numberline {4.5.4.31}spi\_read\_byte()}{88}{subsubsection.4.5.4.31}%
+\contentsline {subsubsection}{\numberline {4.5.4.32}spi\_rx\_empty()}{88}{subsubsection.4.5.4.32}%
+\contentsline {subsubsection}{\numberline {4.5.4.33}spi\_rx\_full()}{88}{subsubsection.4.5.4.33}%
+\contentsline {subsubsection}{\numberline {4.5.4.34}spi\_set\_clock\_divider()}{88}{subsubsection.4.5.4.34}%
+\contentsline {subsubsection}{\numberline {4.5.4.35}spi\_set\_clock\_offset()}{89}{subsubsection.4.5.4.35}%
+\contentsline {subsubsection}{\numberline {4.5.4.36}spi\_tx\_empty()}{89}{subsubsection.4.5.4.36}%
+\contentsline {subsubsection}{\numberline {4.5.4.37}spi\_tx\_full()}{89}{subsubsection.4.5.4.37}%
+\contentsline {subsubsection}{\numberline {4.5.4.38}spi\_wait\_rx\_data()}{89}{subsubsection.4.5.4.38}%
+\contentsline {subsubsection}{\numberline {4.5.4.39}spi\_write\_buffer()}{90}{subsubsection.4.5.4.39}%
+\contentsline {subsubsection}{\numberline {4.5.4.40}spi\_write\_byte()}{90}{subsubsection.4.5.4.40}%
+\contentsline {subsubsection}{\numberline {4.5.4.41}spi\_write\_uint32()}{91}{subsubsection.4.5.4.41}%
+\contentsline {subsubsection}{\numberline {4.5.4.42}ssd1351\_cursor\_x()}{91}{subsubsection.4.5.4.42}%
+\contentsline {subsubsection}{\numberline {4.5.4.43}ssd1351\_draw\_pixel()}{91}{subsubsection.4.5.4.43}%
+\contentsline {subsubsection}{\numberline {4.5.4.44}ssd1351\_fill\_screen()}{92}{subsubsection.4.5.4.44}%
+\contentsline {subsubsection}{\numberline {4.5.4.45}ssd1351\_init()}{92}{subsubsection.4.5.4.45}%
+\contentsline {subsubsection}{\numberline {4.5.4.46}ssd1351\_inv()}{92}{subsubsection.4.5.4.46}%
+\contentsline {subsubsection}{\numberline {4.5.4.47}ssd1351\_send\_command()}{92}{subsubsection.4.5.4.47}%
+\contentsline {subsubsection}{\numberline {4.5.4.48}ssd1351\_send\_command\_with\_data()}{92}{subsubsection.4.5.4.48}%
+\contentsline {subsubsection}{\numberline {4.5.4.49}ssd1351\_send\_commands()}{93}{subsubsection.4.5.4.49}%
+\contentsline {subsubsection}{\numberline {4.5.4.50}ssd1351\_send\_data()}{93}{subsubsection.4.5.4.50}%
+\contentsline {subsubsection}{\numberline {4.5.4.51}ssd1351\_set\_position()}{93}{subsubsection.4.5.4.51}%
+\contentsline {subsubsection}{\numberline {4.5.4.52}terminal\_draw\_text()}{94}{subsubsection.4.5.4.52}%
+\contentsline {subsubsection}{\numberline {4.5.4.53}terminal\_draw\_text\_default()}{94}{subsubsection.4.5.4.53}%
+\contentsline {subsubsection}{\numberline {4.5.4.54}terminal\_init()}{95}{subsubsection.4.5.4.54}%
+\contentsline {subsubsection}{\numberline {4.5.4.55}terminal\_native\_scroll()}{95}{subsubsection.4.5.4.55}%
+\contentsline {subsubsection}{\numberline {4.5.4.56}terminal\_print()}{95}{subsubsection.4.5.4.56}%
+\contentsline {subsubsection}{\numberline {4.5.4.57}terminal\_print\_col()}{95}{subsubsection.4.5.4.57}%
+\contentsline {subsubsection}{\numberline {4.5.4.58}terminal\_put\_char()}{96}{subsubsection.4.5.4.58}%
+\contentsline {subsubsection}{\numberline {4.5.4.59}terminal\_set\_bg\_color()}{96}{subsubsection.4.5.4.59}%
+\contentsline {subsubsection}{\numberline {4.5.4.60}terminal\_set\_text\_color()}{96}{subsubsection.4.5.4.60}%
+\contentsline {subsubsection}{\numberline {4.5.4.61}ws2812\_clear()}{96}{subsubsection.4.5.4.61}%
+\contentsline {subsubsection}{\numberline {4.5.4.62}ws2812\_fill()}{97}{subsubsection.4.5.4.62}%
+\contentsline {subsubsection}{\numberline {4.5.4.63}ws2812\_get\_color()}{97}{subsubsection.4.5.4.63}%
+\contentsline {subsubsection}{\numberline {4.5.4.64}ws2812\_set\_color()}{97}{subsubsection.4.5.4.64}%
+\contentsline {subsubsection}{\numberline {4.5.4.65}ws2812\_write\_all()}{98}{subsubsection.4.5.4.65}%
+\contentsline {subsection}{\numberline {4.5.5}Variablen-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Dokumentation}{98}{subsection.4.5.5}%
+\contentsline {subsubsection}{\numberline {4.5.5.1}errno}{98}{subsubsection.4.5.5.1}%
+\contentsline {subsubsection}{\numberline {4.5.5.2}note\_freq\_halfbase}{98}{subsubsection.4.5.5.2}%
+\contentsline {section}{\numberline {4.6}wgrhal\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ext.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c}{99}{section.4.6}%
+\contentsline {section}{\numberline {4.7}/home/runner/work/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}PROE\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}WGR-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}V/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}PROE\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}WGR-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}V/src/lib/wgrhal\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ext.h-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Dateireferenz}{111}{section.4.7}%
+\contentsline {subsection}{\numberline {4.7.1}Ausführliche Beschreibung}{115}{subsection.4.7.1}%
+\contentsline {subsection}{\numberline {4.7.2}Makro-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Dokumentation}{116}{subsection.4.7.2}%
+\contentsline {subsubsection}{\numberline {4.7.2.1}CHAR\_HEIGHT}{116}{subsubsection.4.7.2.1}%
+\contentsline {subsubsection}{\numberline {4.7.2.2}CHAR\_WIDTH}{116}{subsubsection.4.7.2.2}%
+\contentsline {subsubsection}{\numberline {4.7.2.3}COLOR\_BLACK}{116}{subsubsection.4.7.2.3}%
+\contentsline {subsubsection}{\numberline {4.7.2.4}COLOR\_BLUE}{116}{subsubsection.4.7.2.4}%
+\contentsline {subsubsection}{\numberline {4.7.2.5}COLOR\_CYAN}{116}{subsubsection.4.7.2.5}%
+\contentsline {subsubsection}{\numberline {4.7.2.6}COLOR\_GREEN}{116}{subsubsection.4.7.2.6}%
+\contentsline {subsubsection}{\numberline {4.7.2.7}COLOR\_MAGENTA}{117}{subsubsection.4.7.2.7}%
+\contentsline {subsubsection}{\numberline {4.7.2.8}COLOR\_RED}{117}{subsubsection.4.7.2.8}%
+\contentsline {subsubsection}{\numberline {4.7.2.9}COLOR\_WHITE}{117}{subsubsection.4.7.2.9}%
+\contentsline {subsubsection}{\numberline {4.7.2.10}COLOR\_YELLOW}{117}{subsubsection.4.7.2.10}%
+\contentsline {subsubsection}{\numberline {4.7.2.11}DIV\_BASE\_ADDR}{117}{subsubsection.4.7.2.11}%
+\contentsline {subsubsection}{\numberline {4.7.2.12}DIV\_END\_OFFSET}{117}{subsubsection.4.7.2.12}%
+\contentsline {subsubsection}{\numberline {4.7.2.13}DIV\_INFO\_OFFSET}{118}{subsubsection.4.7.2.13}%
+\contentsline {subsubsection}{\numberline {4.7.2.14}DIV\_QUO\_OFFSET}{118}{subsubsection.4.7.2.14}%
+\contentsline {subsubsection}{\numberline {4.7.2.15}DIV\_REM\_OFFSET}{118}{subsubsection.4.7.2.15}%
+\contentsline {subsubsection}{\numberline {4.7.2.16}DIV\_SOR\_OFFSET}{118}{subsubsection.4.7.2.16}%
+\contentsline {subsubsection}{\numberline {4.7.2.17}HOUSEKEEPING\_MS}{118}{subsubsection.4.7.2.17}%
+\contentsline {subsubsection}{\numberline {4.7.2.18}HWREG32}{118}{subsubsection.4.7.2.18}%
+\contentsline {subsubsection}{\numberline {4.7.2.19}MUL1\_OFFSET}{119}{subsubsection.4.7.2.19}%
+\contentsline {subsubsection}{\numberline {4.7.2.20}MUL2\_OFFSET}{119}{subsubsection.4.7.2.20}%
+\contentsline {subsubsection}{\numberline {4.7.2.21}MULT\_BASE\_ADDR}{119}{subsubsection.4.7.2.21}%
+\contentsline {subsubsection}{\numberline {4.7.2.22}MULT\_INFO\_OFFSET}{119}{subsubsection.4.7.2.22}%
+\contentsline {subsubsection}{\numberline {4.7.2.23}RESH\_OFFSET}{119}{subsubsection.4.7.2.23}%
+\contentsline {subsubsection}{\numberline {4.7.2.24}RESL\_OFFSET}{119}{subsubsection.4.7.2.24}%
+\contentsline {subsubsection}{\numberline {4.7.2.25}SPI\_BASE\_ADDR}{120}{subsubsection.4.7.2.25}%
+\contentsline {subsubsection}{\numberline {4.7.2.26}SPI\_CLK\_OFFSET}{120}{subsubsection.4.7.2.26}%
+\contentsline {subsubsection}{\numberline {4.7.2.27}SPI\_CS\_OFFSET}{120}{subsubsection.4.7.2.27}%
+\contentsline {subsubsection}{\numberline {4.7.2.28}SPI\_CTRL\_OFFSET}{120}{subsubsection.4.7.2.28}%
+\contentsline {subsubsection}{\numberline {4.7.2.29}SPI\_RX\_OFFSET}{120}{subsubsection.4.7.2.29}%
+\contentsline {subsubsection}{\numberline {4.7.2.30}SPI\_STATUS\_OFFSET}{120}{subsubsection.4.7.2.30}%
+\contentsline {subsubsection}{\numberline {4.7.2.31}SPI\_TX\_OFFSET}{121}{subsubsection.4.7.2.31}%
+\contentsline {subsubsection}{\numberline {4.7.2.32}SSD1351\_HEIGHT}{121}{subsubsection.4.7.2.32}%
+\contentsline {subsubsection}{\numberline {4.7.2.33}SSD1351\_SPI\_TIMEOUT}{121}{subsubsection.4.7.2.33}%
+\contentsline {subsubsection}{\numberline {4.7.2.34}SSD1351\_WIDTH}{121}{subsubsection.4.7.2.34}%
+\contentsline {subsubsection}{\numberline {4.7.2.35}STATUS\_BAR\_ROWS}{121}{subsubsection.4.7.2.35}%
+\contentsline {subsubsection}{\numberline {4.7.2.36}TERM\_COLS}{121}{subsubsection.4.7.2.36}%
+\contentsline {subsubsection}{\numberline {4.7.2.37}TERM\_ROWS}{122}{subsubsection.4.7.2.37}%
+\contentsline {subsubsection}{\numberline {4.7.2.38}TOTAL\_ROWS}{122}{subsubsection.4.7.2.38}%
+\contentsline {subsubsection}{\numberline {4.7.2.39}WS\_BASE\_ADDR}{122}{subsubsection.4.7.2.39}%
+\contentsline {subsection}{\numberline {4.7.3}Dokumentation der Aufzählungstypen}{122}{subsection.4.7.3}%
+\contentsline {subsubsection}{\numberline {4.7.3.1}note\_t}{122}{subsubsection.4.7.3.1}%
+\contentsline {subsection}{\numberline {4.7.4}Dokumentation der Funktionen}{123}{subsection.4.7.4}%
+\contentsline {subsubsection}{\numberline {4.7.4.1}calloc()}{123}{subsubsection.4.7.4.1}%
+\contentsline {subsubsection}{\numberline {4.7.4.2}clear\_terminal()}{123}{subsubsection.4.7.4.2}%
+\contentsline {subsubsection}{\numberline {4.7.4.3}clear\_terminal\_row()}{123}{subsubsection.4.7.4.3}%
+\contentsline {subsubsection}{\numberline {4.7.4.4}div\_calc()}{123}{subsubsection.4.7.4.4}%
+\contentsline {subsubsection}{\numberline {4.7.4.5}div\_calc\_quotient()}{124}{subsubsection.4.7.4.5}%
+\contentsline {subsubsection}{\numberline {4.7.4.6}div\_calc\_remainder()}{124}{subsubsection.4.7.4.6}%
+\contentsline {subsubsection}{\numberline {4.7.4.7}draw\_char\_cell()}{125}{subsubsection.4.7.4.7}%
+\contentsline {subsubsection}{\numberline {4.7.4.8}draw\_char\_cell\_custom()}{125}{subsubsection.4.7.4.8}%
+\contentsline {subsubsection}{\numberline {4.7.4.9}draw\_status\_bar()}{125}{subsubsection.4.7.4.9}%
+\contentsline {subsubsection}{\numberline {4.7.4.10}free()}{126}{subsubsection.4.7.4.10}%
+\contentsline {subsubsection}{\numberline {4.7.4.11}heap\_free\_space()}{126}{subsubsection.4.7.4.11}%
+\contentsline {subsubsection}{\numberline {4.7.4.12}malloc()}{126}{subsubsection.4.7.4.12}%
+\contentsline {subsubsection}{\numberline {4.7.4.13}mult\_calc()}{127}{subsubsection.4.7.4.13}%
+\contentsline {subsubsection}{\numberline {4.7.4.14}mult\_calc\_64()}{127}{subsubsection.4.7.4.14}%
+\contentsline {subsubsection}{\numberline {4.7.4.15}print\_error()}{128}{subsubsection.4.7.4.15}%
+\contentsline {subsubsection}{\numberline {4.7.4.16}print\_ok()}{128}{subsubsection.4.7.4.16}%
+\contentsline {subsubsection}{\numberline {4.7.4.17}print\_ok\_res()}{128}{subsubsection.4.7.4.17}%
+\contentsline {subsubsection}{\numberline {4.7.4.18}pwm\_free\_note\_buffer()}{128}{subsubsection.4.7.4.18}%
+\contentsline {subsubsection}{\numberline {4.7.4.19}pwm\_play\_note()}{129}{subsubsection.4.7.4.19}%
+\contentsline {subsubsection}{\numberline {4.7.4.20}pwm\_precompute\_notes()}{129}{subsubsection.4.7.4.20}%
+\contentsline {subsubsection}{\numberline {4.7.4.21}realloc()}{129}{subsubsection.4.7.4.21}%
+\contentsline {subsubsection}{\numberline {4.7.4.22}spi\_automatic\_cs()}{130}{subsubsection.4.7.4.22}%
+\contentsline {subsubsection}{\numberline {4.7.4.23}spi\_cs()}{130}{subsubsection.4.7.4.23}%
+\contentsline {subsubsection}{\numberline {4.7.4.24}spi\_disable()}{130}{subsubsection.4.7.4.24}%
+\contentsline {subsubsection}{\numberline {4.7.4.25}spi\_enable()}{130}{subsubsection.4.7.4.25}%
+\contentsline {subsubsection}{\numberline {4.7.4.26}spi\_fifo\_full()}{131}{subsubsection.4.7.4.26}%
+\contentsline {subsubsection}{\numberline {4.7.4.27}spi\_get\_status()}{131}{subsubsection.4.7.4.27}%
+\contentsline {subsubsection}{\numberline {4.7.4.28}spi\_is\_busy()}{131}{subsubsection.4.7.4.28}%
+\contentsline {subsubsection}{\numberline {4.7.4.29}spi\_is\_ready()}{131}{subsubsection.4.7.4.29}%
+\contentsline {subsubsection}{\numberline {4.7.4.30}spi\_read\_buffer()}{131}{subsubsection.4.7.4.30}%
+\contentsline {subsubsection}{\numberline {4.7.4.31}spi\_read\_byte()}{132}{subsubsection.4.7.4.31}%
+\contentsline {subsubsection}{\numberline {4.7.4.32}spi\_rx\_empty()}{132}{subsubsection.4.7.4.32}%
+\contentsline {subsubsection}{\numberline {4.7.4.33}spi\_rx\_full()}{133}{subsubsection.4.7.4.33}%
+\contentsline {subsubsection}{\numberline {4.7.4.34}spi\_set\_clock\_divider()}{133}{subsubsection.4.7.4.34}%
+\contentsline {subsubsection}{\numberline {4.7.4.35}spi\_set\_clock\_offet()}{133}{subsubsection.4.7.4.35}%
+\contentsline {subsubsection}{\numberline {4.7.4.36}spi\_tx\_empty()}{133}{subsubsection.4.7.4.36}%
+\contentsline {subsubsection}{\numberline {4.7.4.37}spi\_tx\_full()}{134}{subsubsection.4.7.4.37}%
+\contentsline {subsubsection}{\numberline {4.7.4.38}spi\_wait\_rx\_data()}{134}{subsubsection.4.7.4.38}%
+\contentsline {subsubsection}{\numberline {4.7.4.39}spi\_write\_buffer()}{134}{subsubsection.4.7.4.39}%
+\contentsline {subsubsection}{\numberline {4.7.4.40}spi\_write\_byte()}{135}{subsubsection.4.7.4.40}%
+\contentsline {subsubsection}{\numberline {4.7.4.41}spi\_write\_uint32()}{135}{subsubsection.4.7.4.41}%
+\contentsline {subsubsection}{\numberline {4.7.4.42}ssd1351\_cursor\_x()}{135}{subsubsection.4.7.4.42}%
+\contentsline {subsubsection}{\numberline {4.7.4.43}ssd1351\_draw\_pixel()}{136}{subsubsection.4.7.4.43}%
+\contentsline {subsubsection}{\numberline {4.7.4.44}ssd1351\_fill\_screen()}{136}{subsubsection.4.7.4.44}%
+\contentsline {subsubsection}{\numberline {4.7.4.45}ssd1351\_init()}{136}{subsubsection.4.7.4.45}%
+\contentsline {subsubsection}{\numberline {4.7.4.46}ssd1351\_inv()}{136}{subsubsection.4.7.4.46}%
+\contentsline {subsubsection}{\numberline {4.7.4.47}ssd1351\_send\_command()}{136}{subsubsection.4.7.4.47}%
+\contentsline {subsubsection}{\numberline {4.7.4.48}ssd1351\_send\_command\_with\_data()}{137}{subsubsection.4.7.4.48}%
+\contentsline {subsubsection}{\numberline {4.7.4.49}ssd1351\_send\_commands()}{137}{subsubsection.4.7.4.49}%
+\contentsline {subsubsection}{\numberline {4.7.4.50}ssd1351\_send\_data()}{137}{subsubsection.4.7.4.50}%
+\contentsline {subsubsection}{\numberline {4.7.4.51}ssd1351\_set\_position()}{138}{subsubsection.4.7.4.51}%
+\contentsline {subsubsection}{\numberline {4.7.4.52}terminal\_draw\_text()}{138}{subsubsection.4.7.4.52}%
+\contentsline {subsubsection}{\numberline {4.7.4.53}terminal\_draw\_text\_default()}{139}{subsubsection.4.7.4.53}%
+\contentsline {subsubsection}{\numberline {4.7.4.54}terminal\_init()}{139}{subsubsection.4.7.4.54}%
+\contentsline {subsubsection}{\numberline {4.7.4.55}terminal\_native\_scroll()}{139}{subsubsection.4.7.4.55}%
+\contentsline {subsubsection}{\numberline {4.7.4.56}terminal\_print()}{139}{subsubsection.4.7.4.56}%
+\contentsline {subsubsection}{\numberline {4.7.4.57}terminal\_print\_col()}{140}{subsubsection.4.7.4.57}%
+\contentsline {subsubsection}{\numberline {4.7.4.58}terminal\_put\_char()}{140}{subsubsection.4.7.4.58}%
+\contentsline {subsubsection}{\numberline {4.7.4.59}terminal\_set\_bg\_color()}{140}{subsubsection.4.7.4.59}%
+\contentsline {subsubsection}{\numberline {4.7.4.60}terminal\_set\_text\_color()}{140}{subsubsection.4.7.4.60}%
+\contentsline {subsubsection}{\numberline {4.7.4.61}ws2812\_clear()}{141}{subsubsection.4.7.4.61}%
+\contentsline {subsubsection}{\numberline {4.7.4.62}ws2812\_fill()}{141}{subsubsection.4.7.4.62}%
+\contentsline {subsubsection}{\numberline {4.7.4.63}ws2812\_get\_color()}{141}{subsubsection.4.7.4.63}%
+\contentsline {subsubsection}{\numberline {4.7.4.64}ws2812\_set\_color()}{142}{subsubsection.4.7.4.64}%
+\contentsline {subsubsection}{\numberline {4.7.4.65}ws2812\_write\_all()}{142}{subsubsection.4.7.4.65}%
+\contentsline {subsection}{\numberline {4.7.5}Variablen-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Dokumentation}{142}{subsection.4.7.5}%
+\contentsline {subsubsection}{\numberline {4.7.5.1}note\_freq\_halfbase}{142}{subsubsection.4.7.5.1}%
+\contentsline {section}{\numberline {4.8}wgrhal\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ext.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{143}{section.4.8}%
+\contentsline {section}{\numberline {4.9}wgrlib.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c}{147}{section.4.9}%
+\contentsline {section}{\numberline {4.10}wgrtypes.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{158}{section.4.10}%
+\contentsline {chapter}{Index}{161}{section*.19}%
