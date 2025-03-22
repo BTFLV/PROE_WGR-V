@@ -1,0 +1,12 @@
+{
+  "title": "WGR-V Verilog Doku",
+  "language": "de",
+  "html_file": "index.html",
+  "md_file": "wgr-v-verilog-docs.md",
+  "pdf_file": "wgr-v-verilog-docs.pdf",
+  "files": [
+    "rtl/peripherals/gpio.v",
+    "rtl/peripherals/fifo.v",
+    "rtl/peripherals/seq_multiplier.v"
+  ]
+}

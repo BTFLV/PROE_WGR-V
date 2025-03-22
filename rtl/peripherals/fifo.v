@@ -22,9 +22,9 @@
  * @input rd_en    Aktivierungssignal (Read-Enable) zum Lesen aus dem FIFO.
  * @input din      Eingangsdaten mit Breite `DATA_WIDTH`.
  *
- * @ouput empty    Signal, das anzeigt, ob der FIFO leer ist.
- * @ouput full     Signal, das anzeigt, ob der FIFO voll ist.
- * @ouput dout     Ausgangsdaten mit Breite `DATA_WIDTH`.
+ * @output empty    Signal, das anzeigt, ob der FIFO leer ist.
+ * @output full     Signal, das anzeigt, ob der FIFO voll ist.
+ * @output dout     Ausgangsdaten mit Breite `DATA_WIDTH`.
  */
 module fifo #(
   parameter DATA_WIDTH = 8,

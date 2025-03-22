@@ -17,9 +17,9 @@
  * @input re          Leseaktivierungssignal (Read-Enable).
  * @input gpio_in     Eingangssignale von den GPIO-Pins.
  *
- * @ouput read_data  Ausgangsdaten basierend auf dem angesprochenen GPIO-Register.
- * @ouput gpio_out   Register zur Steuerung des Ausgangszustands der GPIO-Pins.
- * @ouput gpio_dir   GPIO-Richtungsregister (nicht implementiert).
+ * @output read_data  Ausgangsdaten basierend auf dem angesprochenen GPIO-Register.
+ * @output gpio_out   Register zur Steuerung des Ausgangszustands der GPIO-Pins.
+ * @output gpio_dir   GPIO-Richtungsregister (nicht implementiert).
  */
 module gpio (
   input  wire        clk,

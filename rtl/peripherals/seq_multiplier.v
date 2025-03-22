@@ -28,7 +28,7 @@
  * @input we          Schreibaktivierungssignal (Write-Enable).
  * @input re          Leseaktivierungssignal (Read-Enable).
  *
- * @ouput read_data   Zu lesende Daten basierend auf der Adresse.
+ * @output read_data   Zu lesende Daten basierend auf der Adresse.
  */
 module seq_multiplier (
   input  wire        clk,

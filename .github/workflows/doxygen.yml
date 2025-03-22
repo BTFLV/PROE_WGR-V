@@ -18,28 +18,36 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y doxygen graphviz texlive-latex-base texlive-fonts-recommended texlive-latex-extra texlive-lang-german latexmk pandoc
-          pip install markdown
+          pip install markdown pygments
 
       - name: Generate Doxygen Documentation (HTML & LaTeX)
         run: |
-          cd docs/src
+          cd docs
           doxygen Doxyfile
+
+      - name: Move C HTML to correct folder
+        run: |
+          mv docs/src/html/c/html/* docs/src/html/c/
+          rm -r docs/src/html/c/html
 
       - name: Compile C Documentation PDF
         run: |
-          cd docs/src/latex
+          cd docs/src/html/c/latex
           make
-          mv refman.pdf wgr-v-c-docs.pdf
+          mv refman.pdf ../../../../../latex/wgr-v-c-docs.pdf
 
       - name: Download DoxNet Verilog Doc Tool
         run: |
           curl -L https://raw.githubusercontent.com/BTFLV/DoxNet/main/DoxNet.py -o DoxNet.py
 
+      - name: Create Output Folders
+        run: |
+          mkdir -p docs/src/html/verilog
+          mkdir -p docs/latex
+
       - name: Generate Verilog Documentation
         run: |
-          python DoxNet.py --input rtl --output docs/src/html --language de --title "WGR-V Verilog Doku"
-          mv docs/src/html/documentation.html docs/src/html/rtl.html
-          mv docs/src/html/documentation.pdf docs/src/html/wgr-v-verilog-docs.pdf
+          python DoxNet.py --output docs/src/html/verilog --config docs/DoxNet.json
 
       - name: Upload HTML Documentation as Artifact
         uses: actions/upload-artifact@v4
@@ -52,8 +60,13 @@ jobs:
         with:
           name: doxygen-pdf
           path: |
-            docs/src/latex/wgr-v-c-docs.pdf
+            docs/latex/wgr-v-c-docs.pdf
             docs/src/html/wgr-v-verilog-docs.pdf
+
+      - name: Copy index and asic image to GitHub Pages root
+        run: |
+          cp docs/wgr-v-documentation-index.html docs/src/html/index.html
+          cp asic/WGR-V-ASIC_gds_render.jpg docs/src/html/WGR-V-ASIC_gds_render.jpg
 
       - name: Deploy HTML to GitHub Pages
         if: github.ref == 'refs/heads/main'
@@ -71,7 +84,7 @@ jobs:
       - name: Install GitHub CLI
         if: github.ref == 'refs/heads/main'
         run: sudo apt-get install -y gh
-      
+
       - name: Create GitHub Release with Custom Files Only
         if: github.ref == 'refs/heads/main'
         env:
@@ -81,6 +94,6 @@ jobs:
           gh release create latest \
             --title "Repo .zip + PDF Dokumentation" \
             --notes "Aktuelles Repo als .zip plus C- und Verilog-Doku als .pdf Dateien." \
-            docs/src/latex/wgr-v-c-docs.pdf \
+            docs/latex/wgr-v-c-docs.pdf \
             docs/src/html/wgr-v-verilog-docs.pdf \
             wgr-v.zip

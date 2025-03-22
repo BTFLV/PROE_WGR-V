@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>WGR-V Documentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background-color: #0d1117;
+      color: #c9d1d9;
+      line-height: 1.6;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1, h2, h3, h4 {
+      color: #ffffff;
+    }
+    a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    pre, code {
+      background-color: #161b22;
+      padding: 0.3em 0.6em;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-family: monospace;
+    }
+    pre {
+      display: block;
+      margin: 1em 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1em;
+    }
+    table, th, td {
+      border: 1px solid #30363d;
+    }
+    th, td {
+      padding: 0.6em;
+      text-align: left;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #30363d;
+      margin: 2em 0;
+    }
+    ul {
+      padding-left: 1.2em;
+    }
+    img {
+      max-width: 100%;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>PROE_WGR-V</h1>
+    <p><strong>"Projektarbeit E" von Tobias Kling und Philip Mohr – FH Kiel 2025</strong></p>
+
+    <p>Dieses Repository enthält einen RISC-V Prozessor und Peripherie in Verilog, sowie die dazugehörigen Werkzeuge, Skripte und Tests.</p>
+    <hr>
+
+    <h2>Projektstruktur</h2>
+
+    <h3>📂 /WGR-V-MAX</h3>
+    <p>Hier befinden sich die nötige Ordnerstruktur, um das Projekt mit Quartus zu verwenden.</p>
+    <ul>
+      <li><strong>IP</strong>: Enthält FPGA-RAM Dateien (<code>altsyncram</code>).</li>
+      <li><strong>mem</strong>: Speicherinitialisierungs Datei (<code>wgr_flat.hex</code>)</li>
+      <li><strong>tb_sim</strong>: Testbench für die Simulation mit Questa.</li>
+    </ul>
+    <p>Die RAM-Komponente wird initial mit einer <code>.hex</code> Datei geladen.</p>
+    <p>Da die von <code>objdump</code> erstellten <code>.hex</code> Dateien nicht direkt in Quartus verwendet werden können, muss die Datei mit <code>.conv_hex.py</code> konvertiert werden.</p>
+
+    <h3>📂 /rtl</h3>
+    <p><a href="/verilog"><strong>Verilog Dokumentation</strong></a></p>
+    <p>Enthält den Kern des RISC-V Prozessors.</p>
+    <ul>
+      <li><code>cpu.v</code>: RV32I/E CPU mit Stall-Logik und lokalen Parametern für Instruktionen</li>
+      <li><code>alu.v</code>, <code>register_file.v</code>, <code>defines.v</code>, <code>wgr_v_max.v</code></li>
+    </ul>
+
+    <h4>📁 /rtl/peripherals</h4>
+    <ul>
+      <li><code>peripheral_bus.v</code>: Peripherie-Auswahl und Routing</li>
+      <li><code>uart.v</code>, <code>spi.v</code>, <code>pwm_timer.v</code>, <code>gpio.v</code>, <code>ws2812b.v</code>, <code>seq_divider.v</code></li>
+    </ul>
+
+    <h3>📂 /asic</h3>
+    <p>Die ASIC-Version befindet sich in einem separaten Repo: <br>
+      <a href="https://github.com/BTFLV/BTFLV-PROE_WGR-V-ASIC">WGR-V ASIC</a></p>
+
+    <p><strong>Tools:</strong> Openlane2, Verilator, cocotb<br>
+       <strong>Technologie:</strong> SkyWater 130nm</p>
+
+    <h4>Chip-Layout</h4>
+    <img src="/WGR-V-ASIC_gds_render.jpg" alt="WGR-V ASIC GDS Render">
+    <ul>
+      <li><strong>Gesamtfläche:</strong> 0,192 mm²</li>
+      <li><strong>Nutzung:</strong> ca. 41%</li>
+      <li><strong>Transistoren:</strong> ca. 80.000</li>
+    </ul>
+
+    <h4>Enthaltene Peripherie</h4>
+    <table>
+      <tr><th>Peripherie-Modul</th></tr>
+      <tr><td>✅ debug_module</td></tr>
+      <tr><td>✅ uart</td></tr>
+      <tr><td>✅ pwm_timer</td></tr>
+      <tr><td>✅ system_timer</td></tr>
+      <tr><td>❌ spi</td></tr>
+      <tr><td>❌ gpio</td></tr>
+      <tr><td>❌ ws2812b</td></tr>
+      <tr><td>❌ seq_multiplier</td></tr>
+      <tr><td>❌ seq_divider</td></tr>
+    </table>
+
+    <h3>📂 /scripts</h3>
+    <p>Skripte für Kompilierung, Konvertierung, Simulation</p>
+
+    <h3>📂 /src</h3>
+    <p><a href="/c"><strong>C Dokumentation</strong></a></p>
+    <p>Softwarequellcode, Projekte und HAL in C und Assembler.</p>
+
+    <hr>
+    <h2>Simulation & Nutzung</h2>
+
+    <h3>🔧 Kompilieren</h3>
+    <pre>scripts\RV32I_quartus\build_main.bat
+scripts\RV32E_fram\build_main.bat</pre>
+
+    <h3>📦 Hex-Dateien generieren</h3>
+    <pre>python scripts/hex_conv/conv_hex.py input.hex output.hex shift_amount memory_depth
+python scripts/hex_conv/conv_fram.py input.hex output.hex memory_size</pre>
+
+    <h3>🚀 Simulation starten</h3>
+    <pre>scripts\sim\questa\run.bat [-gl] [-vcd] [-q]</pre>
+
+    <h3>🦭 Alles in einem Schritt</h3>
+    <pre>build_copy_simulate.bat</pre>
+
+    <hr>
+    <p><strong>Tobias Kling</strong><br>
+       <strong>Philip Mohr</strong><br>
+       FH Kiel, 2025</p>
+  </div>
+</body>
+</html>
