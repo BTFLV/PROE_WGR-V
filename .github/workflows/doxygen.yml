@@ -43,6 +43,7 @@ jobs:
       - name: Create Output Folders
         run: |
           mkdir -p docs/src/html/verilog
+          mkdir -p docs/src/html/c
           mkdir -p docs/latex
 
       - name: Generate Verilog Documentation
