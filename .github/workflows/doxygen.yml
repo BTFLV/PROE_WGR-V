@@ -61,7 +61,7 @@ jobs:
           name: doxygen-pdf
           path: |
             docs/latex/wgr-v-c-docs.pdf
-            docs/src/html/wgr-v-verilog-docs.pdf
+            docs/src/html/verilog/wgr-v-verilog-docs.pdf
 
       - name: Copy index and asic image to GitHub Pages root
         run: |
