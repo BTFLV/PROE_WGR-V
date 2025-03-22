@@ -49,18 +49,18 @@ jobs:
         run: |
           python DoxNet.py --output docs/src/html/verilog --config docs/DoxNet.json
 
-      - name: Upload HTML Documentation as Artifact
+      - name: Upload Doxygen PDF Documentation as Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: doxygen-html
-          path: docs/src/html
-
-      - name: Upload PDF Documentation as Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: doxygen-pdf
+          name: wgr-v-c-docs-pdf
           path: |
             docs/latex/wgr-v-c-docs.pdf
+
+      - name: Upload Verilog PDF Documentation as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wgr-v-verilog-docs-pdf
+          path: |
             docs/src/html/verilog/wgr-v-verilog-docs.pdf
 
       - name: Copy index and asic image to GitHub Pages root
@@ -95,5 +95,5 @@ jobs:
             --title "Repo .zip + PDF Dokumentation" \
             --notes "Aktuelles Repo als .zip plus C- und Verilog-Doku als .pdf Dateien." \
             docs/latex/wgr-v-c-docs.pdf \
-            docs/src/html/wgr-v-verilog-docs.pdf \
+            docs/src/html/verilog/wgr-v-verilog-docs.pdf \
             wgr-v.zip

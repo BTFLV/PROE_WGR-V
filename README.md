@@ -20,7 +20,7 @@ Da die von `objdump` erstellten `.hex` Datein nicht direkt in Quartus verwendet 
 
 ### 📂 `/rtl`
 
-[**Verilog Dokumentation (in Arbeit)**](https://github.btflv.de/PROE_WGR-V/rtl.html)
+[**Verilog Dokumentation (in Arbeit)**](https://github.btflv.de/PROE_WGR-V/verilog/)
 
 Enthält den Kern des RISC-V Prozessors.
 - `cpu.v`: Kernmodul des RISC-V Prozessors.
@@ -109,7 +109,7 @@ Skripte zur Automatisierung von Kompilierung, Hex-Konvertierung und Simulation.
 
 ### 📂 `/src`
 
-[**C Dokumentation**](https://github.btflv.de/PROE_WGR-V/)
+[**C Dokumentation**](https://github.btflv.de/PROE_WGR-V/c/)
 
 Quellcode (in C und Assembler) sowie Bibliotheken für die Software des Prozessors.
 - **`lib/`**: HAL (Hardware Abstraction Layer) und Supportbibliotheken für C-Projekte.
