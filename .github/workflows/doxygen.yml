@@ -20,6 +20,12 @@ jobs:
           sudo apt-get install -y doxygen graphviz texlive-latex-base texlive-fonts-recommended texlive-latex-extra texlive-lang-german latexmk pandoc
           pip install markdown pygments
 
+      - name: Create Output Folders
+        run: |
+          mkdir -p docs/src/html/verilog
+          mkdir -p docs/src/html/c
+          mkdir -p docs/latex
+
       - name: Generate Doxygen Documentation (HTML & LaTeX)
         run: |
           cd docs
@@ -39,12 +45,6 @@ jobs:
       - name: Download DoxNet Verilog Doc Tool
         run: |
           curl -L https://raw.githubusercontent.com/BTFLV/DoxNet/main/DoxNet.py -o DoxNet.py
-
-      - name: Create Output Folders
-        run: |
-          mkdir -p docs/src/html/verilog
-          mkdir -p docs/src/html/c
-          mkdir -p docs/latex
 
       - name: Generate Verilog Documentation
         run: |
