@@ -183,6 +183,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <h1>WGR-V Verilog Doku</h1>
 <h2>Inhaltsverzeichnis</h2>
 <ul>
+<li><strong>Datei:</strong> rtl/peripherals/debug_module.v</li>
+<li><a href="#module-debug_module">Modul: debug_module</a></li>
 <li><strong>Datei:</strong> rtl/peripherals/fifo.v</li>
 <li><a href="#module-fifo">Modul: fifo</a></li>
 <li><strong>Datei:</strong> rtl/peripherals/gpio.v</li>
@@ -192,6 +194,74 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </ul>
 </div>
 <div class="content">
+<h2>Datei: rtl/peripherals/debug_module.v</h2>
+<h3 id="module-debug_module">Modul: debug_module</h3>
+<p><strong>Kurzbeschreibung:</strong> Debug-Modul für Host-Kommunikation und Speicherzugriff</p>
+<p>Dieses Modul stellt eine einfache Debug-Schnittstelle über UART bereit, um mit einem Host-System zu kommunizieren. Es ermöglicht das Lesen und Schreiben von Speicherinhalten über serielle Kommandos. Über den UART-Eingang <code>rx</code> empfängt das Modul Befehle, die über interne Kontrollsignale (<code>mem_rd</code>, <code>mem_wr</code>, etc.) an den CPU-internen Speicher weitergegeben werden. Das Antwortsignal wird über <code>tx</code> gesendet.</p>
+<p><strong>Eingänge:</strong></p>
+<ul>
+<li><code>clk</code> Systemtakt</li>
+<li><code>rst</code> Reset-Signal</li>
+<li><code>rx</code> Eingang vom seriellen Host (UART)</li>
+<li><code>mem_data_from_cpu</code> Daten aus dem Speicher (vom CPU-Interface)</li>
+<li><code>mem_ready_from_cpu</code> Bereitschaftssignal vom Speicher</li>
+</ul>
+<p><strong>Ausgänge:</strong></p>
+<ul>
+<li><code>tx</code> Ausgang zur seriellen Schnittstelle</li>
+<li><code>mem_addr_to_cpu</code> Speicheradresse für den Zugriff</li>
+<li><code>mem_data_to_cpu</code> Daten, die geschrieben werden sollen</li>
+<li><code>mem_wr</code> Speicher-Schreibsignal</li>
+<li><code>mem_rd</code> Speicher-Lesesignal</li>
+<li><code>mem_valid</code> Gültigkeitssignal für Speicherzugriff</li>
+</ul>
+<details>
+<summary>Source Code</summary>
+
+
+<div class="codehilite"><pre><span></span><code><span class="no">`default_nettype</span><span class="w"> </span><span class="n">none</span>
+<span class="no">`timescale</span><span class="w"> </span><span class="mh">1</span><span class="n">ns</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mh">1</span><span class="n">ns</span>
+
+
+
+<span class="k">module</span><span class="w"> </span><span class="n">debug_module</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">clk</span><span class="p">,</span>
+<span class="w">    </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">rst_n</span><span class="p">,</span>
+<span class="w">    </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mh">7</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">address</span><span class="p">,</span>
+<span class="w">    </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">write_data</span><span class="p">,</span>
+<span class="w">    </span><span class="k">output</span><span class="w"> </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">read_data</span><span class="p">,</span>
+<span class="w">    </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">we</span><span class="p">,</span>
+<span class="w">    </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">re</span><span class="p">,</span>
+<span class="w">    </span><span class="k">output</span><span class="w"> </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">debug_out</span>
+<span class="w">  </span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">localparam</span><span class="w"> </span><span class="n">DEBUG_ADDR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">32&#39;h00000000</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">reg</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">debug_reg</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">read_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">debug_reg</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">debug_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">debug_reg</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="k">posedge</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="k">negedge</span><span class="w"> </span><span class="n">rst_n</span><span class="p">)</span>
+<span class="w">  </span><span class="k">begin</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">rst_n</span><span class="p">)</span>
+<span class="w">    </span><span class="k">begin</span>
+<span class="w">      </span><span class="n">debug_reg</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">32&#39;h00000000</span><span class="p">;</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">we</span><span class="p">)</span>
+<span class="w">    </span><span class="k">begin</span>
+<span class="w">      </span><span class="n">debug_reg</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">write_data</span><span class="p">;</span>
+<span class="w">      </span><span class="nb">$display</span><span class="p">(</span><span class="s">&quot;DEBUG_REG UPDATED: 0x%08X (%d) at time %0t&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">write_data</span><span class="p">,</span><span class="w"> </span><span class="n">write_data</span><span class="p">,</span><span class="w"> </span><span class="nb">$time</span><span class="p">);</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">  </span><span class="k">end</span>
+
+<span class="k">endmodule</span>
+</code></pre></div>
+
+
+</details>
+
 <h2>Datei: rtl/peripherals/fifo.v</h2>
 <h3 id="module-fifo">Modul: fifo</h3>
 <p><strong>Kurzbeschreibung:</strong> Ein einfacher FIFO-Speicher.</p>
