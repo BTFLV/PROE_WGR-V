@@ -1,6 +1,24 @@
 `default_nettype none
 `timescale 1ns / 1ns
 
+/**
+ * @brief PWM-Timer zur Erzeugung eines Pulsweitenmodulationssignals
+ *
+ * Dieses Modul generiert ein PWM-Signal (Pulsweitenmodulation) mit
+ * konfigurierbarer Periode und Pulsbreite. Es wird typischerweise
+ * zur Ansteuerung von Motoren, LEDs oder anderen zeitgesteuerten
+ * Peripherien eingesetzt. Der Zähler läuft periodisch hoch und vergleicht
+ * seinen Wert mit einem Pulsbreitenwert, um das Ausgangssignal zu setzen.
+ * 
+ * @input clk Systemtakt
+ * @input rst Reset-Signal
+ * @input enable Aktivierung des Timers
+ * @input [31:0] period Maximale Zählerperiode (PWM-Zykluslänge)
+ * @input [31:0] duty_cycle Vergleichswert für Pulsbreite (PWM-Anteil)
+ * 
+ * @output pwm_out PWM-Ausgangssignal
+ */
+
 module pwm_timer (
   input  wire        clk,
   input  wire        rst_n,
