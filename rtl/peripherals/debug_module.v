@@ -1,6 +1,30 @@
 `default_nettype none
 `timescale 1ns / 1ns
 
+/**
+ * @brief Debug-Modul für Host-Kommunikation und Speicherzugriff
+ *
+ * Dieses Modul stellt eine einfache Debug-Schnittstelle über UART bereit,
+ * um mit einem Host-System zu kommunizieren. Es ermöglicht das Lesen und
+ * Schreiben von Speicherinhalten über serielle Kommandos. Über den
+ * UART-Eingang `rx` empfängt das Modul Befehle, die über interne
+ * Kontrollsignale (`mem_rd`, `mem_wr`, etc.) an den CPU-internen Speicher
+ * weitergegeben werden. Das Antwortsignal wird über `tx` gesendet.
+ * 
+ * @input clk Systemtakt
+ * @input rst Reset-Signal
+ * @input rx Eingang vom seriellen Host (UART)
+ * @input mem_data_from_cpu Daten aus dem Speicher (vom CPU-Interface)
+ * @input mem_ready_from_cpu Bereitschaftssignal vom Speicher
+ * 
+ * @output tx Ausgang zur seriellen Schnittstelle
+ * @output mem_addr_to_cpu Speicheradresse für den Zugriff
+ * @output mem_data_to_cpu Daten, die geschrieben werden sollen
+ * @output mem_wr Speicher-Schreibsignal
+ * @output mem_rd Speicher-Lesesignal
+ * @output mem_valid Gültigkeitssignal für Speicherzugriff
+ */
+
 module debug_module (
     input  wire        clk,
     input  wire        rst_n,
