@@ -2,6 +2,34 @@
 `default_nettype none
 `timescale 1ns / 1ns
 
+/**
+ * @brief Einfacher Adressdecoder für Peripheriezugriffe
+ *
+ * Dieses Modul implementiert einen einfachen Peripheriebus mit Adressdekodierung.
+ * Es leitet Speicherzugriffe basierend auf der übergebenen Adresse an die jeweils
+ * zuständige Peripherieeinheit weiter. Dabei werden Steuersignale (`wr`, `rd`, `valid`)
+ * sowie Datenleitungen entsprechend durchgeschaltet. Es unterstützt mehrere
+ * Peripheriegeräte mit jeweils eigenen Adressbereichen.
+ * 
+ * @input clk Systemtakt
+ * @input rst Reset-Signal
+ * @input addr Adresse des Zugriffs
+ * @input wr Schreibbefehl
+ * @input rd Lesebefehl
+ * @input valid Gültigkeitssignal für Zugriff
+ * @input cpu_data Daten vom CPU zur Peripherie
+ * @output data_out Rückgabewert von der aktiven Peripherie
+ * @output ready Gibt an, ob die Peripherie bereit ist
+ * 
+ * @output gpio_sel Auswahl für GPIO-Modul
+ * @output uart_sel Auswahl für UART-Modul
+ * @output spi_sel Auswahl für SPI-Modul
+ * @output ws2812b_sel Auswahl für WS2812B-Modul
+ * @output pwm_timer_sel Auswahl für PWM-Timer
+ * @output system_timer_sel Auswahl für System-Timer
+ * @output debug_module_sel Auswahl für Debug-Modul
+ */
+
 module peripheral_bus (
   input  wire        clk,
   input  wire        rst_n,
