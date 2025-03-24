@@ -7,6 +7,7 @@
   "files": [
     "rtl/peripherals/gpio.v",
     "rtl/peripherals/fifo.v",
-    "rtl/peripherals/seq_multiplier.v"
+    "rtl/peripherals/seq_multiplier.v",
+    "rtl/peripherals/debug_module.v"
   ]
 }
