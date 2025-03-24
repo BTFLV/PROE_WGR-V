@@ -189,6 +189,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <li><a href="#module-fifo">Modul: fifo</a></li>
 <li><strong>Datei:</strong> rtl/peripherals/gpio.v</li>
 <li><a href="#module-gpio">Modul: gpio</a></li>
+<li><strong>Datei:</strong> rtl/peripherals/peripheral_bus.v</li>
+<li><a href="#module-peripheral_bus">Modul: peripheral_bus</a></li>
 <li><strong>Datei:</strong> rtl/peripherals/seq_multiplier.v</li>
 <li><a href="#module-seq_multiplier">Modul: seq_multiplier</a></li>
 </ul>
@@ -428,6 +430,415 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">we</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">GPIO_OUT_OFFSET</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">GPIO_OUT_OFFSET</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mh">8</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">GPIO_OUT_STEP</span><span class="p">)))</span>
 <span class="w">    </span><span class="k">begin</span>
 <span class="w">      </span><span class="n">gpio_out</span><span class="p">[</span><span class="n">pin_index</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">write_data</span><span class="p">[</span><span class="mh">0</span><span class="p">];</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">  </span><span class="k">end</span>
+
+<span class="k">endmodule</span>
+</code></pre></div>
+
+
+</details>
+
+<h2>Datei: rtl/peripherals/peripheral_bus.v</h2>
+<h3 id="module-peripheral_bus">Modul: peripheral_bus</h3>
+<p><strong>Kurzbeschreibung:</strong> Einfacher Adressdecoder für Peripheriezugriffe</p>
+<p>Dieses Modul implementiert einen einfachen Peripheriebus mit Adressdekodierung. Es leitet Speicherzugriffe basierend auf der übergebenen Adresse an die jeweils zuständige Peripherieeinheit weiter. Dabei werden Steuersignale (<code>wr</code>, <code>rd</code>, <code>valid</code>) sowie Datenleitungen entsprechend durchgeschaltet. Es unterstützt mehrere Peripheriegeräte mit jeweils eigenen Adressbereichen.</p>
+<p><strong>Eingänge:</strong></p>
+<ul>
+<li><code>clk</code> Systemtakt</li>
+<li><code>rst</code> Reset-Signal</li>
+<li><code>addr</code> Adresse des Zugriffs</li>
+<li><code>wr</code> Schreibbefehl</li>
+<li><code>rd</code> Lesebefehl</li>
+<li><code>valid</code> Gültigkeitssignal für Zugriff</li>
+<li><code>cpu_data</code> Daten vom CPU zur Peripherie</li>
+</ul>
+<p><strong>Ausgänge:</strong></p>
+<ul>
+<li><code>data_out</code> Rückgabewert von der aktiven Peripherie</li>
+<li><code>ready</code> Gibt an, ob die Peripherie bereit ist</li>
+<li><code>gpio_sel</code> Auswahl für GPIO-Modul</li>
+<li><code>uart_sel</code> Auswahl für UART-Modul</li>
+<li><code>spi_sel</code> Auswahl für SPI-Modul</li>
+<li><code>ws2812b_sel</code> Auswahl für WS2812B-Modul</li>
+<li><code>pwm_timer_sel</code> Auswahl für PWM-Timer</li>
+<li><code>system_timer_sel</code> Auswahl für System-Timer</li>
+<li><code>debug_module_sel</code> Auswahl für Debug-Modul</li>
+</ul>
+<details>
+<summary>Source Code</summary>
+
+
+<div class="codehilite"><pre><span></span><code><span class="no">`include</span><span class="w"> </span><span class="s">&quot;../defines.v&quot;</span>
+<span class="no">`default_nettype</span><span class="w"> </span><span class="n">none</span>
+<span class="no">`timescale</span><span class="w"> </span><span class="mh">1</span><span class="n">ns</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mh">1</span><span class="n">ns</span>
+
+
+
+<span class="k">module</span><span class="w"> </span><span class="n">peripheral_bus</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">clk</span><span class="p">,</span>
+<span class="w">  </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">rst_n</span><span class="p">,</span>
+<span class="w">  </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">13</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">address</span><span class="p">,</span>
+<span class="w">  </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">write_data</span><span class="p">,</span>
+<span class="w">  </span><span class="k">output</span><span class="w"> </span><span class="kt">reg</span><span class="w">  </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">read_data</span><span class="p">,</span>
+<span class="w">  </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">we</span><span class="p">,</span>
+<span class="w">  </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">re</span><span class="p">,</span>
+<span class="w">  </span><span class="k">output</span><span class="w"> </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">debug_out</span><span class="p">,</span>
+<span class="w">  </span><span class="k">output</span><span class="w"> </span><span class="kt">wire</span><span class="w">        </span><span class="n">uart_tx</span><span class="p">,</span>
+<span class="w">  </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">uart_rx</span><span class="p">,</span>
+<span class="w">  </span><span class="k">output</span><span class="w"> </span><span class="kt">wire</span><span class="w">        </span><span class="n">pwm_out</span><span class="p">,</span>
+<span class="w">  </span><span class="k">output</span><span class="w"> </span><span class="kt">wire</span><span class="w">        </span><span class="n">ws_out</span><span class="p">,</span>
+<span class="w">  </span><span class="k">output</span><span class="w"> </span><span class="kt">wire</span><span class="w">        </span><span class="n">spi_mosi</span><span class="p">,</span>
+<span class="w">  </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">spi_miso</span><span class="p">,</span>
+<span class="w">  </span><span class="k">output</span><span class="w"> </span><span class="kt">wire</span><span class="w">        </span><span class="n">spi_clk</span><span class="p">,</span>
+<span class="w">  </span><span class="k">output</span><span class="w"> </span><span class="kt">wire</span><span class="w">        </span><span class="n">spi_cs</span><span class="p">,</span>
+<span class="w">  </span><span class="k">output</span><span class="w"> </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mh">7</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">gpio_out</span><span class="p">,</span>
+<span class="w">  </span><span class="k">output</span><span class="w"> </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mh">7</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">gpio_dir</span><span class="p">,</span>
+<span class="w">  </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mh">7</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">gpio_in</span>
+<span class="p">);</span>
+
+<span class="w">  </span><span class="k">localparam</span><span class="w"> </span><span class="n">DEBUG_BASE</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">6&#39;h01</span><span class="p">;</span>
+<span class="w">  </span><span class="k">localparam</span><span class="w"> </span><span class="n">UART_BASE</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mh">6&#39;h02</span><span class="p">;</span>
+<span class="w">  </span><span class="k">localparam</span><span class="w"> </span><span class="n">TIME_BASE</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mh">6&#39;h03</span><span class="p">;</span>
+<span class="w">  </span><span class="k">localparam</span><span class="w"> </span><span class="n">PWM_BASE</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mh">6&#39;h04</span><span class="p">;</span>
+<span class="w">  </span><span class="k">localparam</span><span class="w"> </span><span class="n">MULT_BASE</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mh">6&#39;h05</span><span class="p">;</span>
+<span class="w">  </span><span class="k">localparam</span><span class="w"> </span><span class="n">DIV_BASE</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mh">6&#39;h06</span><span class="p">;</span>
+<span class="w">  </span><span class="k">localparam</span><span class="w"> </span><span class="n">SPI_BASE</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mh">6&#39;h07</span><span class="p">;</span>
+<span class="w">  </span><span class="k">localparam</span><span class="w"> </span><span class="n">GPIO_BASE</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mh">6&#39;h08</span><span class="p">;</span>
+<span class="w">  </span><span class="k">localparam</span><span class="w"> </span><span class="n">WS_BASE</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mh">6&#39;h09</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">7</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">func_addr</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">func_addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">address</span><span class="p">[</span><span class="mh">7</span><span class="o">:</span><span class="mh">0</span><span class="p">];</span>
+
+
+<span class="w">  </span><span class="c1">// Debug</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_DEBUG</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">debug_data</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">debug_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">debug_we</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">debug_re</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">debug_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">address</span><span class="p">[</span><span class="mh">12</span><span class="o">:</span><span class="mh">8</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">DEBUG_BASE</span><span class="p">);</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">debug_we</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">we</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">debug_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">debug_re</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">re</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">debug_sel</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">debug_module</span><span class="w"> </span><span class="n">debug_inst</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">.</span><span class="n">clk</span><span class="w">        </span><span class="p">(</span><span class="n">clk</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">rst_n</span><span class="w">      </span><span class="p">(</span><span class="n">rst_n</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">address</span><span class="w">    </span><span class="p">(</span><span class="n">func_addr</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">write_data</span><span class="w"> </span><span class="p">(</span><span class="n">write_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">read_data</span><span class="w">  </span><span class="p">(</span><span class="n">debug_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">we</span><span class="w">         </span><span class="p">(</span><span class="n">debug_we</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">re</span><span class="w">         </span><span class="p">(</span><span class="n">debug_re</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">debug_out</span><span class="w">  </span><span class="p">(</span><span class="n">debug_out</span><span class="p">)</span>
+<span class="w">  </span><span class="p">);</span>
+
+<span class="no">`else</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w">  </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">  </span><span class="n">debug_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w">          </span><span class="n">debug_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w">        </span><span class="n">debug_out</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span>
+<span class="no">`endif</span>
+
+
+<span class="w">  </span><span class="c1">// UART</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_UART</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">uart_data</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">uart_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">uart_we</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">uart_re</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">uart_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">address</span><span class="p">[</span><span class="mh">12</span><span class="o">:</span><span class="mh">8</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UART_BASE</span><span class="p">);</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">uart_we</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">we</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">uart_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">uart_re</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">re</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">uart_sel</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">uart</span><span class="w"> </span><span class="p">#(</span>
+<span class="w">    </span><span class="p">.</span><span class="n">FIFO_TX_DEPTH</span><span class="p">(</span><span class="no">`UART_FIFO_TX_DEPTH</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">FIFO_RX_DEPTH</span><span class="p">(</span><span class="no">`UART_FIFO_RX_DEPTH</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="n">uart_inst</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">.</span><span class="n">clk</span><span class="w">        </span><span class="p">(</span><span class="n">clk</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">rst_n</span><span class="w">      </span><span class="p">(</span><span class="n">rst_n</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">address</span><span class="w">    </span><span class="p">(</span><span class="n">func_addr</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">write_data</span><span class="w"> </span><span class="p">(</span><span class="n">write_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">read_data</span><span class="w">  </span><span class="p">(</span><span class="n">uart_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">we</span><span class="w">         </span><span class="p">(</span><span class="n">uart_we</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">re</span><span class="w">         </span><span class="p">(</span><span class="n">uart_re</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">uart_tx</span><span class="w">    </span><span class="p">(</span><span class="n">uart_tx</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">uart_rx</span><span class="w">    </span><span class="p">(</span><span class="n">uart_rx</span><span class="p">)</span>
+<span class="w">  </span><span class="p">);</span>
+
+<span class="no">`else</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w">  </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">  </span><span class="n">uart_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w">          </span><span class="n">uart_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w">        </span><span class="n">uart_tx</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="no">`endif</span>
+
+
+<span class="w">  </span><span class="c1">// System Timer</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_TIME</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">time_data</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">time_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">time_we</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">time_re</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">time_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">address</span><span class="p">[</span><span class="mh">12</span><span class="o">:</span><span class="mh">8</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">TIME_BASE</span><span class="p">);</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">time_we</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">we</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">time_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">time_re</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">re</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">time_sel</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">system_timer</span><span class="w"> </span><span class="n">system_timer_inst</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">.</span><span class="n">clk</span><span class="w">        </span><span class="p">(</span><span class="n">clk</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">rst_n</span><span class="w">      </span><span class="p">(</span><span class="n">rst_n</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">address</span><span class="w">    </span><span class="p">(</span><span class="n">func_addr</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">write_data</span><span class="w"> </span><span class="p">(</span><span class="n">write_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">read_data</span><span class="w">  </span><span class="p">(</span><span class="n">time_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">we</span><span class="w">         </span><span class="p">(</span><span class="n">time_we</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">re</span><span class="w">         </span><span class="p">(</span><span class="n">time_re</span><span class="p">)</span>
+<span class="w">  </span><span class="p">);</span>
+
+<span class="no">`else</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">time_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">time_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="no">`endif</span>
+
+
+<span class="w">  </span><span class="c1">// PWM Timer</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_PWM</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">pwm_data</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">pwm_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">pwm_we</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">pwm_re</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">pwm_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">address</span><span class="p">[</span><span class="mh">12</span><span class="o">:</span><span class="mh">8</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">PWM_BASE</span><span class="p">);</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">pwm_we</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">we</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">pwm_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">pwm_re</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">re</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">pwm_sel</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">pwm_timer</span><span class="w"> </span><span class="n">pwm_timer_inst</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">.</span><span class="n">clk</span><span class="w">        </span><span class="p">(</span><span class="n">clk</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">rst_n</span><span class="w">      </span><span class="p">(</span><span class="n">rst_n</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">address</span><span class="w">    </span><span class="p">(</span><span class="n">func_addr</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">write_data</span><span class="w"> </span><span class="p">(</span><span class="n">write_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">read_data</span><span class="w">  </span><span class="p">(</span><span class="n">pwm_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">we</span><span class="w">         </span><span class="p">(</span><span class="n">pwm_we</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">re</span><span class="w">         </span><span class="p">(</span><span class="n">pwm_re</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">pwm_out</span><span class="w">    </span><span class="p">(</span><span class="n">pwm_out</span><span class="p">)</span>
+<span class="w">  </span><span class="p">);</span>
+
+<span class="no">`else</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">pwm_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">pwm_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w">      </span><span class="n">pwm_out</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="no">`endif</span>
+
+
+<span class="w">  </span><span class="c1">// Sequential Multiplier</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_MULT</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">mult_data</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">mult_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">mult_we</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">mult_re</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">mult_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">address</span><span class="p">[</span><span class="mh">12</span><span class="o">:</span><span class="mh">8</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">MULT_BASE</span><span class="p">);</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">mult_we</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">we</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">mult_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">mult_re</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">re</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">mult_sel</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">seq_multiplier</span><span class="w"> </span><span class="n">seq_multiplier_inst</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">.</span><span class="n">clk</span><span class="w">        </span><span class="p">(</span><span class="n">clk</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">rst_n</span><span class="w">      </span><span class="p">(</span><span class="n">rst_n</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">address</span><span class="w">    </span><span class="p">(</span><span class="n">func_addr</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">write_data</span><span class="w"> </span><span class="p">(</span><span class="n">write_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">read_data</span><span class="w">  </span><span class="p">(</span><span class="n">mult_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">we</span><span class="w">         </span><span class="p">(</span><span class="n">mult_we</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">re</span><span class="w">         </span><span class="p">(</span><span class="n">mult_re</span><span class="p">)</span>
+<span class="w">  </span><span class="p">);</span>
+
+<span class="no">`else</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">mult_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">mult_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="no">`endif</span>
+
+
+<span class="w">  </span><span class="c1">// Sequential Divider</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_DIV</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">div_data</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">div_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">div_we</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">div_re</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">div_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">address</span><span class="p">[</span><span class="mh">12</span><span class="o">:</span><span class="mh">8</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">DIV_BASE</span><span class="p">);</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">div_we</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">we</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">div_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">div_re</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">re</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">div_sel</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">seq_divider</span><span class="w"> </span><span class="n">seq_divider_inst</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">.</span><span class="n">clk</span><span class="w">        </span><span class="p">(</span><span class="n">clk</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">rst_n</span><span class="w">      </span><span class="p">(</span><span class="n">rst_n</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">address</span><span class="w">    </span><span class="p">(</span><span class="n">func_addr</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">write_data</span><span class="w"> </span><span class="p">(</span><span class="n">write_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">read_data</span><span class="w">  </span><span class="p">(</span><span class="n">div_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">we</span><span class="w">         </span><span class="p">(</span><span class="n">div_we</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">re</span><span class="w">         </span><span class="p">(</span><span class="n">div_re</span><span class="p">)</span>
+<span class="w">  </span><span class="p">);</span>
+
+<span class="no">`else</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">div_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">div_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="no">`endif</span>
+
+
+<span class="w">  </span><span class="c1">// SPI Peripheral</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_SPI</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">spi_data</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">spi_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">spi_we</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">spi_re</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">spi_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">address</span><span class="p">[</span><span class="mh">12</span><span class="o">:</span><span class="mh">8</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">SPI_BASE</span><span class="p">);</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">spi_we</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">we</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">spi_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">spi_re</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">re</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">spi_sel</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">spi</span><span class="w"> </span><span class="p">#(</span>
+<span class="w">    </span><span class="p">.</span><span class="n">FIFO_TX_DEPTH</span><span class="p">(</span><span class="no">`SPI_FIFO_TX_DEPTH</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">FIFO_RX_DEPTH</span><span class="p">(</span><span class="no">`SPI_FIFO_RX_DEPTH</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="n">spi_inst</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">.</span><span class="n">clk</span><span class="w">        </span><span class="p">(</span><span class="n">clk</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">rst_n</span><span class="w">      </span><span class="p">(</span><span class="n">rst_n</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">address</span><span class="w">    </span><span class="p">(</span><span class="n">func_addr</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">write_data</span><span class="w"> </span><span class="p">(</span><span class="n">write_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">read_data</span><span class="w">  </span><span class="p">(</span><span class="n">spi_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">we</span><span class="w">         </span><span class="p">(</span><span class="n">spi_we</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">re</span><span class="w">         </span><span class="p">(</span><span class="n">spi_re</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">spi_clk</span><span class="w">    </span><span class="p">(</span><span class="n">spi_clk</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">spi_mosi</span><span class="w">   </span><span class="p">(</span><span class="n">spi_mosi</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">spi_miso</span><span class="w">   </span><span class="p">(</span><span class="n">spi_miso</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">spi_cs</span><span class="w">     </span><span class="p">(</span><span class="n">spi_cs</span><span class="p">)</span>
+<span class="w">  </span><span class="p">);</span>
+
+<span class="no">`else</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">spi_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">spi_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w">      </span><span class="n">spi_mosi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w">      </span><span class="n">spi_clk</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w">      </span><span class="n">spi_cs</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b1</span><span class="p">;</span>
+<span class="no">`endif</span>
+
+
+<span class="w">  </span><span class="c1">// GPIO Peripheral</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_GPIO</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">gpio_data</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">gpio_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">gpio_we</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">gpio_re</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">gpio_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">address</span><span class="p">[</span><span class="mh">12</span><span class="o">:</span><span class="mh">8</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">GPIO_BASE</span><span class="p">);</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">gpio_we</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">we</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">gpio_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">gpio_re</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">re</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">gpio_sel</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">gpio</span><span class="w"> </span><span class="n">gpio_inst</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">.</span><span class="n">clk</span><span class="w">        </span><span class="p">(</span><span class="n">clk</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">rst_n</span><span class="w">      </span><span class="p">(</span><span class="n">rst_n</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">address</span><span class="w">    </span><span class="p">(</span><span class="n">func_addr</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">write_data</span><span class="w"> </span><span class="p">(</span><span class="n">write_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">read_data</span><span class="w">  </span><span class="p">(</span><span class="n">gpio_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">we</span><span class="w">         </span><span class="p">(</span><span class="n">gpio_we</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">re</span><span class="w">         </span><span class="p">(</span><span class="n">gpio_re</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">gpio_out</span><span class="w">   </span><span class="p">(</span><span class="n">gpio_out</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">gpio_dir</span><span class="w">   </span><span class="p">(</span><span class="n">gpio_dir</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">gpio_in</span><span class="w">    </span><span class="p">(</span><span class="n">gpio_in</span><span class="p">)</span>
+<span class="w">  </span><span class="p">);</span>
+
+<span class="no">`else</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">  </span><span class="n">gpio_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w">         </span><span class="n">gpio_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w">       </span><span class="n">gpio_out</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">8</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w">       </span><span class="n">gpio_dir</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">8</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="no">`endif</span>
+
+
+<span class="w">  </span><span class="c1">// WS2812B</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_WS</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">ws_data</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">ws_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">ws_we</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="n">ws_re</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">ws_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">address</span><span class="p">[</span><span class="mh">12</span><span class="o">:</span><span class="mh">8</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">WS_BASE</span><span class="p">);</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">ws_we</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">we</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">ws_sel</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">ws_re</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">re</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">ws_sel</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">ws2812b</span><span class="w"> </span><span class="n">ws2812b_inst</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">.</span><span class="n">clk</span><span class="w">        </span><span class="p">(</span><span class="n">clk</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">rst_n</span><span class="w">      </span><span class="p">(</span><span class="n">rst_n</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">address</span><span class="w">    </span><span class="p">(</span><span class="n">func_addr</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">write_data</span><span class="w"> </span><span class="p">(</span><span class="n">write_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">read_data</span><span class="w">  </span><span class="p">(</span><span class="n">ws_data</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">we</span><span class="w">         </span><span class="p">(</span><span class="n">ws_we</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">re</span><span class="w">         </span><span class="p">(</span><span class="n">ws_re</span><span class="p">),</span>
+<span class="w">    </span><span class="p">.</span><span class="n">ws_out</span><span class="w">     </span><span class="p">(</span><span class="n">ws_out</span><span class="p">)</span>
+<span class="w">  </span><span class="p">);</span>
+
+<span class="no">`else</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">ws_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">ws_sel</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">assign</span><span class="w">      </span><span class="n">ws_out</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+<span class="no">`endif</span>
+
+
+<span class="w">  </span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="k">posedge</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="k">negedge</span><span class="w"> </span><span class="n">rst_n</span><span class="p">)</span>
+<span class="w">  </span><span class="k">begin</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">rst_n</span><span class="p">)</span>
+<span class="w">      </span><span class="n">read_data</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">re</span><span class="p">)</span>
+<span class="w">    </span><span class="k">begin</span>
+
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_DEBUG</span>
+<span class="w">      </span><span class="k">if</span><span class="w">      </span><span class="p">(</span><span class="n">debug_sel</span><span class="p">)</span><span class="w"> </span><span class="n">read_data</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">debug_data</span><span class="p">;</span>
+<span class="no">`endif</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_UART</span>
+<span class="w">      </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">uart_sel</span><span class="p">)</span><span class="w">  </span><span class="n">read_data</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">uart_data</span><span class="p">;</span>
+<span class="no">`endif</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_TIME</span>
+<span class="w">      </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">time_sel</span><span class="p">)</span><span class="w">  </span><span class="n">read_data</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">time_data</span><span class="p">;</span>
+<span class="no">`endif</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_PWM</span>
+<span class="w">      </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pwm_sel</span><span class="p">)</span><span class="w">   </span><span class="n">read_data</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">pwm_data</span><span class="p">;</span>
+<span class="no">`endif</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_MULT</span>
+<span class="w">      </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mult_sel</span><span class="p">)</span><span class="w">  </span><span class="n">read_data</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">mult_data</span><span class="p">;</span>
+<span class="no">`endif</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_DIV</span>
+<span class="w">      </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">div_sel</span><span class="p">)</span><span class="w">   </span><span class="n">read_data</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">div_data</span><span class="p">;</span>
+<span class="no">`endif</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_SPI</span>
+<span class="w">      </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">spi_sel</span><span class="p">)</span><span class="w">   </span><span class="n">read_data</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">spi_data</span><span class="p">;</span>
+<span class="no">`endif</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_GPIO</span>
+<span class="w">      </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">gpio_sel</span><span class="p">)</span><span class="w">  </span><span class="n">read_data</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">gpio_data</span><span class="p">;</span>
+<span class="no">`endif</span>
+<span class="no">`ifdef</span><span class="w"> </span><span class="n">INCLUDE_WS</span>
+<span class="w">      </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ws_sel</span><span class="p">)</span><span class="w">    </span><span class="n">read_data</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">ws_data</span><span class="p">;</span>
+<span class="no">`endif</span>
+
+<span class="w">      </span><span class="k">else</span>
+<span class="w">        </span><span class="n">read_data</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span>
+
 <span class="w">    </span><span class="k">end</span>
 <span class="w">  </span><span class="k">end</span>
 
