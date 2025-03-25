@@ -191,8 +191,6 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <li><a href="#module-gpio">Modul: gpio</a></li>
 <li><strong>Datei:</strong> rtl/peripherals/peripheral_bus.v</li>
 <li><a href="#module-peripheral_bus">Modul: peripheral_bus</a></li>
-<li><strong>Datei:</strong> rtl/peripherals/pwm_timer.v</li>
-<li><a href="#module-pwm_timer">Modul: pwm_timer</a></li>
 <li><strong>Datei:</strong> rtl/peripherals/seq_multiplier.v</li>
 <li><a href="#module-seq_multiplier">Modul: seq_multiplier</a></li>
 </ul>
@@ -841,118 +839,6 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="w">      </span><span class="k">else</span>
 <span class="w">        </span><span class="n">read_data</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span>
 
-<span class="w">    </span><span class="k">end</span>
-<span class="w">  </span><span class="k">end</span>
-
-<span class="k">endmodule</span>
-</code></pre></div>
-
-
-</details>
-
-<h2>Datei: rtl/peripherals/pwm_timer.v</h2>
-<h3 id="module-pwm_timer">Modul: pwm_timer</h3>
-<p><strong>Kurzbeschreibung:</strong> PWM-Timer zur Erzeugung eines Pulsweitenmodulationssignals</p>
-<p>Dieses Modul generiert ein PWM-Signal (Pulsweitenmodulation) mit konfigurierbarer Periode und Pulsbreite. Es wird typischerweise zur Ansteuerung von Motoren, LEDs oder anderen zeitgesteuerten Peripherien eingesetzt. Der Zähler läuft periodisch hoch und vergleicht seinen Wert mit einem Pulsbreitenwert, um das Ausgangssignal zu setzen.</p>
-<p><strong>Eingänge:</strong></p>
-<ul>
-<li><code>clk</code> Systemtakt</li>
-<li><code>rst</code> Reset-Signal</li>
-<li><code>enable</code> Aktivierung des Timers</li>
-<li><code>[31:0]</code> period Maximale Zählerperiode (PWM-Zykluslänge)</li>
-<li><code>[31:0]</code> duty_cycle Vergleichswert für Pulsbreite (PWM-Anteil)</li>
-</ul>
-<p><strong>Ausgänge:</strong></p>
-<ul>
-<li><code>pwm_out</code> PWM-Ausgangssignal</li>
-</ul>
-<details>
-<summary>Source Code</summary>
-
-
-<div class="codehilite"><pre><span></span><code><span class="no">`default_nettype</span><span class="w"> </span><span class="n">none</span>
-<span class="no">`timescale</span><span class="w"> </span><span class="mh">1</span><span class="n">ns</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mh">1</span><span class="n">ns</span>
-
-
-
-<span class="k">module</span><span class="w"> </span><span class="n">pwm_timer</span><span class="w"> </span><span class="p">(</span>
-<span class="w">  </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">clk</span><span class="p">,</span>
-<span class="w">  </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">rst_n</span><span class="p">,</span>
-<span class="w">  </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">7</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w">  </span><span class="n">address</span><span class="p">,</span>
-<span class="w">  </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">write_data</span><span class="p">,</span>
-<span class="w">  </span><span class="k">output</span><span class="w"> </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">read_data</span><span class="p">,</span>
-<span class="w">  </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">we</span><span class="p">,</span>
-<span class="w">  </span><span class="k">input</span><span class="w">  </span><span class="kt">wire</span><span class="w">        </span><span class="n">re</span><span class="p">,</span>
-<span class="w">  </span><span class="k">output</span><span class="w"> </span><span class="kt">reg</span><span class="w">         </span><span class="n">pwm_out</span>
-<span class="p">);</span>
-
-<span class="w">  </span><span class="k">localparam</span><span class="w"> </span><span class="n">PERIOD_ADDR</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">8&#39;h00</span><span class="p">;</span>
-<span class="w">  </span><span class="k">localparam</span><span class="w"> </span><span class="n">DUTY_ADDR</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mh">8&#39;h04</span><span class="p">;</span>
-<span class="w">  </span><span class="k">localparam</span><span class="w"> </span><span class="n">COUNTER_ADDR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">8&#39;h08</span><span class="p">;</span>
-<span class="w">  </span><span class="k">localparam</span><span class="w"> </span><span class="n">CTRL_ADDR</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mh">8&#39;h0C</span><span class="p">;</span>
-
-<span class="w">  </span><span class="kt">reg</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">period</span><span class="p">;</span>
-<span class="w">  </span><span class="kt">reg</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">duty</span><span class="p">;</span>
-<span class="w">  </span><span class="kt">reg</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span>
-<span class="w">  </span><span class="kt">reg</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">ctrl</span><span class="p">;</span>
-<span class="w">  </span><span class="kt">reg</span><span class="w"> </span><span class="p">[</span><span class="mh">15</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">pre_count</span><span class="p">;</span>
-
-<span class="w">  </span><span class="k">assign</span><span class="w"> </span><span class="n">read_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">address</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">PERIOD_ADDR</span><span class="p">)</span><span class="w">  </span><span class="o">?</span><span class="w"> </span><span class="n">period</span><span class="w">  </span><span class="o">:</span>
-<span class="w">                     </span><span class="p">(</span><span class="n">address</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">DUTY_ADDR</span><span class="p">)</span><span class="w">    </span><span class="o">?</span><span class="w"> </span><span class="n">duty</span><span class="w">    </span><span class="o">:</span>
-<span class="w">                     </span><span class="p">(</span><span class="n">address</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">COUNTER_ADDR</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">:</span>
-<span class="w">                     </span><span class="p">(</span><span class="n">address</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">CTRL_ADDR</span><span class="p">)</span><span class="w">    </span><span class="o">?</span><span class="w"> </span><span class="n">ctrl</span><span class="w">    </span><span class="o">:</span>
-<span class="w">                     </span><span class="mh">32&#39;h0</span><span class="p">;</span>
-
-<span class="w">  </span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="k">posedge</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="k">negedge</span><span class="w"> </span><span class="n">rst_n</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">rst_n</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">      </span><span class="n">period</span><span class="w">    </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">32</span><span class="mi">&#39;d1000</span><span class="p">;</span>
-<span class="w">      </span><span class="n">duty</span><span class="w">      </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">32</span><span class="mi">&#39;d500</span><span class="p">;</span>
-<span class="w">      </span><span class="n">counter</span><span class="w">   </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">32</span><span class="mi">&#39;d0</span><span class="p">;</span>
-<span class="w">      </span><span class="n">ctrl</span><span class="w">      </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">32&#39;h00010000</span><span class="p">;</span>
-<span class="w">      </span><span class="n">pre_count</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">16</span><span class="mi">&#39;d0</span><span class="p">;</span>
-<span class="w">    </span><span class="k">end</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">we</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
-<span class="w">          </span><span class="nl">PERIOD_ADDR:</span>
-<span class="w">            </span><span class="n">period</span><span class="w">    </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">write_data</span><span class="p">;</span>
-<span class="w">          </span><span class="nl">DUTY_ADDR:</span>
-<span class="w">            </span><span class="n">duty</span><span class="w">      </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">write_data</span><span class="p">;</span>
-<span class="w">          </span><span class="nl">COUNTER_ADDR:</span>
-<span class="w">            </span><span class="n">counter</span><span class="w">   </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">32</span><span class="mi">&#39;d0</span><span class="p">;</span>
-<span class="w">          </span><span class="nl">CTRL_ADDR:</span>
-<span class="w">          </span><span class="k">begin</span>
-<span class="w">            </span><span class="n">ctrl</span><span class="w">      </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">write_data</span><span class="p">;</span>
-<span class="w">            </span><span class="n">pre_count</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">write_data</span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">16</span><span class="p">];</span>
-<span class="w">          </span><span class="k">end</span>
-<span class="w">          </span><span class="k">default</span><span class="o">:</span><span class="w"> </span><span class="p">;</span>
-<span class="w">        </span><span class="k">endcase</span>
-<span class="w">      </span><span class="k">end</span><span class="w"> </span><span class="k">else</span>
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pre_count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mh">0</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">        </span><span class="n">pre_count</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">pre_count</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mh">1</span><span class="p">;</span>
-<span class="w">      </span><span class="k">end</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">        </span><span class="n">pre_count</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">ctrl</span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">16</span><span class="p">];</span>
-
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">period</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mh">1</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">          </span><span class="n">counter</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">32</span><span class="mi">&#39;d0</span><span class="p">;</span>
-<span class="w">        </span><span class="k">end</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">          </span><span class="n">counter</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mh">1</span><span class="p">;</span>
-<span class="w">        </span><span class="k">end</span>
-<span class="w">      </span><span class="k">end</span>
-<span class="w">    </span><span class="k">end</span>
-<span class="w">  </span><span class="k">end</span>
-
-<span class="w">  </span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="k">posedge</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="k">negedge</span><span class="w"> </span><span class="n">rst_n</span><span class="p">)</span>
-<span class="w">  </span><span class="k">begin</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">rst_n</span><span class="p">)</span>
-<span class="w">      </span><span class="n">pwm_out</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
-<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ctrl</span><span class="p">[</span><span class="mh">0</span><span class="p">])</span><span class="w"> </span><span class="k">begin</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ctrl</span><span class="p">[</span><span class="mh">1</span><span class="p">])</span>
-<span class="w">          </span><span class="n">pwm_out</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">period</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mh">1</span><span class="p">))</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
-<span class="w">        </span><span class="k">else</span>
-<span class="w">          </span><span class="n">pwm_out</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span><span class="n">counter</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">duty</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
-<span class="w">      </span><span class="k">end</span><span class="w"> </span><span class="k">else</span>
-<span class="w">        </span><span class="n">pwm_out</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
 <span class="w">    </span><span class="k">end</span>
 <span class="w">  </span><span class="k">end</span>
 
