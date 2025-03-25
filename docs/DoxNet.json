@@ -10,6 +10,6 @@
     "rtl/peripherals/seq_multiplier.v",
     "rtl/peripherals/debug_module.v",
     "rtl/peripherals/peripheral_bus.v",
-    "rtl/peripherals/pwm_timer.v"
+    "rtl/peripherals/seq_divider.v"
   ]
 }
