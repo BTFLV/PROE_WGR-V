@@ -1,6 +1,53 @@
 `default_nettype none
 `timescale 1ns / 1ns
 
+
+/**
+ * @brief Einfacher CPU-Kern mit RISC-V-ähnlichem Befehlsformat.
+ *
+ * Dieser CPU-Kern holt Instruktionen aus dem Speicher (memory),
+ * decodiert sie (Opcode, Funct3, Funct7, Registeradressen etc.)
+ * und führt sie mittels einer ALU aus. Lese- und Schreibzugriffe
+ * auf Speicher oder Peripherie erfolgen über die Signale `address`,
+ * `write_data`, `we`, `re`, `read_data` und `mem_busy`.
+ *
+ * Der CPU-Core durchläuft eine einfache 5-stufige Pipeline in
+ * zeitversetzten Zuständen (FETCH, DECODE, EXECUTE, MEMORY, WRITEBACK),
+ * allerdings sequentiell (kein echtes Pipeline-Overlap).
+ *
+ * Hier eine Kurzbeschreibung der Zustände:
+ *  - FETCH  : Eine Instruktion wird über re=1 im Speicher angefordert.
+ *  - WAIT   : Auf das Eintreffen von read_data wird gewartet.
+ *  - DECODE : Instruktionsbits (opcode, funct3, funct7, rs1, rs2, rd usw.) extrahieren.
+ *  - EXECUTE: ALU-Operationen durchführen, Sprungadressen berechnen usw.
+ *  - MEMORY : Lese-/Schreibzugriffe bei LOAD/STORE
+ *  - MEMHALT: Warten, bis der Speicher- oder Peripheriezugriff abgeschlossen ist.
+ *  - RMW_WAIT & STORE_RMW: Dienen dem atomaren Lesen-Schreiben (Byte/16-Bit) bei LOAD/STORE.
+ *  - WRITEBACK: Ergebnis in Register ablegen (falls erforderlich) und PC inkrementieren oder Branch ausführen.
+ *
+ * @localparam FETCH    = 4'd0
+ * @localparam WAIT     = 4'd1
+ * @localparam DECODE   = 4'd2
+ * @localparam EXECUTE  = 4'd3
+ * @localparam MEMORY   = 4'd4
+ * @localparam MEMHALT  = 4'd5
+ * @localparam WRITEBACK= 4'd6
+ * @localparam RMW_WAIT = 4'd7
+ * @localparam STORE_RMW= 4'd8
+ *
+ * Die ALU-Operationen nutzen ein 4-Bit-Steuersignal (z. B. OP_ADD),
+ * das anhand von opcode/funct3/funct7 generiert wird.
+ *
+ * @input  clk                   Systemtakt
+ * @input  rst_n                 Asynchroner, aktiver-LOW Reset
+ * @output [31:0]     address    Speicheradresse für Lese-/Schreiboperationen
+ * @output reg [31:0] write_data Daten, die bei we=1 in den Speicher geschrieben werden
+ * @input  [31:0]     read_data  Daten, die bei re=1 aus dem Speicher gelesen werden
+ * @output reg        we         Write-Enable
+ * @output reg        re         Read-Enable
+ * @input  wire       mem_busy   Signalisiert, ob der Speicherzugriff noch in Arbeit ist
+ */
+
 module cpu (
   input  wire        clk,
   input  wire        rst_n,
@@ -12,6 +59,9 @@ module cpu (
   input  wire        mem_busy
 );
 
+  // ---------------------------------------------------------
+  // Definition der Zustände / 5-stufige Pipeline
+  // ---------------------------------------------------------
 localparam [3:0]
     FETCH        = 4'd0,
     WAIT         = 4'd1,
@@ -23,6 +73,9 @@ localparam [3:0]
     RMW_WAIT     = 4'd7,
     STORE_RMW    = 4'd8;
 
+  // ---------------------------------------------------------
+  // ALU-Operationscodes
+  // ---------------------------------------------------------
 localparam [3:0]
     OP_ADD       = 4'b0000,
     OP_SUB       = 4'b0001,
@@ -35,6 +88,9 @@ localparam [3:0]
     OP_SLT       = 4'b1000,
     OP_SLTU      = 4'b1001;
 
+  // ---------------------------------------------------------
+  // Funct3-Codes
+  // ---------------------------------------------------------
 localparam [2:0]
     F3_ADD_SUB   = 3'b000,
     F3_SLL       = 3'b001,
@@ -65,6 +121,9 @@ localparam [2:0]
     F3_BLTU      = 3'b110,
     F3_BGEU      = 3'b111;
 
+  // ---------------------------------------------------------
+  // Funct7 / OPCODE
+  // ---------------------------------------------------------
 localparam [6:0]
     F7_ADD       = 7'b0000000,
     F7_SUB       = 7'b0100000,
@@ -88,6 +147,9 @@ localparam [6:0]
     OPCODE_OP_IMM   = 7'b0010011,
     OPCODE_OP       = 7'b0110011;
 
+  // ---------------------------------------------------------
+  // CPU-Register (PC, Zwischenspeicher etc.)
+  // ---------------------------------------------------------
   reg [31:0] PC;
   reg [31:0] inst;
   reg [31:0] address_reg;
@@ -102,6 +164,9 @@ localparam [6:0]
   reg [ 1:0] mem_offset;
   reg        reg_we;
 
+  // ---------------------------------------------------------
+  // ALU-Anbindung
+  // ---------------------------------------------------------
   wire [31:0] rs1_data;
   wire [31:0] rs2_data;
   wire [31:0] alu_result;
@@ -113,6 +178,9 @@ localparam [6:0]
   wire [ 2:0] funct3;
   wire        alu_zero;
 
+  // ---------------------------------------------------------
+  // Zuweisungen
+  // ---------------------------------------------------------
   assign address = address_reg;
 
   assign opcode = inst[ 6: 0];
@@ -122,6 +190,9 @@ localparam [6:0]
   assign rd     = inst[11: 7];
   assign funct3 = inst[14:12];
 
+  // ---------------------------------------------------------
+  // Registerdatei-Instanzierung
+  // ---------------------------------------------------------
   register_file reg_file (
     .rst_n     (rst_n),
     .clk       (clk),
@@ -134,6 +205,9 @@ localparam [6:0]
     .rs2_data  (rs2_data)
   );
 
+  // ---------------------------------------------------------
+  // ALU-Instanzierung
+  // ---------------------------------------------------------
   alu alu_inst (
     .operand1  (alu_operand1),
     .operand2  (alu_operand2),
@@ -142,6 +216,9 @@ localparam [6:0]
     .zero      (alu_zero)
   );
 
+  // ---------------------------------------------------------
+  // Erzeugung von 'imm' aus der Instruktion (verschiedene Typen)
+  // ---------------------------------------------------------
   always @( * )
   begin
 
@@ -150,14 +227,17 @@ localparam [6:0]
       OPCODE_OP_IMM,
       OPCODE_LOAD,
       OPCODE_JALR: 
+        // Sign extension für 12-Bit
         imm = {{20{inst[31]}}, inst[31:20]};
 
       OPCODE_STORE:
+        // Sign extension für 12-Bit (Split in inst[31:25] & inst[11:7])
         imm = {{20{inst[31]}}, 
                    inst[31:25], 
                    inst[11:7]};
 
       OPCODE_BRANCH:
+        // Sign extension + Bit[7] + Bit[30:25] + Bit[11:8] + 0
         imm = {{20{inst[31]}}, 
                    inst[7], 
                    inst[30:25], 
@@ -169,6 +249,7 @@ localparam [6:0]
         imm = {inst[31: 12], 12'b0};
 
       OPCODE_JAL:
+        // 20-Bit Sign extension, plus die gemischten Bits (inst[31], inst[19:12], inst[20], inst[30:21], 0)
         imm = {{11{inst[31]}},
                    inst[31],
                    inst[19:12],
@@ -181,6 +262,9 @@ localparam [6:0]
     endcase
   end
 
+  // ---------------------------------------------------------
+  // Nächster Zustand (next_state) basierend auf state + Signalen
+  // ---------------------------------------------------------
   always @( * )
   begin
     case (state)
@@ -196,6 +280,7 @@ localparam [6:0]
 
       EXECUTE:
       begin
+        // Bei LOAD/STORE -> in den MEMORY-Zustand
         if (opcode == OPCODE_LOAD || opcode == OPCODE_STORE)
           next_state = MEMORY;
         else
@@ -212,6 +297,7 @@ localparam [6:0]
             if (funct3 == F3_SW)
               next_state = (mem_busy || re) ? MEMORY : MEMHALT;
             else
+            // Byte/Halfword => Read-Modify-Write
               if (funct3 == F3_SB || funct3 == F3_SH)
                 next_state = (mem_busy || re) ? MEMORY : RMW_WAIT;
               else
@@ -222,10 +308,13 @@ localparam [6:0]
       end
 
       RMW_WAIT:
+        // Warte auf Ende des Speicherzugriffs
         next_state = (mem_busy || re || we) ? RMW_WAIT  : STORE_RMW;
       STORE_RMW:
+        // Warte erneut bis busy + re/we durch sind
         next_state = (mem_busy || re || we) ? STORE_RMW : MEMHALT;
       MEMHALT:
+        // Warte bis busy und re/we beendet
         next_state = (mem_busy || re || we) ? MEMHALT   : WRITEBACK;
       WRITEBACK:
         next_state = FETCH;
@@ -235,12 +324,15 @@ localparam [6:0]
     endcase
   end
 
+  // ---------------------------------------------------------
+  // Zustandsübergänge und Ausführung
+  // ---------------------------------------------------------
   always @(posedge clk or negedge rst_n)
   begin
     if (!rst_n)
     begin
       state       <= FETCH;
-      PC          <= 32'h00004000;
+      PC          <= 32'h00004000; // Startadresse
       inst        <= 32'h00000013;
       reg_we      <= 1'b0;
       re          <= 1'b0;
@@ -252,29 +344,42 @@ localparam [6:0]
     else
     begin
       state      <= next_state;
-      reg_we     <= 1'b0;
-      write_data <= 32'd0;
+      reg_we     <= 1'b0;  // Standard: kein Registerwrite
+      write_data <= 32'd0; // Standard: Kein Schreiben
       re         <= 1'b0;
       we         <= 1'b0;
 
       case (state)
 
+        // -------------------------------------------------
+        // FETCH: Instruktion anfordern (re=1, address=PC)
+        // -------------------------------------------------
         FETCH:
         begin
           re          <= 1'b1;
           address_reg <= PC;
         end
 
+        // -------------------------------------------------
+        // WAIT: Warten auf read_data vom Speicher
+        // -------------------------------------------------
         WAIT:
         begin
           re   <= 1'b0;
         end
 
+
+        // -------------------------------------------------
+        // DECODE: Instruktion in 'inst' puffer, parse
+        // -------------------------------------------------
         DECODE:
         begin
           inst <= read_data;
         end
 
+        // -------------------------------------------------
+        // EXECUTE: Berechne ALU-Operation (ALU-Setup)
+        // -------------------------------------------------
         EXECUTE:
         begin
           case (opcode)
@@ -311,7 +416,7 @@ localparam [6:0]
                   alu_op <= OP_SLTU;
 
                 default:
-                  alu_op <= 4'b1111;
+                  alu_op <= 4'b1111; //NOP ausführen
 
               endcase
             end
@@ -416,6 +521,9 @@ localparam [6:0]
           endcase
         end
 
+        // -------------------------------------------------
+        // MEMORY: Lese-/Schreibzugriff
+        // -------------------------------------------------
         MEMORY:
         begin
           if (opcode == OPCODE_LOAD)
@@ -443,11 +551,18 @@ localparam [6:0]
             end
         end
 
+        // -------------------------------------------------
+        // RMW_WAIT: Warten bis read_data ok
+        // -------------------------------------------------
         RMW_WAIT:
         begin
-          // wait
+          // Warten bis read_data ok
         end
 
+        // -------------------------------------------------
+        // STORE_RMW: Daten anpassen und we=1
+        // Byte-/Halbwort-Schreiben erfordert zuerst ein Lesen des Zielwortes (Read-Modify-Write)
+        // -------------------------------------------------
         STORE_RMW:
         begin
           if (funct3 == F3_SB)
@@ -485,11 +600,18 @@ localparam [6:0]
           we <= 1'b1;
         end
 
+        // -------------------------------------------------
+        // MEMHALT: Warte auf Freigabe
+        // -------------------------------------------------
         MEMHALT:
         begin
           // wait
         end
 
+        // -------------------------------------------------
+        // WRITEBACK: ALU-Ergebnis oder Speicherergebnisse
+        //            in Register ablegen. PC update.
+        // -------------------------------------------------
         WRITEBACK:
         begin
           if (opcode == 7'b0000011)
@@ -573,6 +695,7 @@ localparam [6:0]
           else
             reg_w_data <= 32'd0;
 
+          // Bei bestimmten Opcodes muss in rd geschrieben werden
           if (opcode == OPCODE_LOAD  || opcode == OPCODE_JAL    ||
               opcode == OPCODE_JALR  || opcode == OPCODE_LUI    ||
               opcode == OPCODE_AUIPC || opcode == OPCODE_OP_IMM ||
@@ -585,6 +708,7 @@ localparam [6:0]
           else
             reg_we <= 1'b0;
 
+          // PC-Update
           if (opcode == OPCODE_JAL)
             PC <= alu_result;
           else

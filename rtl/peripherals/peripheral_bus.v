@@ -3,31 +3,45 @@
 `timescale 1ns / 1ns
 
 /**
- * @brief Einfacher Adressdecoder für Peripheriezugriffe
+ * @brief Zentrales Peripherie-Bus-Modul
  *
- * Dieses Modul implementiert einen einfachen Peripheriebus mit Adressdekodierung.
- * Es leitet Speicherzugriffe basierend auf der übergebenen Adresse an die jeweils
- * zuständige Peripherieeinheit weiter. Dabei werden Steuersignale (`wr`, `rd`, `valid`)
- * sowie Datenleitungen entsprechend durchgeschaltet. Es unterstützt mehrere
- * Peripheriegeräte mit jeweils eigenen Adressbereichen.
+ * Dieses Modul bündelt alle Zugriffe auf die verschiedenen Peripherie-Komponenten
+ * (z. B. Debug, UART, Timer, PWM, SPI, GPIO etc.) und leitet Lese-/Schreibanfragen
+ * anhand einer Adress-Dekodierung an die entsprechenden Module weiter.
+ * Je nach aktivem Define (z. B. `INCLUDE_DEBUG`) wird die jeweilige Peripherie
+ * eingebunden oder nicht. Die Schnittstellen zu den einzelnen Modulen sind
+ * bereits in diesem Modul angelegt (z. B. uart_tx, gpio_out, pwm_out, ...).
+ *
+ * @localparam DEBUG_BASE  Basis-Adressenbereich für das Debug-Modul
+ * @localparam UART_BASE   Basis-Adressenbereich für das UART-Modul
+ * @localparam TIME_BASE   Basis-Adressenbereich für den System-Timer
+ * @localparam PWM_BASE    Basis-Adressenbereich für das PWM-Modul
+ * @localparam MULT_BASE   Basis-Adressenbereich für das Multiplikatormodul
+ * @localparam DIV_BASE    Basis-Adressenbereich für das Divisionsmodul
+ * @localparam SPI_BASE    Basis-Adressenbereich für das SPI-Modul
+ * @localparam GPIO_BASE   Basis-Adressenbereich für das GPIO-Modul
+ * @localparam WS_BASE     Basis-Adressenbereich für das WS2812B-Modul
+ *
+ * @input clk         Systemtakt
+ * @input rst_n       Asynchrones, aktives-LOW Reset-Signal
+ * @input [13:0]      address  Bus-Adresse, aus der das jeweilige Peripheriemodul dekodiert wird
+ * @input [31:0]      write_data Zu schreibende Daten in das ausgewählte Modul
+ * @input we          Write Enable-Signal
+ * @input re          Read Enable-Signal
  * 
- * @input clk Systemtakt
- * @input rst Reset-Signal
- * @input addr Adresse des Zugriffs
- * @input wr Schreibbefehl
- * @input rd Lesebefehl
- * @input valid Gültigkeitssignal für Zugriff
- * @input cpu_data Daten vom CPU zur Peripherie
- * @output data_out Rückgabewert von der aktiven Peripherie
- * @output ready Gibt an, ob die Peripherie bereit ist
- * 
- * @output gpio_sel Auswahl für GPIO-Modul
- * @output uart_sel Auswahl für UART-Modul
- * @output spi_sel Auswahl für SPI-Modul
- * @output ws2812b_sel Auswahl für WS2812B-Modul
- * @output pwm_timer_sel Auswahl für PWM-Timer
- * @output system_timer_sel Auswahl für System-Timer
- * @output debug_module_sel Auswahl für Debug-Modul
+ * @output reg [31:0] read_data Gelesene Daten von den Peripheriemodulen
+ * @output [31:0]     debug_out Debug-Ausgangssignal (z. B. zur Diagnose)
+ * @output uart_tx    TX-Ausgang des UART
+ * @input  uart_rx    RX-Eingang des UART
+ * @output pwm_out    PWM-Ausgangssignal
+ * @output ws_out     Datenleitung für WS2812B-LEDs
+ * @output spi_mosi   SPI-Ausgangsdaten (Master Out, Slave In)
+ * @input  spi_miso   SPI-Eingangsdaten (Master In, Slave Out)
+ * @output spi_clk    SPI-Taktsignal
+ * @output spi_cs     SPI-Chip-Select
+ * @output [7:0]      gpio_out Ausgangssignale des GPIO-Moduls
+ * @output [7:0]      gpio_dir Richtungsregister des GPIO-Moduls
+ * @input  [7:0]      gpio_in  Eingangsleitungen des GPIO-Moduls
  */
 
 module peripheral_bus (
@@ -52,6 +66,7 @@ module peripheral_bus (
   input  wire [ 7:0] gpio_in
 );
 
+  // Basis-Adressen für die einzelnen Peripherie-Komponenten
   localparam DEBUG_BASE  = 6'h01;
   localparam UART_BASE   = 6'h02;
   localparam TIME_BASE   = 6'h03;
@@ -62,16 +77,21 @@ module peripheral_bus (
   localparam GPIO_BASE   = 6'h08;
   localparam WS_BASE     = 6'h09;
 
+  // Aus der 14-Bit-Adresse wird hier der 8-Bit-Funktionsanteil extrahiert
+  // (lower 8 Bits), um innerhalb des Peripheriemoduls weiter zu dekodieren.
   wire [7:0] func_addr;
 
   assign func_addr = address[7:0];
 
 
-  // Debug
+  // ---------------------------------------------------------
+  // Debug-Modul (optional über DEFINE eingebunden)
+  // ---------------------------------------------------------
 `ifdef INCLUDE_DEBUG
 
   wire [31:0] debug_data;
   
+  // Auswahl, ob Adresse in Bereich des Debug-Moduls fällt
   wire debug_sel;
   wire debug_we;
   wire debug_re;
@@ -90,7 +110,7 @@ module peripheral_bus (
     .re         (debug_re),
     .debug_out  (debug_out)
   );
-
+  // Falls nicht eingebunden, werden ungenutzte Signale auf konstante Werte gesetzt
 `else
   wire  [31:0]  debug_data = 32'h0;
   wire          debug_sel  = 1'b0;
@@ -98,7 +118,9 @@ module peripheral_bus (
 `endif
 
 
-  // UART
+  // ---------------------------------------------------------
+  // UART-Modul (optional über DEFINE eingebunden)
+  // ---------------------------------------------------------
 `ifdef INCLUDE_UART
 
   wire [31:0] uart_data;
@@ -133,7 +155,9 @@ module peripheral_bus (
 `endif
 
 
-  // System Timer
+  // ---------------------------------------------------------
+  // System Timer (optional über DEFINE eingebunden)
+  // ---------------------------------------------------------
 `ifdef INCLUDE_TIME
 
   wire [31:0] time_data;
@@ -162,7 +186,9 @@ module peripheral_bus (
 `endif
 
 
-  // PWM Timer
+  // ---------------------------------------------------------
+  // PWM-Timer (optional über DEFINE eingebunden)
+  // ---------------------------------------------------------
 `ifdef INCLUDE_PWM
 
   wire [31:0] pwm_data;
@@ -193,7 +219,9 @@ module peripheral_bus (
 `endif
 
 
-  // Sequential Multiplier
+  // ---------------------------------------------------------
+  // Sequentieller Multiplikator (optional über DEFINE eingebunden)
+  // ---------------------------------------------------------
 `ifdef INCLUDE_MULT
 
   wire [31:0] mult_data;
@@ -222,7 +250,9 @@ module peripheral_bus (
 `endif
 
 
-  // Sequential Divider
+  // ---------------------------------------------------------
+  // Sequentieller Divider (optional über DEFINE eingebunden)
+  // ---------------------------------------------------------
 `ifdef INCLUDE_DIV
 
   wire [31:0] div_data;
@@ -251,7 +281,9 @@ module peripheral_bus (
 `endif
 
 
-  // SPI Peripheral
+  // ---------------------------------------------------------
+  // SPI-Modul (optional über DEFINE eingebunden)
+  // ---------------------------------------------------------
 `ifdef INCLUDE_SPI
 
   wire [31:0] spi_data;
@@ -290,7 +322,9 @@ module peripheral_bus (
 `endif
 
 
-  // GPIO Peripheral
+  // ---------------------------------------------------------
+  // GPIO-Modul (optional über DEFINE eingebunden)
+  // ---------------------------------------------------------
 `ifdef INCLUDE_GPIO
 
   wire [31:0] gpio_data;
@@ -324,7 +358,9 @@ module peripheral_bus (
 `endif
 
 
-  // WS2812B
+  // ---------------------------------------------------------
+  // WS2812B-LED-Modul (optional über DEFINE eingebunden)
+  // ---------------------------------------------------------
 `ifdef INCLUDE_WS
 
   wire [31:0] ws_data;
@@ -354,7 +390,11 @@ module peripheral_bus (
   assign      ws_out  = 1'b0;
 `endif
 
-
+  // ---------------------------------------------------------
+  // Lesezugriffe: Hier wird je nach ausgewähltem Modul das passende
+  // 'read_data' ausgegeben. Falls kein passendes Modul selektiert
+  // ist, wird 0x0 zurückgegeben.
+  // ---------------------------------------------------------
   always @(posedge clk or negedge rst_n)
   begin
     if (!rst_n)

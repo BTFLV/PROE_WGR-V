@@ -5,11 +5,25 @@
   "md_file": "wgr-v-verilog-docs.md",
   "pdf_file": "wgr-v-verilog-docs.pdf",
   "files": [
+    "rtl/alu.v",
+    "rtl/defines.v",
+    "rtl/memory.v",
+    "rtl/register_file.v",
+    "rtl/wgr_v_max.v",
+    "rtl/cpu.v",
     "rtl/peripherals/gpio.v",
     "rtl/peripherals/fifo.v",
     "rtl/peripherals/seq_multiplier.v",
     "rtl/peripherals/debug_module.v",
     "rtl/peripherals/peripheral_bus.v",
-    "rtl/peripherals/seq_divider.v"
+    "rtl/peripherals/seq_divider.v",
+    "rtl/peripherals/pwm_timer.v",
+    "rtl/peripherals/spi.v",
+    "rtl/peripherals/system_timer.v",
+    "rtl/peripherals/uart.v",
+    "rtl/peripherals/ws2812b.v",
+    "rtl/fram/fram_ram.v",
+    "rtl/fram/fram_spi.v",
+    "rtl/fram/mb85rs64v.v"
   ]
 }

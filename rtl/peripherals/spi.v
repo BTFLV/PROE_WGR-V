@@ -1,6 +1,52 @@
 `default_nettype none
 `timescale 1ns / 1ns
 
+/**
+ * @brief SPI-Peripheriemodul mit internen FIFO-Puffern.
+ *
+ * Dieses Modul stellt ein SPI-Master-Interface bereit (MOSI/MISO/CLK/CS),
+ * mit jeweils einem TX- und RX-FIFO zur gepufferten Übertragung von
+ * Datenpaketen. Die Baudrate wird über ein konfigurierbares Clock-Divider-
+ * Register gesteuert. Zusätzlich kann zwischen automatischer und manueller
+ * Steuerung des CS-Signals gewählt werden.
+ *
+ * Register-Offsets innerhalb des Moduls:
+ * - `CTRL_OFFSET`   : Steuerregister (Aktivierung, CS-Gen, etc.)
+ * - `CLK_OFFSET`    : Clock-Divider-Register (zur SPI-Takterzeugung)
+ * - `STATUS_OFFSET` : Statusbits (z. B. Busy, FIFO-Zustände)
+ * - `TX_OFFSET`     : TX-FIFO-Schreibregister
+ * - `RX_OFFSET`     : RX-FIFO-Leseregister
+ * - `CS_OFFSET`     : Manuelle Chip-Select-Steuerung
+ *
+ * @parameter FIFO_TX_DEPTH = 8 Anzahl der Einträge im FIFO für TX
+ * @parameter FIFO_RX_DEPTH = 8 Anzahl der Einträge im FIFO für RX
+ * 
+ * @localparam CTRL_OFFSET   Offset für das Steuerregister
+ * @localparam CLK_OFFSET    Offset für den Baudratenteiler
+ * @localparam STATUS_OFFSET Offset für das Statusregister
+ * @localparam TX_OFFSET     Offset zum Schreiben in den TX-FIFO
+ * @localparam RX_OFFSET     Offset zum Lesen aus dem RX-FIFO
+ * @localparam CS_OFFSET     Offset für manuelle Chip-Select-Steuerung
+ *
+ * @localparam STATE_IDLE      Leerlaufzustand
+ * @localparam STATE_LOAD      Daten werden aus dem TX-FIFO übernommen
+ * @localparam STATE_LOAD_WAIT Wartezyklus nach dem Laden
+ * @localparam STATE_TRANSFER  Aktive SPI-Datenübertragung
+ *
+ * @input  clk               Systemtakt
+ * @input  rst_n             Asynchroner, aktiver-LOW Reset
+ * @input  [7:0] address     Auswahl des Registers innerhalb des SPI-Moduls
+ * @input  [31:0] write_data Daten, die in ein ausgewähltes Register geschrieben werden
+*  @output [31:0] read_data  Ausgelesener Wert aus dem entsprechenden Register
+ * @input  we                Write-Enable-Signal
+ * @input  re                Read-Enable-Signal
+ *
+ * @output reg               spi_clk   SPI-Clock-Ausgang
+ * @output reg               spi_mosi  SPI-Daten-Ausgang (Master Out, Slave In)
+ * @input  wire              spi_miso  SPI-Daten-Eingang  (Master In, Slave Out)
+ * @output wire              spi_cs    SPI-Chip-Select (automatisch oder manuell)
+ */
+
 module spi #(
   parameter FIFO_TX_DEPTH = 8,
   parameter FIFO_RX_DEPTH = 8
@@ -18,6 +64,9 @@ module spi #(
   output wire        spi_cs
 );
 
+  // ---------------------------------------------------------
+  // Register-Offsets innerhalb des Adressraums
+  // ---------------------------------------------------------
   localparam CTRL_OFFSET     = 8'h00;
   localparam CLK_OFFSET      = 8'h04;
   localparam STATUS_OFFSET   = 8'h08;
@@ -25,11 +74,18 @@ module spi #(
   localparam RX_OFFSET       = 8'h10;
   localparam CS_OFFSET       = 8'h14;
 
+
+  // ---------------------------------------------------------
+  // Zustände des internen State-Automaten
+  // ---------------------------------------------------------
   localparam STATE_IDLE      = 2'd0;
   localparam STATE_LOAD      = 2'd1;
   localparam STATE_LOAD_WAIT = 2'd2;
   localparam STATE_TRANSFER  = 2'd3;
 
+  // ---------------------------------------------------------
+  // Registervariablen und -signale
+  // ---------------------------------------------------------
   reg [15:0] spi_clk_div;
   reg [15:0] new_spi_clk_div;
   reg [16:0] clk_counter;
@@ -50,6 +106,9 @@ module spi #(
   reg cs_manual;
   reg cs_manual_next;
 
+  // ---------------------------------------------------------
+  // FIFOs für TX und RX
+  // ---------------------------------------------------------
   wire [8:0] tx_fifo_din;
   wire [8:0] tx_fifo_dout;
   wire [7:0] rx_fifo_dout;
@@ -64,6 +123,10 @@ module spi #(
   wire rx_fifo_full;
   wire fifo_full;
 
+
+  // ---------------------------------------------------------
+  // Externe Zuweisungen
+  // ---------------------------------------------------------
   assign clk_div_zero     = (~|spi_clk_div);
   assign spi_busy         = (state != STATE_IDLE);
   assign fifo_full        = rx_fifo_full | tx_fifo_full;
@@ -73,6 +136,9 @@ module spi #(
   assign tx_fifo_wr_en    = we && (address[7:0] == TX_OFFSET);
   assign spi_cs           = cs_gen ? cs : cs_manual;
 
+  // ---------------------------------------------------------
+  // TX-FIFO Instanz
+  // ---------------------------------------------------------
   fifo #(
     .DATA_WIDTH (9),
     .DEPTH      (FIFO_TX_DEPTH)
@@ -87,6 +153,9 @@ module spi #(
     .full  (tx_fifo_full)
   );
 
+  // ---------------------------------------------------------
+  // RX-FIFO Instanz
+  // ---------------------------------------------------------
   fifo #(
     .DATA_WIDTH (8),
     .DEPTH      (FIFO_RX_DEPTH)
@@ -101,6 +170,10 @@ module spi #(
     .full  (rx_fifo_full)
   );
 
+
+  // ---------------------------------------------------------
+  // Lesen aus SPI-Registern (CTRL, CLK, STATUS, RX, CS)
+  // ---------------------------------------------------------
   assign read_data = (address[7:0] == CTRL_OFFSET)   ? {30'd0, cs_gen, active} :
                      (address[7:0] == CLK_OFFSET)    ? {16'd0,    spi_clk_div} :
                      (address[7:0] == STATUS_OFFSET) ? {24'd0,    status_bits} :
@@ -108,6 +181,9 @@ module spi #(
                      (address[7:0] == CS_OFFSET)     ? {31'd0,      cs_manual} :
                      32'd0;
 
+  // ---------------------------------------------------------
+  // Clock-Divider-Logik: Erzeugung von spi_clk
+  // ---------------------------------------------------------
   always @(posedge clk or negedge rst_n)
   begin
     if (!rst_n)
@@ -139,6 +215,11 @@ module spi #(
     end
   end
 
+  // ---------------------------------------------------------
+  // Zustandsmaschine für SPI
+  // - Übergänge zwischen Ladephase, Übertragung etc.
+  // - Steuert spi_clk, mosi, bit_cnt, etc.
+  // ---------------------------------------------------------
   always @(posedge clk or negedge rst_n)
   begin
     if (!rst_n)
@@ -157,7 +238,7 @@ module spi #(
     end
     else
     begin
-
+      // Standard: Deaktivierung von FIFO-Lese/Schreib-Enables
       tx_fifo_rd_en <= 1'b0;
       rx_fifo_wr_en <= 1'b0;
 
@@ -252,6 +333,11 @@ module spi #(
     end
   end
 
+  // ---------------------------------------------------------
+  // Kontrolle der SPI-Einstellungen (CTRL, CLK, CS)
+  // - Hier wird z. B. active und cs_gen gesetzt, sowie
+  //   der Taktteiler aktualisiert
+  // ---------------------------------------------------------
   always @(posedge clk or negedge rst_n)
   begin
     if (!rst_n)

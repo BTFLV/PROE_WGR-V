@@ -2,6 +2,29 @@
 `default_nettype none
 `timescale 1ns / 1ns
 
+/**
+ * @brief Registerdatei für den CPU-Kern.
+ *
+ * Diese Registerdatei umfasst entweder 32 Register (im RV32I-Mode)
+ * oder 16 Register (ansonsten) und unterstützt Lese- und Schreibzugriffe.
+ * Der Schreibzugriff erfolgt über ein Write-Enable-Signal, sowie
+ * Auswahl des Ziel- und Quellregisters. Bei RISC-V (RV32I) bleibt
+ * das Register x0 jederzeit auf 0.
+ *
+ * @macro RV32I Falls definiert, werden 32 Register angelegt.
+ *
+ * @input  clk             Systemtakt.
+ * @input  rst_n           Asynchroner, aktiver-LOW Reset.
+ * @input  we              Write-Enable-Signal zum Beschreiben eines Registers.
+ * @input  [4:0] rd        Zielregister, in das bei we=1 geschrieben werden soll.
+ * @input  [4:0] rs1       Erstes Quellregister für eine Leseanfrage.
+ * @input  [4:0] rs2       Zweites Quellregister für eine Leseanfrage.
+ * @input  [31:0] rd_data  Daten, die in rd geschrieben werden (falls we=1).
+ *
+ * @output [31:0] rs1_data Daten aus dem Register rs1.
+ * @output [31:0] rs2_data Daten aus dem Register rs2.
+ */
+
 module register_file (
   input  wire        clk,
   input  wire        rst_n,
@@ -15,19 +38,35 @@ module register_file (
 );
 
 `ifdef RV32I
+  // Bei aktiviertem RV32I-Macro werden 32 Register definiert (1..31).
+  // Register 0 bleibt immer 0.
   reg [31:0] registers[31:1];
 `else
+  // Sonst 16 Register (1..15).
   reg [31:0] registers[15:1];
 `endif
 
+  // ---------------------------------------------------------
+  // Lesezugriffe:
+  // - Wenn rs1 != 0, wird das entsprechende Register ausgegeben,
+  //   sonst 0.
+  // - Wenn rs2 != 0, wird das entsprechende Register ausgegeben,
+  //   sonst 0.
+  // ---------------------------------------------------------
 `ifdef RV32I
   assign rs1_data  = (rs1 != 5'd0) ? registers[rs1] : 32'd0;
   assign rs2_data  = (rs2 != 5'd0) ? registers[rs2] : 32'd0;
 `else
+  // Nur die unteren 16 Register sind gültig (rd[4] = 0).
   assign rs1_data = (rs1 != 5'd0 && ~rs1[4]) ? registers[rs1] : 32'd0;
   assign rs2_data = (rs2 != 5'd0 && ~rs2[4]) ? registers[rs2] : 32'd0;
 `endif
 
+  // ---------------------------------------------------------
+  // Schreibzugriffe:
+  // - Bei RV32I wird registr[rd] nur beschrieben, wenn rd != 0.
+  // - Ansonsten nur, wenn rd != 0 und rd[4] nicht gesetzt.
+  // ---------------------------------------------------------
   always @(posedge clk or negedge rst_n)
   begin
     if (!rst_n)

@@ -2,6 +2,44 @@
 `default_nettype none
 `timescale 1ns / 1ns
 
+/**
+ * @brief Hauptspeichermodul mit Anbindung an Peripherie.
+ *
+ * Dieses Modul verwaltet die Zugriffe der CPU auf den Speicher
+ * (RAM oder FRAM, je nach Definition `FRAM_MEMORY`) sowie auf
+ * die Peripherie. Dabei wird die Adresse aufgeteilt in einen
+ * RAM-Bereich und einen Peripheriebereich. Lese- und
+ * Schreibzugriffe im RAM-Bereich erfolgen direkt auf das RAM/FRAM;
+ * Zugriffe im Peripheriebereich werden an das `peripheral_bus`
+ * Modul weitergereicht.
+ *
+ * Folgende Bereiche sind definiert:
+ * - Adressen >= 0x00004000: RAM/FRAM-Bereich
+ * - Adressen <  0x00004000: Peripherie-Bereich (per_addr)
+ *
+ * @input  clk        Systemtakt
+ * @input  rst_n      Asynchron, aktives-LOW Reset
+ * @input  [31:0]     address  Adresse des gewünschten Zugriffs
+ * @input  [31:0]     write_data Daten, die bei we=1 geschrieben werden
+ * @output [31:0]     read_data  Daten, die bei re=1 gelesen werden
+ * @input  we         Write Enable
+ * @input  re         Read Enable
+ * @output mem_busy   Signalisiert, ob ein externer Zugriff (z. B. FRAM) noch busy ist
+ *
+ * @output uart_tx    UART-Ausgang
+ * @input  uart_rx    UART-Eingang
+ * @output [31:0]     debug_out Debug-Leitung
+ * @output pwm_out    PWM-Ausgang
+ * @output ws_out     Datenleitung für WS2812B
+ * @output spi_mosi   SPI Master-Out
+ * @input  spi_miso   SPI Master-In
+ * @output spi_clk    SPI-Takt
+ * @output spi_cs     SPI-Chipselect
+ * @output [7:0]      gpio_out GPIO-Ausgänge
+ * @output [7:0]      gpio_dir GPIO-Richtungsregister
+ * @input  [7:0]      gpio_in   GPIO-Eingänge
+ */
+
 module memory (
   input  wire        clk,
   input  wire        rst_n,
@@ -25,6 +63,9 @@ module memory (
   input  wire [ 7:0] gpio_in
 );
 
+  // ---------------------------------------------------------
+  // Interne Signale für RAM/FRAM und Peripherie
+  // ---------------------------------------------------------
   wire [31:0] ram_addr;
   wire [31:0] ram_data;
   wire [13:0] per_addr;
@@ -39,21 +80,38 @@ module memory (
   wire re_per;
   wire req_ready;
 
+  // ---------------------------------------------------------
+  // Lese-/Schreib-Steuerung
+  // ---------------------------------------------------------
   assign we_ram    = we &&  is_ram;
 `ifdef FRAM_MEMORY
   assign re_ram    = re &&  is_ram;
 `endif
   assign we_per    = we && !is_ram;
   assign re_per    = re && !is_ram;
+
+  // ---------------------------------------------------------
+  // Aufteilung der Adressbereiche
+  // is_ram = 1, wenn address >= 0x00004000
+  // Ansonsten per_addr = address[13:0]
+  // ---------------------------------------------------------
   assign is_ram    = (address >= 32'h00004000);
   assign ram_addr  = (address  - 32'h00004000);
   assign per_addr  = is_ram ? 14'b0 : address[13:0];
   assign read_data = is_ram ? ram_data : per_data;
+
+  // ---------------------------------------------------------
+  // mem_busy wird aus req_ready abgeleitet
+  // (Bei Normal-RAM meist nicht busy, bei FRAM schon)
+  // ---------------------------------------------------------
   assign mem_busy  = !req_ready;
 `ifndef FRAM_MEMORY
   assign req_ready = 1'b1;
 `endif
-
+  
+  // -------------------------------------------------------------
+  // RAM bzw. FRAM-Anbindung
+  // -------------------------------------------------------------
 `ifdef FRAM_MEMORY
   fram_ram fram_ram_inst (
     .clk        (clk),
@@ -70,6 +128,7 @@ module memory (
     .spi_cs     (spi_cs)
   );
 `else
+  // Normales Single-Port-RAM
   ram1p ram1p_inst (
     .address (ram_addr[14:2]),
     .clock   (clk),
@@ -79,6 +138,9 @@ module memory (
   );
 `endif
 
+  // -------------------------------------------------------------
+  // Anbindung der Peripheriemodule
+  // -------------------------------------------------------------
   peripheral_bus peripheral_bus_inst (
     .clk        (clk),
     .rst_n      (rst_n),

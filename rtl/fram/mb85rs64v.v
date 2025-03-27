@@ -1,6 +1,38 @@
 `default_nettype none
 `timescale 1ns / 1ns
 
+/**
+ * @brief Verilog-Modell des FRAM-Bausteins MB85RS64V.
+ *
+ * Dieses Modul simuliert den internen SPI-Verhaltensablauf des
+ * MB85RS64V-Fram-Speichers. Es reagiert auf die üblichen FRAM-OPCODES
+ * (WRITE, READ, WREN) und unterstützt das Speichern von Daten in einem
+ * internen Memory-Array. Das Modul ist nur für Simulation und
+ * Verifikationszwecke gedacht und ersetzt in der Hardware ein
+ * externes FRAM-Bauteil.
+ *
+ * Zustandsautomat:
+ * - STATE_OPCODE:     Auswerten des eingehenden Opcodes (WREN, WRITE, READ)
+ * - STATE_ADDR:       Erfassen der Adresse (2 Bytes)
+ * - STATE_WRITE_DATA: Schreiben der ankommenden Bytes in Memory
+ * - STATE_READ_DATA:  Ausgeben der gewünschten Bytes aus Memory
+ *
+ * @localparam OP_WRITE         SPI-Opcode für Schreibzugriff
+ * @localparam OP_READ          SPI-Opcode für Lesezugriff
+ * @localparam OP_WREN          SPI-Opcode für Write Enable
+ * @localparam STATE_OPCODE     Zustand zum Erfassen des Opcodes
+ * @localparam STATE_ADDR       Zustand zum Erfassen der Adresse
+ * @localparam STATE_WRITE_DATA Zustand zum Schreiben der Daten ins Memory
+ * @localparam STATE_READ_DATA  Zustand zum Auslesen der Daten
+ *
+ * @input  clk          Systemtakt
+ * @input  rst_n        Asynchrones, aktives-LOW Reset
+ * @input  spi_mosi     SPI-Datenleitung Master->Slave
+ * @output reg spi_miso SPI-Datenleitung Slave->Master
+ * @input  spi_clk      SPI-Takt
+ * @input  spi_cs       SPI-Chip-Select (aktiv LOW)
+ */
+
 module mb85rs64v (
     input  wire clk,
     input  wire rst_n,
@@ -10,17 +42,30 @@ module mb85rs64v (
     input  wire spi_cs
 );
 
+
+  // ---------------------------------------------------------
+  // Lokale Konstanten / OPCODES
+  // ---------------------------------------------------------
   localparam OP_WRITE = 8'h02;
   localparam OP_READ  = 8'h03;
   localparam OP_WREN  = 8'h06;
 
+  // ---------------------------------------------------------
+  // Zustandsdefinitionen
+  // ---------------------------------------------------------
   localparam STATE_OPCODE     = 2'd0;
   localparam STATE_ADDR       = 2'd1;
   localparam STATE_WRITE_DATA = 2'd2;
   localparam STATE_READ_DATA  = 2'd3;
 
+  // ---------------------------------------------------------
+  // Internes Memory-Array (z. B. 8k x 8 Bit = 64 KBit)
+  // ---------------------------------------------------------
   reg [ 7:0] memory[0:8191];
 
+  // ---------------------------------------------------------
+  // Registervariablen für OPCODE, Adresse, Daten etc.
+  // ---------------------------------------------------------
   reg [15:0] address;
   reg [15:0] address_shift;
   reg [ 7:0] opcode;
@@ -34,6 +79,10 @@ module mb85rs64v (
   reg        cs_prev;
   reg        wel;
 
+  // ---------------------------------------------------------
+  // SPI-Signal-Flankenerkennung
+  // - spi_clk_prev, cs_prev merken letzten Zustand
+  // ---------------------------------------------------------
   always @(posedge clk or negedge rst_n)
   begin
     if (!rst_n)
@@ -54,9 +103,11 @@ module mb85rs64v (
     end
     else
     begin
+      // Merken des vorherigen SPI-Takt- und CS-Zustands
       spi_clk_prev <= spi_clk;
       cs_prev      <= spi_cs;
 
+      // Wenn spi_cs = 1, wird State-Logik zurückgesetzt
       if (spi_cs)
       begin
         state         <= STATE_OPCODE;
@@ -66,15 +117,21 @@ module mb85rs64v (
         address_shift <= 16'd0;
         data_shift    <= 8'd0;
         address       <= 16'd0;
+        // Wenn ein Write-Opcode beendet wird, wel=0
         if (opcode == OP_WRITE)
           wel         <= 1'b0;
       end
       else
       begin
+        // Flankenauswertung: steigende Flanke spi_clk
         if (spi_clk && !spi_clk_prev)
         begin
           case (state)
 
+
+            // ---------------------------------------------
+            // STATE_OPCODE: Zunächst 8 Bits für den OPCODE
+            // ---------------------------------------------
             STATE_OPCODE:
             begin
               opcode_shift <= {opcode_shift[6:0], spi_mosi};
@@ -91,6 +148,9 @@ module mb85rs64v (
               end
             end
 
+            // ---------------------------------------------
+            // STATE_ADDR: 2 Bytes Adresse (16 Bit)
+            // ---------------------------------------------
             STATE_ADDR:
             begin
               address_shift <= {address_shift[14:0], spi_mosi};
@@ -119,6 +179,9 @@ module mb85rs64v (
               end
             end
 
+            // ---------------------------------------------
+            // STATE_ADDR: 2 Bytes Adresse (16 Bit)
+            // ---------------------------------------------
             STATE_WRITE_DATA:
             begin
               if (bit_cnt_rx == 4'd7)
@@ -135,6 +198,9 @@ module mb85rs64v (
               end
             end
 
+            // ---------------------------------------------
+            // STATE_ADDR: 2 Bytes Adresse (16 Bit)
+            // ---------------------------------------------
             STATE_READ_DATA:
             begin
               if (bit_cnt_tx == 4'd7)

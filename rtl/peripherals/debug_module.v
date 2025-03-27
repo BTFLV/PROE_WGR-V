@@ -4,25 +4,21 @@
 /**
  * @brief Debug-Modul für Host-Kommunikation und Speicherzugriff
  *
- * Dieses Modul stellt eine einfache Debug-Schnittstelle über UART bereit,
- * um mit einem Host-System zu kommunizieren. Es ermöglicht das Lesen und
- * Schreiben von Speicherinhalten über serielle Kommandos. Über den
- * UART-Eingang `rx` empfängt das Modul Befehle, die über interne
- * Kontrollsignale (`mem_rd`, `mem_wr`, etc.) an den CPU-internen Speicher
- * weitergegeben werden. Das Antwortsignal wird über `tx` gesendet.
+ * Dieses Modul stellt ein einfaches Register zur Verfügung, das über den
+ * Bus geschrieben und gelesen werden kann. Es wird außerdem über eine
+ * separate Leitung (debug_out) nach außen ausgegeben. Auf jeden
+ * Schreibzugriff hin wird der neue Wert im Simulator protokolliert.
  * 
- * @input clk Systemtakt
- * @input rst Reset-Signal
- * @input rx Eingang vom seriellen Host (UART)
- * @input mem_data_from_cpu Daten aus dem Speicher (vom CPU-Interface)
- * @input mem_ready_from_cpu Bereitschaftssignal vom Speicher
+ * @localparam DEBUG_ADDR Basiskonstante zur Adresszuordnung
  * 
- * @output tx Ausgang zur seriellen Schnittstelle
- * @output mem_addr_to_cpu Speicheradresse für den Zugriff
- * @output mem_data_to_cpu Daten, die geschrieben werden sollen
- * @output mem_wr Speicher-Schreibsignal
- * @output mem_rd Speicher-Lesesignal
- * @output mem_valid Gültigkeitssignal für Speicherzugriff
+ * @input clk        Systemtakt
+ * @input rst_n      Reset-Signal
+ * @input address    Adresse, über die auf das Debug-Register zugegriffen wird
+ * @input write_data Zu schreibende Daten
+ * @output read_data Gelesene Daten aus dem Debug-Register
+ * @input we         Write Enable-Signal
+ * @input re         Read Enable-Signal
+ * @output debug_out Direkte Ausgabe des Debug-Registers (z. B. zu Diagnosezwecken)
  */
 
 module debug_module (
@@ -36,13 +32,18 @@ module debug_module (
     output wire [31:0] debug_out
   );
 
+  // Basiskonstante für Debug-Adressen
   localparam DEBUG_ADDR = 32'h00000000;
 
+  // Internes Register, in dem Debug-Informationen abgelegt werden
   reg [31:0] debug_reg;
 
+
+  // Zuweisungen: Leseausgabe und Debug-Ausgang geben dasselbe Register aus
   assign read_data = debug_reg;
   assign debug_out = debug_reg;
 
+  // Speichern oder Zurücksetzen des Debug-Registers
   always @(posedge clk or negedge rst_n)
   begin
     if (!rst_n)
@@ -53,6 +54,7 @@ module debug_module (
     if (we)
     begin
       debug_reg <= write_data;
+      // Meldung im Simulator bei jedem Schreibzugriff
       $display("DEBUG_REG UPDATED: 0x%08X (%d) at time %0t", write_data, write_data, $time);
     end
   end
