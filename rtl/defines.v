@@ -18,7 +18,7 @@
 `define CLK_FREQ       12_000_000
 
 /**
- * @module defines
+ * module defines
  * @brief Berechnet den Teilerwert für eine angegebene Baudrate. 
  *        Beispiel: `BAUD_DIV(115200)` bei 12 MHz ergibt den passenden Teilwert.
  * @parameter BAUD_DIV(Baud)
@@ -26,18 +26,21 @@
 `define BAUD_DIV(Baud) ((`CLK_FREQ / Baud) - 1)
 
 /**
+ * module defines
  * @brief Aktiviert (falls definiert) den Betrieb als 32-Bit RISC-V-Kern.
  * @parameter RV32I
  */
 `define RV32I
 
 /**
+ * module defines
  * @brief Aktiviert (falls definiert) die Verwendung des FRAM-Speichers statt internem RAM.
  * @parameter FRAM_MEMORY
  */
 //`define FRAM_MEMORY
 
 /**
+ * module defines
  * @brief Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des UART fest.
  * @parameter UART_FIFO_TX_DEPTH
  * @parameter UART_FIFO_RX_DEPTH
@@ -46,6 +49,7 @@
 `define UART_FIFO_RX_DEPTH 4
 
 /**
+ * module defines
  * @brief Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des SPI fest.
  * @parameter SPI_FIFO_TX_DEPTH
  * @parameter SPI_FIFO_RX_DEPTH
@@ -54,6 +58,7 @@
 `define SPI_FIFO_RX_DEPTH 4
 
 /**
+ * module defines
  * @brief Schalter zum bedingten Einbinden der jeweiligen Peripheriemodule.
  * @parameter INCLUDE_DEBUG, INCLUDE_UART, INCLUDE_TIME, ...
  */
