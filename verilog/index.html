@@ -1108,26 +1108,26 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <p><strong>Kurzbeschreibung:</strong> Globale Definitionsdatei (Makros und Parameter).</p>
 <p>Diese Datei definiert verschiedene globale Konstante, Parameter und Makros, die in den restlichen Modulen verwendet werden. Sie legt unter anderem die Taktfrequenz (<code>CLK_FREQ</code>), UART- und SPI-FIFO-Größen fest, sowie Flags zum Bedingten Integrieren bestimmter Module (z. B. <code>INCLUDE_UART</code>).</p>
 <h3 id="module-unknown">Modul: Unknown</h3>
-<p><strong>Kurzbeschreibung:</strong> </p>
-<p>@macro CLK_FREQ Gibt die Taktfrequenz des Systems in Hz an, z. B. 12 MHz.</p>
+<p><strong>Kurzbeschreibung:</strong> Gibt die Taktfrequenz des Systems in Hz an, z. B. 12 MHz.</p>
+<p>@macro CLK_FREQ</p>
 <h3 id="module-unknown">Modul: Unknown</h3>
-<p><strong>Kurzbeschreibung:</strong> </p>
-<p>@macro BAUD_DIV(Baud) Berechnet den Teilerwert für eine angegebene Baudrate. Beispiel: <code>BAUD_DIV(115200)</code> bei 12 MHz ergibt den passenden Teilwert.</p>
+<p><strong>Kurzbeschreibung:</strong> Berechnet den Teilerwert für eine angegebene Baudrate.</p>
+<p>Beispiel: <code>BAUD_DIV(115200)</code> bei 12 MHz ergibt den passenden Teilwert. @macro BAUD_DIV(Baud)</p>
 <h3 id="module-unknown">Modul: Unknown</h3>
-<p><strong>Kurzbeschreibung:</strong> </p>
-<p>@macro RV32I Aktiviert (falls definiert) den Betrieb als 32-Bit RISC-V-Kern.</p>
+<p><strong>Kurzbeschreibung:</strong> Aktiviert (falls definiert) den Betrieb als 32-Bit RISC-V-Kern.</p>
+<p>@macro RV32I</p>
 <h3 id="module-unknown">Modul: Unknown</h3>
-<p><strong>Kurzbeschreibung:</strong> </p>
-<p>@macro FRAM_MEMORY Aktiviert (falls definiert) die Verwendung des FRAM-Speichers statt internem RAM.</p>
+<p><strong>Kurzbeschreibung:</strong> Aktiviert (falls definiert) die Verwendung des FRAM-Speichers statt internem RAM.</p>
+<p>@macro FRAM_MEMORY</p>
 <h3 id="module-unknown">Modul: Unknown</h3>
-<p><strong>Kurzbeschreibung:</strong> </p>
-<p>@macro UART_FIFO_TX_DEPTH @macro UART_FIFO_RX_DEPTH Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des UART fest.</p>
+<p><strong>Kurzbeschreibung:</strong> Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des UART fest.</p>
+<p>@macro UART_FIFO_TX_DEPTH @macro UART_FIFO_RX_DEPTH</p>
 <h3 id="module-unknown">Modul: Unknown</h3>
-<p><strong>Kurzbeschreibung:</strong> </p>
-<p>@macro SPI_FIFO_TX_DEPTH @macro SPI_FIFO_RX_DEPTH Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des SPI fest.</p>
+<p><strong>Kurzbeschreibung:</strong> Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des SPI fest.</p>
+<p>@macro SPI_FIFO_TX_DEPTH @macro SPI_FIFO_RX_DEPTH</p>
 <h3 id="module-unknown">Modul: Unknown</h3>
-<p><strong>Kurzbeschreibung:</strong> </p>
-<p>@macro INCLUDE_DEBUG, INCLUDE_UART, INCLUDE_TIME, ... Schalter zum bedingten Einbinden der jeweiligen Peripheriemodule.</p>
+<p><strong>Kurzbeschreibung:</strong> Schalter zum bedingten Einbinden der jeweiligen Peripheriemodule.</p>
+<p>@macro INCLUDE_DEBUG, INCLUDE_UART, INCLUDE_TIME, ...</p>
 <details>
 <summary>Source Code</summary>
 
