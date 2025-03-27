@@ -9,11 +9,11 @@
 - **Datei:** rtl/defines.v
   - [Modul: defines](#module-defines)
   - [Modul: defines](#module-defines)
-  - [Modul: Unknown](#module-unknown)
-  - [Modul: Unknown](#module-unknown)
-  - [Modul: Unknown](#module-unknown)
-  - [Modul: Unknown](#module-unknown)
-  - [Modul: Unknown](#module-unknown)
+  - [Modul: defines](#module-defines)
+  - [Modul: defines](#module-defines)
+  - [Modul: defines](#module-defines)
+  - [Modul: defines](#module-defines)
+  - [Modul: defines](#module-defines)
   - [Modul: Unknown](#module-unknown)
 - **Datei:** rtl/fram/fram_ram.v
   - [Modul: fram_ram](#module-fram_ram)
@@ -945,44 +945,52 @@ module defines
 
 - `CLK_FREQ`
 
-### Modul: Unknown {#module-unknown}
+### Modul: defines {#module-defines}
 
 **Kurzbeschreibung:** Berechnet den Teilerwert für eine angegebene Baudrate.
 
-@module defines Beispiel: `BAUD_DIV(115200)` bei 12 MHz ergibt den passenden Teilwert.
+module defines Beispiel: `BAUD_DIV(115200)` bei 12 MHz ergibt den passenden Teilwert.
 
 **Parameter:**
 
 - `BAUD_DIV(Baud)`
 
-### Modul: Unknown {#module-unknown}
+### Modul: defines {#module-defines}
 
 **Kurzbeschreibung:** Aktiviert (falls definiert) den Betrieb als 32-Bit RISC-V-Kern.
+
+module defines
 
 **Parameter:**
 
 - `RV32I`
 
-### Modul: Unknown {#module-unknown}
+### Modul: defines {#module-defines}
 
 **Kurzbeschreibung:** Aktiviert (falls definiert) die Verwendung des FRAM-Speichers statt internem RAM.
+
+module defines
 
 **Parameter:**
 
 - `FRAM_MEMORY`
 
-### Modul: Unknown {#module-unknown}
+### Modul: defines {#module-defines}
 
 **Kurzbeschreibung:** Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des UART fest.
+
+module defines
 
 **Parameter:**
 
 - `UART_FIFO_TX_DEPTH`
 - `UART_FIFO_RX_DEPTH`
 
-### Modul: Unknown {#module-unknown}
+### Modul: defines {#module-defines}
 
 **Kurzbeschreibung:** Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des SPI fest.
+
+module defines
 
 **Parameter:**
 
@@ -992,6 +1000,8 @@ module defines
 ### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Schalter zum bedingten Einbinden der jeweiligen Peripheriemodule.
+
+module defines
 
 **Parameter:**
 
