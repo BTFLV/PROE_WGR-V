@@ -7,8 +7,8 @@
 - **Datei:** rtl/cpu.v
   - [Modul: cpu](#module-cpu)
 - **Datei:** rtl/defines.v
-  - [Modul: Unknown](#module-unknown)
-  - [Modul: Unknown](#module-unknown)
+  - [Modul: defines](#module-defines)
+  - [Modul: defines](#module-defines)
   - [Modul: Unknown](#module-unknown)
   - [Modul: Unknown](#module-unknown)
   - [Modul: Unknown](#module-unknown)
@@ -929,53 +929,73 @@ endmodule
 
 ## Datei: rtl/defines.v
 
-### Modul: Unknown {#module-unknown}
+### Modul: defines {#module-defines}
 
 **Kurzbeschreibung:** Globale Definitionsdatei (Makros und Parameter).
 
 Diese Datei definiert verschiedene globale Konstante, Parameter und Makros, die in den restlichen Modulen verwendet werden. Sie legt unter anderem die Taktfrequenz (`CLK_FREQ`), UART- und SPI-FIFO-Größen fest, sowie Flags zum Bedingten Integrieren bestimmter Module (z. B. `INCLUDE_UART`).
 
-### Modul: Unknown {#module-unknown}
+### Modul: defines {#module-defines}
 
 **Kurzbeschreibung:** Gibt die Taktfrequenz des Systems in Hz an, z. B. 12 MHz.
 
-@macro CLK_FREQ
+module defines
+
+**Parameter:**
+
+- `CLK_FREQ`
 
 ### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Berechnet den Teilerwert für eine angegebene Baudrate.
 
-Beispiel: `BAUD_DIV(115200)` bei 12 MHz ergibt den passenden Teilwert. @macro BAUD_DIV(Baud)
+@module defines Beispiel: `BAUD_DIV(115200)` bei 12 MHz ergibt den passenden Teilwert.
+
+**Parameter:**
+
+- `BAUD_DIV(Baud)`
 
 ### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Aktiviert (falls definiert) den Betrieb als 32-Bit RISC-V-Kern.
 
-@macro RV32I
+**Parameter:**
+
+- `RV32I`
 
 ### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Aktiviert (falls definiert) die Verwendung des FRAM-Speichers statt internem RAM.
 
-@macro FRAM_MEMORY
+**Parameter:**
+
+- `FRAM_MEMORY`
 
 ### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des UART fest.
 
-@macro UART_FIFO_TX_DEPTH @macro UART_FIFO_RX_DEPTH
+**Parameter:**
+
+- `UART_FIFO_TX_DEPTH`
+- `UART_FIFO_RX_DEPTH`
 
 ### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des SPI fest.
 
-@macro SPI_FIFO_TX_DEPTH @macro SPI_FIFO_RX_DEPTH
+**Parameter:**
+
+- `SPI_FIFO_TX_DEPTH`
+- `SPI_FIFO_RX_DEPTH`
 
 ### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Schalter zum bedingten Einbinden der jeweiligen Peripheriemodule.
 
-@macro INCLUDE_DEBUG, INCLUDE_UART, INCLUDE_TIME, ...
+**Parameter:**
+
+- `INCLUDE_DEBUG,` INCLUDE_UART, INCLUDE_TIME, ...
 
 <details>
 <summary>Source Code</summary>
