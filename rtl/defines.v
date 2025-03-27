@@ -11,49 +11,49 @@
  */
 
 /**
+ * @brief Gibt die Taktfrequenz des Systems in Hz an, z. B. 12 MHz.
  * @macro CLK_FREQ
- * Gibt die Taktfrequenz des Systems in Hz an, z. B. 12 MHz.
  */
 `define CLK_FREQ       12_000_000
 
 /**
+ * @brief Berechnet den Teilerwert für eine angegebene Baudrate. 
+ *        Beispiel: `BAUD_DIV(115200)` bei 12 MHz ergibt den passenden Teilwert.
  * @macro BAUD_DIV(Baud)
- * Berechnet den Teilerwert für eine angegebene Baudrate. 
- * Beispiel: `BAUD_DIV(115200)` bei 12 MHz ergibt den passenden Teilwert.
  */
 `define BAUD_DIV(Baud) ((`CLK_FREQ / Baud) - 1)
 
 /**
+ * @brief Aktiviert (falls definiert) den Betrieb als 32-Bit RISC-V-Kern.
  * @macro RV32I
- * Aktiviert (falls definiert) den Betrieb als 32-Bit RISC-V-Kern.
  */
 `define RV32I
 
 /**
+ * @brief Aktiviert (falls definiert) die Verwendung des FRAM-Speichers statt internem RAM.
  * @macro FRAM_MEMORY
- * Aktiviert (falls definiert) die Verwendung des FRAM-Speichers statt internem RAM.
  */
 //`define FRAM_MEMORY
 
 /**
+ * @brief Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des UART fest.
  * @macro UART_FIFO_TX_DEPTH
  * @macro UART_FIFO_RX_DEPTH
- * Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des UART fest.
  */
 `define UART_FIFO_TX_DEPTH 4
 `define UART_FIFO_RX_DEPTH 4
 
 /**
+ * @brief Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des SPI fest.
  * @macro SPI_FIFO_TX_DEPTH
  * @macro SPI_FIFO_RX_DEPTH
- * Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des SPI fest.
  */
 `define SPI_FIFO_TX_DEPTH 4
 `define SPI_FIFO_RX_DEPTH 4
 
 /**
+ * @brief Schalter zum bedingten Einbinden der jeweiligen Peripheriemodule.
  * @macro INCLUDE_DEBUG, INCLUDE_UART, INCLUDE_TIME, ...
- * Schalter zum bedingten Einbinden der jeweiligen Peripheriemodule.
  */
 `define INCLUDE_DEBUG
 `define INCLUDE_UART
