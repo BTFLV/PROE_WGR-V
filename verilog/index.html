@@ -188,13 +188,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <li><strong>Datei:</strong> rtl/cpu.v</li>
 <li><a href="#module-cpu">Modul: cpu</a></li>
 <li><strong>Datei:</strong> rtl/defines.v</li>
-<li><a href="#module-defines">Modul: defines</a></li>
-<li><a href="#module-defines">Modul: defines</a></li>
-<li><a href="#module-defines">Modul: defines</a></li>
-<li><a href="#module-defines">Modul: defines</a></li>
-<li><a href="#module-defines">Modul: defines</a></li>
-<li><a href="#module-defines">Modul: defines</a></li>
-<li><a href="#module-defines">Modul: defines</a></li>
+<li><a href="#module-unknown">Modul: Unknown</a></li>
+<li><a href="#module-unknown">Modul: Unknown</a></li>
+<li><a href="#module-unknown">Modul: Unknown</a></li>
+<li><a href="#module-unknown">Modul: Unknown</a></li>
+<li><a href="#module-unknown">Modul: Unknown</a></li>
+<li><a href="#module-unknown">Modul: Unknown</a></li>
+<li><a href="#module-unknown">Modul: Unknown</a></li>
 <li><a href="#module-unknown">Modul: Unknown</a></li>
 <li><strong>Datei:</strong> rtl/fram/fram_ram.v</li>
 <li><a href="#module-fram_ram">Modul: fram_ram</a></li>
@@ -1104,56 +1104,50 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </details>
 
 <h2>Datei: rtl/defines.v</h2>
-<h3 id="module-defines">Modul: defines</h3>
+<h3 id="module-unknown">Modul: Unknown</h3>
 <p><strong>Kurzbeschreibung:</strong> Globale Definitionsdatei (Makros und Parameter).</p>
 <p>Diese Datei definiert verschiedene globale Konstante, Parameter und Makros, die in den restlichen Modulen verwendet werden. Sie legt unter anderem die Taktfrequenz (<code>CLK_FREQ</code>), UART- und SPI-FIFO-Größen fest, sowie Flags zum Bedingten Integrieren bestimmter Module (z. B. <code>INCLUDE_UART</code>).</p>
-<h3 id="module-defines">Modul: defines</h3>
+<h3 id="module-unknown">Modul: Unknown</h3>
 <p><strong>Kurzbeschreibung:</strong> Gibt die Taktfrequenz des Systems in Hz an, z. B. 12 MHz.</p>
-<p>module defines</p>
 <p><strong>Parameter:</strong></p>
 <ul>
 <li><code>CLK_FREQ</code></li>
 </ul>
-<h3 id="module-defines">Modul: defines</h3>
+<h3 id="module-unknown">Modul: Unknown</h3>
 <p><strong>Kurzbeschreibung:</strong> Berechnet den Teilerwert für eine angegebene Baudrate.</p>
-<p>module defines Beispiel: <code>BAUD_DIV(115200)</code> bei 12 MHz ergibt den passenden Teilwert.</p>
+<p>Beispiel: <code>BAUD_DIV(115200)</code> bei 12 MHz ergibt den passenden Teilwert.</p>
 <p><strong>Parameter:</strong></p>
 <ul>
 <li><code>BAUD_DIV(Baud)</code></li>
 </ul>
-<h3 id="module-defines">Modul: defines</h3>
+<h3 id="module-unknown">Modul: Unknown</h3>
 <p><strong>Kurzbeschreibung:</strong> Aktiviert (falls definiert) den Betrieb als 32-Bit RISC-V-Kern.</p>
-<p>module defines</p>
 <p><strong>Parameter:</strong></p>
 <ul>
 <li><code>RV32I</code></li>
 </ul>
-<h3 id="module-defines">Modul: defines</h3>
+<h3 id="module-unknown">Modul: Unknown</h3>
 <p><strong>Kurzbeschreibung:</strong> Aktiviert (falls definiert) die Verwendung des FRAM-Speichers statt internem RAM.</p>
-<p>module defines</p>
 <p><strong>Parameter:</strong></p>
 <ul>
 <li><code>FRAM_MEMORY</code></li>
 </ul>
-<h3 id="module-defines">Modul: defines</h3>
+<h3 id="module-unknown">Modul: Unknown</h3>
 <p><strong>Kurzbeschreibung:</strong> Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des UART fest.</p>
-<p>module defines</p>
 <p><strong>Parameter:</strong></p>
 <ul>
 <li><code>UART_FIFO_TX_DEPTH</code></li>
 <li><code>UART_FIFO_RX_DEPTH</code></li>
 </ul>
-<h3 id="module-defines">Modul: defines</h3>
+<h3 id="module-unknown">Modul: Unknown</h3>
 <p><strong>Kurzbeschreibung:</strong> Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des SPI fest.</p>
-<p>module defines</p>
 <p><strong>Parameter:</strong></p>
 <ul>
 <li><code>SPI_FIFO_TX_DEPTH</code></li>
 <li><code>SPI_FIFO_RX_DEPTH</code></li>
 </ul>
 <h3 id="module-unknown">Modul: Unknown</h3>
-<p><strong>Kurzbeschreibung:</strong> Schalter zum bedingten Einbinden der jeweiligen Peripheriemodule.</p>
-<p>module defines</p>
+<p><strong>Kurzbeschreibung:</strong> Zum bedingten Einbinden der jeweiligen Peripheriemodule.</p>
 <p><strong>Parameter:</strong></p>
 <ul>
 <li><code>INCLUDE_DEBUG,</code> INCLUDE_UART, INCLUDE_TIME, ...</li>

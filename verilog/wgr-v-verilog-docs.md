@@ -7,13 +7,13 @@
 - **Datei:** rtl/cpu.v
   - [Modul: cpu](#module-cpu)
 - **Datei:** rtl/defines.v
-  - [Modul: defines](#module-defines)
-  - [Modul: defines](#module-defines)
-  - [Modul: defines](#module-defines)
-  - [Modul: defines](#module-defines)
-  - [Modul: defines](#module-defines)
-  - [Modul: defines](#module-defines)
-  - [Modul: defines](#module-defines)
+  - [Modul: Unknown](#module-unknown)
+  - [Modul: Unknown](#module-unknown)
+  - [Modul: Unknown](#module-unknown)
+  - [Modul: Unknown](#module-unknown)
+  - [Modul: Unknown](#module-unknown)
+  - [Modul: Unknown](#module-unknown)
+  - [Modul: Unknown](#module-unknown)
   - [Modul: Unknown](#module-unknown)
 - **Datei:** rtl/fram/fram_ram.v
   - [Modul: fram_ram](#module-fram_ram)
@@ -929,68 +929,58 @@ endmodule
 
 ## Datei: rtl/defines.v
 
-### Modul: defines {#module-defines}
+### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Globale Definitionsdatei (Makros und Parameter).
 
 Diese Datei definiert verschiedene globale Konstante, Parameter und Makros, die in den restlichen Modulen verwendet werden. Sie legt unter anderem die Taktfrequenz (`CLK_FREQ`), UART- und SPI-FIFO-Größen fest, sowie Flags zum Bedingten Integrieren bestimmter Module (z. B. `INCLUDE_UART`).
 
-### Modul: defines {#module-defines}
+### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Gibt die Taktfrequenz des Systems in Hz an, z. B. 12 MHz.
-
-module defines
 
 **Parameter:**
 
 - `CLK_FREQ`
 
-### Modul: defines {#module-defines}
+### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Berechnet den Teilerwert für eine angegebene Baudrate.
 
-module defines Beispiel: `BAUD_DIV(115200)` bei 12 MHz ergibt den passenden Teilwert.
+Beispiel: `BAUD_DIV(115200)` bei 12 MHz ergibt den passenden Teilwert.
 
 **Parameter:**
 
 - `BAUD_DIV(Baud)`
 
-### Modul: defines {#module-defines}
+### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Aktiviert (falls definiert) den Betrieb als 32-Bit RISC-V-Kern.
-
-module defines
 
 **Parameter:**
 
 - `RV32I`
 
-### Modul: defines {#module-defines}
+### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Aktiviert (falls definiert) die Verwendung des FRAM-Speichers statt internem RAM.
-
-module defines
 
 **Parameter:**
 
 - `FRAM_MEMORY`
 
-### Modul: defines {#module-defines}
+### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des UART fest.
-
-module defines
 
 **Parameter:**
 
 - `UART_FIFO_TX_DEPTH`
 - `UART_FIFO_RX_DEPTH`
 
-### Modul: defines {#module-defines}
+### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des SPI fest.
-
-module defines
 
 **Parameter:**
 
@@ -999,9 +989,7 @@ module defines
 
 ### Modul: Unknown {#module-unknown}
 
-**Kurzbeschreibung:** Schalter zum bedingten Einbinden der jeweiligen Peripheriemodule.
-
-module defines
+**Kurzbeschreibung:** Zum bedingten Einbinden der jeweiligen Peripheriemodule.
 
 **Parameter:**
 
