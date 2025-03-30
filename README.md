@@ -20,7 +20,7 @@ Da die von `objdump` erstellten `.hex` Datein nicht direkt in Quartus verwendet 
 
 ### 📂 `/rtl`
 
-[**Verilog Dokumentation (in Arbeit)**](https://github.btflv.de/PROE_WGR-V/verilog/)
+[**Verilog Dokumentation**](https://github.btflv.de/PROE_WGR-V/verilog/)
 
 Enthält den Kern des RISC-V Prozessors.
 - `cpu.v`: Kernmodul des RISC-V Prozessors.
