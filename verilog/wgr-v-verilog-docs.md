@@ -2,56 +2,48 @@
 
 ## Inhaltsverzeichnis
 
-- **Datei:** rtl/alu.v
+- **[Datei: rtl/alu.v](#file-rtl-alu-v)**
   - [Modul: alu](#module-alu)
-- **Datei:** rtl/cpu.v
+- **[Datei: rtl/cpu.v](#file-rtl-cpu-v)**
   - [Modul: cpu](#module-cpu)
-- **Datei:** rtl/defines.v
-  - [Modul: Unknown](#module-unknown)
-  - [Modul: Unknown](#module-unknown)
-  - [Modul: Unknown](#module-unknown)
-  - [Modul: Unknown](#module-unknown)
-  - [Modul: Unknown](#module-unknown)
-  - [Modul: Unknown](#module-unknown)
-  - [Modul: Unknown](#module-unknown)
-  - [Modul: Unknown](#module-unknown)
-- **Datei:** rtl/fram/fram_ram.v
+- **[Datei: rtl/defines.v](#file-rtl-defines-v)**
+- **[Datei: rtl/fram/fram_ram.v](#file-rtl-fram-fram-ram-v)**
   - [Modul: fram_ram](#module-fram_ram)
-- **Datei:** rtl/fram/fram_spi.v
+- **[Datei: rtl/fram/fram_spi.v](#file-rtl-fram-fram-spi-v)**
   - [Modul: fram_spi](#module-fram_spi)
-- **Datei:** rtl/fram/mb85rs64v.v
+- **[Datei: rtl/fram/mb85rs64v.v](#file-rtl-fram-mb85rs64v-v)**
   - [Modul: mb85rs64v](#module-mb85rs64v)
-- **Datei:** rtl/memory.v
+- **[Datei: rtl/memory.v](#file-rtl-memory-v)**
   - [Modul: memory](#module-memory)
-- **Datei:** rtl/peripherals/debug_module.v
+- **[Datei: rtl/peripherals/debug_module.v](#file-rtl-peripherals-debug-module-v)**
   - [Modul: debug_module](#module-debug_module)
-- **Datei:** rtl/peripherals/fifo.v
+- **[Datei: rtl/peripherals/fifo.v](#file-rtl-peripherals-fifo-v)**
   - [Modul: fifo](#module-fifo)
-- **Datei:** rtl/peripherals/gpio.v
+- **[Datei: rtl/peripherals/gpio.v](#file-rtl-peripherals-gpio-v)**
   - [Modul: gpio](#module-gpio)
-- **Datei:** rtl/peripherals/peripheral_bus.v
+- **[Datei: rtl/peripherals/peripheral_bus.v](#file-rtl-peripherals-peripheral-bus-v)**
   - [Modul: peripheral_bus](#module-peripheral_bus)
-- **Datei:** rtl/peripherals/pwm_timer.v
+- **[Datei: rtl/peripherals/pwm_timer.v](#file-rtl-peripherals-pwm-timer-v)**
   - [Modul: pwm_timer](#module-pwm_timer)
-- **Datei:** rtl/peripherals/seq_divider.v
+- **[Datei: rtl/peripherals/seq_divider.v](#file-rtl-peripherals-seq-divider-v)**
   - [Modul: seq_divider](#module-seq_divider)
-- **Datei:** rtl/peripherals/seq_multiplier.v
+- **[Datei: rtl/peripherals/seq_multiplier.v](#file-rtl-peripherals-seq-multiplier-v)**
   - [Modul: seq_multiplier](#module-seq_multiplier)
-- **Datei:** rtl/peripherals/spi.v
+- **[Datei: rtl/peripherals/spi.v](#file-rtl-peripherals-spi-v)**
   - [Modul: spi](#module-spi)
-- **Datei:** rtl/peripherals/system_timer.v
+- **[Datei: rtl/peripherals/system_timer.v](#file-rtl-peripherals-system-timer-v)**
   - [Modul: system_timer](#module-system_timer)
-- **Datei:** rtl/peripherals/uart.v
+- **[Datei: rtl/peripherals/uart.v](#file-rtl-peripherals-uart-v)**
   - [Modul: uart](#module-uart)
-- **Datei:** rtl/peripherals/ws2812b.v
+- **[Datei: rtl/peripherals/ws2812b.v](#file-rtl-peripherals-ws2812b-v)**
   - [Modul: ws2812b](#module-ws2812b)
-- **Datei:** rtl/register_file.v
+- **[Datei: rtl/register_file.v](#file-rtl-register-file-v)**
   - [Modul: register_file](#module-register_file)
-- **Datei:** rtl/wgr_v_max.v
+- **[Datei: rtl/wgr_v_max.v](#file-rtl-wgr-v-max-v)**
   - [Modul: wgr_v_max](#module-wgr_v_max)
 
 
-## Datei: rtl/alu.v
+## Datei: rtl/alu.v {#file-rtl-alu-v}
 
 ### Modul: alu {#module-alu}
 
@@ -74,14 +66,14 @@ Dieses Modul führt verschiedene arithmetische und logische Operationen auf zwei
 
 **Eingänge:**
 
-- `[31:0]`     operand1 Erstes Eingangsoperand
-- `[31:0]`     operand2 Zweites Eingangsoperand
-- `[` 3:0]     operation 4-Bit-Operationscode
+- `[31:0]     operand1` Erstes Eingangsoperand
+- `[31:0]     operand2` Zweites Eingangsoperand
+- `[ 3:0]     operation 4-Bit-Operationscode`
 
 **Ausgänge:**
 
-- `reg` [31:0] result Ergebnis des Rechenvorgangs
-- `wire`       zero   Signal, falls result=0
+- `reg [31:0] result` Ergebnis des Rechenvorgangs
+- `wire       zero` Signal, falls result=0
 
 <details>
 <summary>Source Code</summary>
@@ -174,7 +166,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/cpu.v
+## Datei: rtl/cpu.v {#file-rtl-cpu-v}
 
 ### Modul: cpu {#module-cpu}
 
@@ -196,17 +188,17 @@ Dieser CPU-Kern holt Instruktionen aus dem Speicher (memory), decodiert sie (Opc
 
 **Eingänge:**
 
-- `clk`                   Systemtakt
-- `rst_n`                 Asynchroner, aktiver-LOW Reset
-- `[31:0]`     read_data  Daten, die bei re=1 aus dem Speicher gelesen werden
-- `wire`       mem_busy   Signalisiert, ob der Speicherzugriff noch in Arbeit ist
+- `clk` Systemtakt
+- `rst_n` Asynchroner, aktiver-LOW Reset
+- `[31:0]     read_data` Daten, die bei re=1 aus dem Speicher gelesen werden
+- `wire       mem_busy` Signalisiert, ob der Speicherzugriff noch in Arbeit ist
 
 **Ausgänge:**
 
-- `[31:0]`     address    Speicheradresse für Lese-/Schreiboperationen
-- `reg` [31:0] write_data Daten, die bei we=1 in den Speicher geschrieben werden
-- `reg`        we         Write-Enable
-- `reg`        re         Read-Enable
+- `[31:0]     address` Speicheradresse für Lese-/Schreiboperationen
+- `reg [31:0] write_data` Daten, die bei we=1 in den Speicher geschrieben werden
+- `reg        we` Write-Enable
+- `reg        re` Read-Enable
 
 <details>
 <summary>Source Code</summary>
@@ -927,23 +919,17 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/defines.v
-
-### Modul: Unknown {#module-unknown}
+## Datei: rtl/defines.v {#file-rtl-defines-v}
 
 **Kurzbeschreibung:** Globale Definitionsdatei (Makros und Parameter).
 
 Diese Datei definiert verschiedene globale Konstante, Parameter und Makros, die in den restlichen Modulen verwendet werden. Sie legt unter anderem die Taktfrequenz (`CLK_FREQ`), UART- und SPI-FIFO-Größen fest, sowie Flags zum Bedingten Integrieren bestimmter Module (z. B. `INCLUDE_UART`).
-
-### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Gibt die Taktfrequenz des Systems in Hz an, z. B. 12 MHz.
 
 **Parameter:**
 
 - `CLK_FREQ`
-
-### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Berechnet den Teilerwert für eine angegebene Baudrate.
 
@@ -953,23 +939,17 @@ Beispiel: `BAUD_DIV(115200)` bei 12 MHz ergibt den passenden Teilwert.
 
 - `BAUD_DIV(Baud)`
 
-### Modul: Unknown {#module-unknown}
-
 **Kurzbeschreibung:** Aktiviert (falls definiert) den Betrieb als 32-Bit RISC-V-Kern.
 
 **Parameter:**
 
 - `RV32I`
 
-### Modul: Unknown {#module-unknown}
-
 **Kurzbeschreibung:** Aktiviert (falls definiert) die Verwendung des FRAM-Speichers statt internem RAM.
 
 **Parameter:**
 
 - `FRAM_MEMORY`
-
-### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des UART fest.
 
@@ -978,16 +958,12 @@ Beispiel: `BAUD_DIV(115200)` bei 12 MHz ergibt den passenden Teilwert.
 - `UART_FIFO_TX_DEPTH`
 - `UART_FIFO_RX_DEPTH`
 
-### Modul: Unknown {#module-unknown}
-
 **Kurzbeschreibung:** Legt die Tiefe (Anzahl Einträge) für die TX- und RX-FIFOs des SPI fest.
 
 **Parameter:**
 
 - `SPI_FIFO_TX_DEPTH`
 - `SPI_FIFO_RX_DEPTH`
-
-### Modul: Unknown {#module-unknown}
 
 **Kurzbeschreibung:** Zum bedingten Einbinden der jeweiligen Peripheriemodule.
 
@@ -1040,7 +1016,7 @@ Beispiel: `BAUD_DIV(115200)` bei 12 MHz ergibt den passenden Teilwert.
 ```
 </details>
 
-## Datei: rtl/fram/fram_ram.v
+## Datei: rtl/fram/fram_ram.v {#file-rtl-fram-fram-ram-v}
 
 ### Modul: fram_ram {#module-fram_ram}
 
@@ -1057,21 +1033,21 @@ intern jedoch über SPI kommuniziert.  Dieses Modul nimmt Lese- und Schreibanfor
 
 **Eingänge:**
 
-- `clk`               Systemtakt
-- `rst_n`             Asynchrones, aktives-LOW Reset
-- `[15:0]` address    Adress-Eingang (16 Bit, FRAM-Adressbereich)
-- `[31:0]` write_data Daten, die bei we=1 in den FRAM geschrieben werden
-- `we`                Schreibeaktivierung (Write Enable)
-- `re`                Leseaktivierung (Read Enable)
-- `spi_miso`          SPI-Eingang (Master In, Slave Out)
+- `clk` Systemtakt
+- `rst_n` Asynchrones, aktives-LOW Reset
+- `[15:0] address` Adress-Eingang (16 Bit, FRAM-Adressbereich)
+- `[31:0] write_data` Daten, die bei we=1 in den FRAM geschrieben werden
+- `we` Schreibeaktivierung (Write Enable)
+- `re` Leseaktivierung (Read Enable)
+- `spi_miso` SPI-Eingang (Master In, Slave Out)
 
 **Ausgänge:**
 
-- `reg` req_ready     Signal, das anzeigt, ob ein neuer Lese-/Schreibzugriff
-- `reg` [31:0]        read_data  Ausgelesene Daten bei einem Lesezugriff
-- `spi_mosi`          SPI-Ausgang (Master Out, Slave In)
-- `spi_clk`           SPI-Taktleitung
-- `spi_cs`            SPI-Chip-Select
+- `reg req_ready` Signal, das anzeigt, ob ein neuer Lese-/Schreibzugriff
+- `reg [31:0]        read_data` Ausgelesene Daten bei einem Lesezugriff
+- `spi_mosi` SPI-Ausgang (Master Out, Slave In)
+- `spi_clk` SPI-Taktleitung
+- `spi_cs` SPI-Chip-Select
 
 <details>
 <summary>Source Code</summary>
@@ -1237,7 +1213,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/fram/fram_spi.v
+## Datei: rtl/fram/fram_spi.v {#file-rtl-fram-fram-spi-v}
 
 ### Modul: fram_spi {#module-fram_spi}
 
@@ -1268,21 +1244,21 @@ Dieses Modul erzeugt eine sequenzielle SPI-Kommunikation mit einem FRAM-Baustein
 
 **Eingänge:**
 
-- `clk`               Systemtakt
-- `rst_n`             Asynchrones, aktives-LOW Reset
-- `[15:0]` address    Zieladresse (für WRITE/READ)
-- `[31:0]` write_data Zu schreibende 32-Bit-Daten
-- `we`                Write-Enable (löst WRITE-Sequenz aus)
-- `re`                Read-Enable  (löst READ-Sequenz aus)
-- `wire`              spi_miso  SPI-Datenleitung Slave->Master
+- `clk` Systemtakt
+- `rst_n` Asynchrones, aktives-LOW Reset
+- `[15:0] address` Zieladresse (für WRITE/READ)
+- `[31:0] write_data` Zu schreibende 32-Bit-Daten
+- `we` Write-Enable (löst WRITE-Sequenz aus)
+- `re` Read-Enable  (löst READ-Sequenz aus)
+- `wire              spi_miso` SPI-Datenleitung Slave->Master
 
 **Ausgänge:**
 
-- `reg` [31:0]        read_data Ausgelesene 32-Bit-Daten
-- `reg`               done      Signalisiert Abschluss einer Operation
-- `reg`               spi_mosi  SPI-Datenleitung Master->Slave
-- `reg`               spi_clk   SPI-Takt
-- `reg`               spi_cs    SPI-Chip-Select (aktiv LOW)
+- `reg [31:0]        read_data` Ausgelesene 32-Bit-Daten
+- `reg               done` Signalisiert Abschluss einer Operation
+- `reg               spi_mosi` SPI-Datenleitung Master->Slave
+- `reg               spi_clk` SPI-Takt
+- `reg               spi_cs` SPI-Chip-Select (aktiv LOW)
 
 <details>
 <summary>Source Code</summary>
@@ -1556,7 +1532,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/fram/mb85rs64v.v
+## Datei: rtl/fram/mb85rs64v.v {#file-rtl-fram-mb85rs64v-v}
 
 ### Modul: mb85rs64v {#module-mb85rs64v}
 
@@ -1576,15 +1552,15 @@ Dieses Modul simuliert den internen SPI-Verhaltensablauf des MB85RS64V-Fram-Spei
 
 **Eingänge:**
 
-- `clk`          Systemtakt
-- `rst_n`        Asynchrones, aktives-LOW Reset
-- `spi_mosi`     SPI-Datenleitung Master->Slave
-- `spi_clk`      SPI-Takt
-- `spi_cs`       SPI-Chip-Select (aktiv LOW)
+- `clk` Systemtakt
+- `rst_n` Asynchrones, aktives-LOW Reset
+- `spi_mosi` SPI-Datenleitung Master->Slave
+- `spi_clk` SPI-Takt
+- `spi_cs` SPI-Chip-Select (aktiv LOW)
 
 **Ausgänge:**
 
-- `reg` spi_miso SPI-Datenleitung Slave->Master
+- `reg spi_miso` SPI-Datenleitung Slave->Master
 
 <details>
 <summary>Source Code</summary>
@@ -1794,7 +1770,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/memory.v
+## Datei: rtl/memory.v {#file-rtl-memory-v}
 
 ### Modul: memory {#module-memory}
 
@@ -1804,29 +1780,29 @@ Dieses Modul verwaltet die Zugriffe der CPU auf den Speicher (RAM oder FRAM, je 
 
 **Eingänge:**
 
-- `clk`        Systemtakt
-- `rst_n`      Asynchron, aktives-LOW Reset
-- `[31:0]`     address  Adresse des gewünschten Zugriffs
-- `[31:0]`     write_data Daten, die bei we=1 geschrieben werden
-- `we`         Write Enable
-- `re`         Read Enable
-- `uart_rx`    UART-Eingang
-- `spi_miso`   SPI Master-In
-- `[7:0]`      gpio_in   GPIO-Eingänge
+- `clk` Systemtakt
+- `rst_n` Asynchron, aktives-LOW Reset
+- `[31:0]     address` Adresse des gewünschten Zugriffs
+- `[31:0]     write_data` Daten, die bei we=1 geschrieben werden
+- `we` Write Enable
+- `re` Read Enable
+- `uart_rx` UART-Eingang
+- `spi_miso` SPI Master-In
+- `[7:0]      gpio_in` GPIO-Eingänge
 
 **Ausgänge:**
 
-- `[31:0]`     read_data  Daten, die bei re=1 gelesen werden
-- `mem_busy`   Signalisiert, ob ein externer Zugriff (z. B. FRAM) noch busy ist
-- `uart_tx`    UART-Ausgang
-- `[31:0]`     debug_out Debug-Leitung
-- `pwm_out`    PWM-Ausgang
-- `ws_out`     Datenleitung für WS2812B
-- `spi_mosi`   SPI Master-Out
-- `spi_clk`    SPI-Takt
-- `spi_cs`     SPI-Chipselect
-- `[7:0]`      gpio_out GPIO-Ausgänge
-- `[7:0]`      gpio_dir GPIO-Richtungsregister
+- `[31:0]     read_data` Daten, die bei re=1 gelesen werden
+- `mem_busy` Signalisiert, ob ein externer Zugriff (z. B. FRAM) noch busy ist
+- `uart_tx` UART-Ausgang
+- `[31:0]     debug_out` Debug-Leitung
+- `pwm_out` PWM-Ausgang
+- `ws_out` Datenleitung für WS2812B
+- `spi_mosi` SPI Master-Out
+- `spi_clk` SPI-Takt
+- `spi_cs` SPI-Chipselect
+- `[7:0]      gpio_out` GPIO-Ausgänge
+- `[7:0]      gpio_dir` GPIO-Richtungsregister
 
 <details>
 <summary>Source Code</summary>
@@ -1973,7 +1949,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/peripherals/debug_module.v
+## Datei: rtl/peripherals/debug_module.v {#file-rtl-peripherals-debug-module-v}
 
 ### Modul: debug_module {#module-debug_module}
 
@@ -1987,12 +1963,12 @@ Dieses Modul stellt ein einfaches Register zur Verfügung, das über den Bus ges
 
 **Eingänge:**
 
-- `clk`        Systemtakt
-- `rst_n`      Reset-Signal
-- `address`    Adresse, über die auf das Debug-Register zugegriffen wird
+- `clk` Systemtakt
+- `rst_n` Reset-Signal
+- `address` Adresse, über die auf das Debug-Register zugegriffen wird
 - `write_data` Zu schreibende Daten
-- `we`         Write Enable-Signal
-- `re`         Read Enable-Signal
+- `we` Write Enable-Signal
+- `re` Read Enable-Signal
 
 **Ausgänge:**
 
@@ -2051,7 +2027,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/peripherals/fifo.v
+## Datei: rtl/peripherals/fifo.v {#file-rtl-peripherals-fifo-v}
 
 ### Modul: fifo {#module-fifo}
 
@@ -2070,17 +2046,17 @@ Dieser FIFO (First-In-First-Out) Puffer speichert Daten mit einer konfigurierbar
 
 **Eingänge:**
 
-- `clk`      Systemtakt.
-- `rst_n`    Aktiv-low Reset.
-- `wr_en`    Aktivierungssignal (Write-Enable) zum Schreiben in den FIFO.
-- `rd_en`    Aktivierungssignal (Read-Enable) zum Lesen aus dem FIFO.
-- `din`      Eingangsdaten mit Breite `DATA_WIDTH`.
+- `clk` Systemtakt.
+- `rst_n` Aktiv-low Reset.
+- `wr_en` Aktivierungssignal (Write-Enable) zum Schreiben in den FIFO.
+- `rd_en` Aktivierungssignal (Read-Enable) zum Lesen aus dem FIFO.
+- `din` Eingangsdaten mit Breite `DATA_WIDTH`.
 
 **Ausgänge:**
 
-- `empty`   Signal, das anzeigt, ob der FIFO leer ist.
-- `full`    Signal, das anzeigt, ob der FIFO voll ist.
-- `dout`    Ausgangsdaten mit Breite `DATA_WIDTH`.
+- `empty` Signal, das anzeigt, ob der FIFO leer ist.
+- `full` Signal, das anzeigt, ob der FIFO voll ist.
+- `dout` Ausgangsdaten mit Breite `DATA_WIDTH`.
 
 <details>
 <summary>Source Code</summary>
@@ -2183,7 +2159,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/peripherals/gpio.v
+## Datei: rtl/peripherals/gpio.v {#file-rtl-peripherals-gpio-v}
 
 ### Modul: gpio {#module-gpio}
 
@@ -2200,19 +2176,19 @@ Dieses Modul implementiert einen einfachen GPIO-Controller. Es unterstützt das 
 
 **Eingänge:**
 
-- `clk`         Systemtakt.
-- `rst_n`       Aktiv-low Reset-Signal.
-- `address`     Speicheradresse zur Auswahl der GPIO-Register.
-- `write_data`  Daten, die in die angesprochenen GPIO-Register geschrieben werden.
-- `we`          Schreibaktivierungssignal (Write-Enable).
-- `re`          Leseaktivierungssignal (Read-Enable).
-- `gpio_in`     Eingangssignale von den GPIO-Pins.
+- `clk` Systemtakt.
+- `rst_n` Aktiv-low Reset-Signal.
+- `address` Speicheradresse zur Auswahl der GPIO-Register.
+- `write_data` Daten, die in die angesprochenen GPIO-Register geschrieben werden.
+- `we` Schreibaktivierungssignal (Write-Enable).
+- `re` Leseaktivierungssignal (Read-Enable).
+- `gpio_in` Eingangssignale von den GPIO-Pins.
 
 **Ausgänge:**
 
-- `read_data`  Ausgangsdaten basierend auf dem angesprochenen GPIO-Register.
-- `gpio_out`   Register zur Steuerung des Ausgangszustands der GPIO-Pins.
-- `gpio_dir`   GPIO-Richtungsregister (nicht implementiert).
+- `read_data` Ausgangsdaten basierend auf dem angesprochenen GPIO-Register.
+- `gpio_out` Register zur Steuerung des Ausgangszustands der GPIO-Pins.
+- `gpio_dir` GPIO-Richtungsregister (nicht implementiert).
 
 <details>
 <summary>Source Code</summary>
@@ -2285,7 +2261,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/peripherals/peripheral_bus.v
+## Datei: rtl/peripherals/peripheral_bus.v {#file-rtl-peripherals-peripheral-bus-v}
 
 ### Modul: peripheral_bus {#module-peripheral_bus}
 
@@ -2307,28 +2283,28 @@ Dieses Modul bündelt alle Zugriffe auf die verschiedenen Peripherie-Komponenten
 
 **Eingänge:**
 
-- `clk`         Systemtakt
-- `rst_n`       Asynchrones, aktives-LOW Reset-Signal
-- `[13:0]`      address  Bus-Adresse, aus der das jeweilige Peripheriemodul dekodiert wird
-- `[31:0]`      write_data Zu schreibende Daten in das ausgewählte Modul
-- `we`          Write Enable-Signal
-- `re`          Read Enable-Signal
-- `uart_rx`    RX-Eingang des UART
-- `spi_miso`   SPI-Eingangsdaten (Master In, Slave Out)
-- `[7:0]`      gpio_in  Eingangsleitungen des GPIO-Moduls
+- `clk` Systemtakt
+- `rst_n` Asynchrones, aktives-LOW Reset-Signal
+- `[13:0]      address` Bus-Adresse, aus der das jeweilige Peripheriemodul dekodiert wird
+- `[31:0]      write_data` Zu schreibende Daten in das ausgewählte Modul
+- `we` Write Enable-Signal
+- `re` Read Enable-Signal
+- `uart_rx` RX-Eingang des UART
+- `spi_miso` SPI-Eingangsdaten (Master In, Slave Out)
+- `[7:0]      gpio_in` Eingangsleitungen des GPIO-Moduls
 
 **Ausgänge:**
 
-- `reg` [31:0] read_data Gelesene Daten von den Peripheriemodulen
-- `[31:0]`     debug_out Debug-Ausgangssignal (z. B. zur Diagnose)
-- `uart_tx`    TX-Ausgang des UART
-- `pwm_out`    PWM-Ausgangssignal
-- `ws_out`     Datenleitung für WS2812B-LEDs
-- `spi_mosi`   SPI-Ausgangsdaten (Master Out, Slave In)
-- `spi_clk`    SPI-Taktsignal
-- `spi_cs`     SPI-Chip-Select
-- `[7:0]`      gpio_out Ausgangssignale des GPIO-Moduls
-- `[7:0]`      gpio_dir Richtungsregister des GPIO-Moduls
+- `reg [31:0] read_data` Gelesene Daten von den Peripheriemodulen
+- `[31:0]     debug_out` Debug-Ausgangssignal (z. B. zur Diagnose)
+- `uart_tx` TX-Ausgang des UART
+- `pwm_out` PWM-Ausgangssignal
+- `ws_out` Datenleitung für WS2812B-LEDs
+- `spi_mosi` SPI-Ausgangsdaten (Master Out, Slave In)
+- `spi_clk` SPI-Taktsignal
+- `spi_cs` SPI-Chip-Select
+- `[7:0]      gpio_out` Ausgangssignale des GPIO-Moduls
+- `[7:0]      gpio_dir` Richtungsregister des GPIO-Moduls
 
 <details>
 <summary>Source Code</summary>
@@ -2738,7 +2714,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/peripherals/pwm_timer.v
+## Datei: rtl/peripherals/pwm_timer.v {#file-rtl-peripherals-pwm-timer-v}
 
 ### Modul: pwm_timer {#module-pwm_timer}
 
@@ -2755,17 +2731,17 @@ Dieses Modul generiert ein PWM-Signal (Pulsweitenmodulation) mit konfigurierbare
 
 **Eingänge:**
 
-- `clk`    Systemtakt.
-- `rst_n`  Asynchroner, aktiver-LOW Reset.
-- `[7:0]`  address    Adressoffset zur Auswahl der Register.
-- `[31:0]` write_data Zu schreibende Daten in das ausgewählte Register.
-- `we`     Write-Enable-Signal.
-- `re`     Read-Enable-Signal.
+- `clk` Systemtakt.
+- `rst_n` Asynchroner, aktiver-LOW Reset.
+- `[7:0]  address` Adressoffset zur Auswahl der Register.
+- `[31:0] write_data` Zu schreibende Daten in das ausgewählte Register.
+- `we` Write-Enable-Signal.
+- `re` Read-Enable-Signal.
 
 **Ausgänge:**
 
-- `[31:0]` read_data Auszulesende Daten (abhängig von `address`).
-- `reg`    pwm_out   Das generierte PWM-Ausgangssignal.
+- `[31:0] read_data` Auszulesende Daten (abhängig von `address`).
+- `reg    pwm_out` Das generierte PWM-Ausgangssignal.
 
 <details>
 <summary>Source Code</summary>
@@ -2885,7 +2861,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/peripherals/seq_divider.v
+## Datei: rtl/peripherals/seq_divider.v {#file-rtl-peripherals-seq-divider-v}
 
 ### Modul: seq_divider {#module-seq_divider}
 
@@ -2903,16 +2879,16 @@ Dieses Modul führt eine sequentielle Division zweier 32-Bit-Werte durch. Dabei 
 
 **Eingänge:**
 
-- `clk`               Systemtakt.
-- `rst_n`             Aktiv-low Reset.
-- `[7:0]` address     Adresse für den Registerzugriff.
-- `[31:0]` write_data Daten, die z. B. Dividenden/Divisor setzen.
-- `we`                Schreibaktivierungssignal (Write-Enable).
-- `re`                Leseaktivierungssignal (Read-Enable).
+- `clk` Systemtakt.
+- `rst_n` Aktiv-low Reset.
+- `[7:0] address` Adresse für den Registerzugriff.
+- `[31:0] write_data` Daten, die z. B. Dividenden/Divisor setzen.
+- `we` Schreibaktivierungssignal (Write-Enable).
+- `re` Leseaktivierungssignal (Read-Enable).
 
 **Ausgänge:**
 
-- `[31:0]` read_data  Ausgabedaten basierend auf address.
+- `[31:0] read_data` Ausgabedaten basierend auf address.
 
 <details>
 <summary>Source Code</summary>
@@ -3050,7 +3026,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/peripherals/seq_multiplier.v
+## Datei: rtl/peripherals/seq_multiplier.v {#file-rtl-peripherals-seq-multiplier-v}
 
 ### Modul: seq_multiplier {#module-seq_multiplier}
 
@@ -3068,16 +3044,16 @@ Dieses Modul implementiert eine sequentielle Multiplikation zweier 32-Bit-Werte.
 
 **Eingänge:**
 
-- `clk`         Systemtakt.
-- `rst_n`       Aktiv-low Reset.
-- `address`     Speicheradresse für den Zugriff auf Register.
-- `write_data`  Daten, die in die ausgewählten Register geschrieben werden sollen.
-- `we`          Schreibaktivierungssignal (Write-Enable).
-- `re`          Leseaktivierungssignal (Read-Enable).
+- `clk` Systemtakt.
+- `rst_n` Aktiv-low Reset.
+- `address` Speicheradresse für den Zugriff auf Register.
+- `write_data` Daten, die in die ausgewählten Register geschrieben werden sollen.
+- `we` Schreibaktivierungssignal (Write-Enable).
+- `re` Leseaktivierungssignal (Read-Enable).
 
 **Ausgänge:**
 
-- `read_data`  Zu lesende Daten basierend auf der Adresse.
+- `read_data` Zu lesende Daten basierend auf der Adresse.
 
 <details>
 <summary>Source Code</summary>
@@ -3186,7 +3162,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/peripherals/spi.v
+## Datei: rtl/peripherals/spi.v {#file-rtl-peripherals-spi-v}
 
 ### Modul: spi {#module-spi}
 
@@ -3214,20 +3190,20 @@ Dieses Modul stellt ein SPI-Master-Interface bereit (MOSI/MISO/CLK/CS), mit jewe
 
 **Eingänge:**
 
-- `clk`               Systemtakt
-- `rst_n`             Asynchroner, aktiver-LOW Reset
-- `[7:0]` address     Auswahl des Registers innerhalb des SPI-Moduls
-- `[31:0]` write_data Daten, die in ein ausgewähltes Register geschrieben werden
-- `we`                Write-Enable-Signal
-- `re`                Read-Enable-Signal
-- `wire`              spi_miso  SPI-Daten-Eingang  (Master In, Slave Out)
+- `clk` Systemtakt
+- `rst_n` Asynchroner, aktiver-LOW Reset
+- `[7:0] address` Auswahl des Registers innerhalb des SPI-Moduls
+- `[31:0] write_data` Daten, die in ein ausgewähltes Register geschrieben werden
+- `we` Write-Enable-Signal
+- `re` Read-Enable-Signal
+- `wire              spi_miso` SPI-Daten-Eingang  (Master In, Slave Out)
 
 **Ausgänge:**
 
-- `[31:0]` read_data  Ausgelesener Wert aus dem entsprechenden Register
-- `reg`               spi_clk   SPI-Clock-Ausgang
-- `reg`               spi_mosi  SPI-Daten-Ausgang (Master Out, Slave In)
-- `wire`              spi_cs    SPI-Chip-Select (automatisch oder manuell)
+- `[31:0] read_data` Ausgelesener Wert aus dem entsprechenden Register
+- `reg               spi_clk` SPI-Clock-Ausgang
+- `reg               spi_mosi` SPI-Daten-Ausgang (Master Out, Slave In)
+- `wire              spi_cs` SPI-Chip-Select (automatisch oder manuell)
 
 <details>
 <summary>Source Code</summary>
@@ -3574,7 +3550,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/peripherals/system_timer.v
+## Datei: rtl/peripherals/system_timer.v {#file-rtl-peripherals-system-timer-v}
 
 ### Modul: system_timer {#module-system_timer}
 
@@ -3596,16 +3572,16 @@ Dieses Modul stellt einen System-Timer bereit, der sowohl Millisekunden- als auc
 
 **Eingänge:**
 
-- `clk`               Systemtakt.
-- `rst_n`             Asynchroner, aktiver-LOW Reset.
-- `[7:0]` address     Busadresse für das Lesen/Schreiben der Timerregister.
-- `[31:0]` write_data Zu schreibende Daten (z. B. zum Zurücksetzen).
-- `we`                Write-Enable.
-- `re`                Read-Enable.
+- `clk` Systemtakt.
+- `rst_n` Asynchroner, aktiver-LOW Reset.
+- `[7:0] address` Busadresse für das Lesen/Schreiben der Timerregister.
+- `[31:0] write_data` Zu schreibende Daten (z. B. zum Zurücksetzen).
+- `we` Write-Enable.
+- `re` Read-Enable.
 
 **Ausgänge:**
 
-- `[31:0]` read_data  Enthält gelesene Daten abhängig von `address`.
+- `[31:0] read_data` Enthält gelesene Daten abhängig von `address`.
 
 <details>
 <summary>Source Code</summary>
@@ -3734,7 +3710,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/peripherals/uart.v
+## Datei: rtl/peripherals/uart.v {#file-rtl-peripherals-uart-v}
 
 ### Modul: uart {#module-uart}
 
@@ -3754,18 +3730,18 @@ Dieses Modul implementiert eine einfache serielle Schnittstelle (UART). Es enth�
 
 **Eingänge:**
 
-- `clk`               Systemtakt
-- `rst_n`             Asynchrones, aktives-LOW Reset
-- `[7:0]` address     Adressoffset zur Auswahl der Register
-- `[31:0]` write_data Zu schreibende Daten in das jeweilige Register
-- `we`                Write-Enable-Signal
-- `re`                Read-Enable-Signal
-- `uart_rx`   UART-Eingangssignal (RX)
+- `clk` Systemtakt
+- `rst_n` Asynchrones, aktives-LOW Reset
+- `[7:0] address` Adressoffset zur Auswahl der Register
+- `[31:0] write_data` Zu schreibende Daten in das jeweilige Register
+- `we` Write-Enable-Signal
+- `re` Read-Enable-Signal
+- `uart_rx` UART-Eingangssignal (RX)
 
 **Ausgänge:**
 
-- `[31:0]` read_data  Gelesener Wert aus dem entsprechenden Register
-- `reg`     uart_tx   UART-Ausgangssignal (TX)
+- `[31:0] read_data` Gelesener Wert aus dem entsprechenden Register
+- `reg     uart_tx` UART-Ausgangssignal (TX)
 
 <details>
 <summary>Source Code</summary>
@@ -4222,7 +4198,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/peripherals/ws2812b.v
+## Datei: rtl/peripherals/ws2812b.v {#file-rtl-peripherals-ws2812b-v}
 
 ### Modul: ws2812b {#module-ws2812b}
 
@@ -4245,17 +4221,17 @@ Dieses Modul steuert eine Kette von WS2812B-LEDs. Es werden nacheinander 24-Bit-
 
 **Eingänge:**
 
-- `clk`               Systemtakt
-- `rst_n`             Asynchroner, aktiver-LOW Reset
-- `[7:0]`  address    Adressoffset, um eine der 8 LED-Daten zu wählen
-- `[31:0]` write_data Zu schreibender RGB-Wert (24 Bit genutzt)
-- `we`                Write Enable zum Setzen von LED-Farbwerten
-- `re`                Read Enable zum Auslesen gespeicherter Werte
+- `clk` Systemtakt
+- `rst_n` Asynchroner, aktiver-LOW Reset
+- `[7:0]  address` Adressoffset, um eine der 8 LED-Daten zu wählen
+- `[31:0] write_data` Zu schreibender RGB-Wert (24 Bit genutzt)
+- `we` Write Enable zum Setzen von LED-Farbwerten
+- `re` Read Enable zum Auslesen gespeicherter Werte
 
 **Ausgänge:**
 
-- `[31:0]` read_data  Gibt den gespeicherten RGB-Wert zurück
-- `reg`  ws_out       Ausgangssignal zur WS2812B-Datenleitung
+- `[31:0] read_data` Gibt den gespeicherten RGB-Wert zurück
+- `reg  ws_out` Ausgangssignal zur WS2812B-Datenleitung
 
 <details>
 <summary>Source Code</summary>
@@ -4448,7 +4424,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/register_file.v
+## Datei: rtl/register_file.v {#file-rtl-register-file-v}
 
 ### Modul: register_file {#module-register_file}
 
@@ -4458,18 +4434,18 @@ Diese Registerdatei umfasst entweder 32 Register (im RV32I-Mode) oder 16 Registe
 
 **Eingänge:**
 
-- `clk`             Systemtakt.
-- `rst_n`           Asynchroner, aktiver-LOW Reset.
-- `we`              Write-Enable-Signal zum Beschreiben eines Registers.
-- `[4:0]` rd        Zielregister, in das bei we=1 geschrieben werden soll.
-- `[4:0]` rs1       Erstes Quellregister für eine Leseanfrage.
-- `[4:0]` rs2       Zweites Quellregister für eine Leseanfrage.
-- `[31:0]` rd_data  Daten, die in rd geschrieben werden (falls we=1).
+- `clk` Systemtakt.
+- `rst_n` Asynchroner, aktiver-LOW Reset.
+- `we` Write-Enable-Signal zum Beschreiben eines Registers.
+- `[4:0] rd` Zielregister, in das bei we=1 geschrieben werden soll.
+- `[4:0] rs1` Erstes Quellregister für eine Leseanfrage.
+- `[4:0] rs2` Zweites Quellregister für eine Leseanfrage.
+- `[31:0] rd_data` Daten, die in rd geschrieben werden (falls we=1).
 
 **Ausgänge:**
 
-- `[31:0]` rs1_data Daten aus dem Register rs1.
-- `[31:0]` rs2_data Daten aus dem Register rs2.
+- `[31:0] rs1_data` Daten aus dem Register rs1.
+- `[31:0] rs2_data` Daten aus dem Register rs2.
 
 <details>
 <summary>Source Code</summary>
@@ -4576,7 +4552,7 @@ endmodule
 ```
 </details>
 
-## Datei: rtl/wgr_v_max.v
+## Datei: rtl/wgr_v_max.v {#file-rtl-wgr-v-max-v}
 
 ### Modul: wgr_v_max {#module-wgr_v_max}
 
@@ -4586,23 +4562,23 @@ Dieses Modul instanziiert die CPU (`cpu.v`) sowie den Hauptspeicher (`memory.v`)
 
 **Eingänge:**
 
-- `clk`        Systemtakt
-- `rst_n`      Asynchroner, aktiver-LOW Reset
-- `uart_rx`    RX-Eingang der UART-Schnittstelle
-- `spi_miso`   SPI-Eingang (Slave->Master)
-- `[` 7:0]     gpio_in   GPIO-Eingänge
+- `clk` Systemtakt
+- `rst_n` Asynchroner, aktiver-LOW Reset
+- `uart_rx` RX-Eingang der UART-Schnittstelle
+- `spi_miso` SPI-Eingang (Slave->Master)
+- `[ 7:0]     gpio_in` GPIO-Eingänge
 
 **Ausgänge:**
 
-- `uart_tx`    TX-Ausgang der UART-Schnittstelle
-- `[31:0]`     debug_out Debugging-Signal aus dem Debug-Modul
-- `pwm_out`    PWM-Ausgang
-- `ws_out`     Datenleitung für WS2812B-LEDs
-- `spi_mosi`   SPI-Ausgang (Master->Slave)
-- `spi_clk`    SPI-Takt
-- `spi_cs`     SPI-Chipselect
-- `[` 7:0]     gpio_out GPIO-Ausgänge
-- `[` 7:0]     gpio_dir GPIO-Richtung (derzeit ungenutzt)
+- `uart_tx` TX-Ausgang der UART-Schnittstelle
+- `[31:0]     debug_out` Debugging-Signal aus dem Debug-Modul
+- `pwm_out` PWM-Ausgang
+- `ws_out` Datenleitung für WS2812B-LEDs
+- `spi_mosi` SPI-Ausgang (Master->Slave)
+- `spi_clk` SPI-Takt
+- `spi_cs` SPI-Chipselect
+- `[ 7:0]     gpio_out` GPIO-Ausgänge
+- `[ 7:0]     gpio_dir` GPIO-Richtung (derzeit ungenutzt)
 
 <details>
 <summary>Source Code</summary>
