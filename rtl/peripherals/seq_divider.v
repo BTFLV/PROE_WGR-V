@@ -66,10 +66,12 @@ module seq_divider (
   // ---------------------------------------------------------
   wire [63:0] shifted_tmp;
   wire [31:0] shifted_upper;
+  wire [31:0] sub_result;
   wire        cmp_ge;
 
   assign shifted_tmp   = {dvdend_tmp[62:0], 1'b0};
   assign shifted_upper = shifted_tmp[63:32];
+  assign sub_result    = shifted_upper - divisor;
   assign cmp_ge        = (shifted_upper >= divisor);
 
   // ---------------------------------------------------------
@@ -133,7 +135,7 @@ module seq_divider (
       begin
         if (cmp_ge)
         begin
-          dvdend_tmp <= {shifted_upper - divisor, shifted_tmp[31:0]};
+          dvdend_tmp <= {sub_result, shifted_tmp[31:0]};
           quotient   <= {quotient[30:0], 1'b1};
         end
         else
@@ -144,7 +146,7 @@ module seq_divider (
 
         if (bit_index == 0)
         begin
-          remainder <= cmp_ge ? (shifted_upper - divisor) : shifted_upper;
+          remainder <= cmp_ge ? sub_result : shifted_upper;
           busy      <= 1'b0;
         end
         else
