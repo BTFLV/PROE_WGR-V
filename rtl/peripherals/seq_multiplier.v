@@ -54,6 +54,7 @@ module seq_multiplier (
   reg [31:0] multiplicand;
   reg [31:0] multiplier;
   reg [63:0] product;
+  reg [31:0] mul_shifted;
   reg [ 5:0] bit_index;
   reg        busy;
 
@@ -70,54 +71,53 @@ module seq_multiplier (
 
   // -------------------------------------------------------
   // Sequentielle Abarbeitung der Multiplikation
+  // Shift-and-Add: Pruefe jeweils das niedrigste Bit des
+  // Multipliers. Ist es gesetzt, addiere den (verschobenen)
+  // Multiplikanden auf das Ergebnis. Dann shifte den
+  // Multiplikanden nach links und den Multiplier nach rechts.
   // -------------------------------------------------------
   always @(posedge clk or negedge rst_n)
   begin
     if (!rst_n) begin
-      // Initialisierung bei Reset
       multiplicand <= 32'd0;
       multiplier   <= 32'd0;
       product      <= 64'd0;
+      mul_shifted  <= 32'd0;
       bit_index    <= 6'd0;
       busy         <= 1'b0;
     end
     else
     begin
-      // Behandlung von Bus-Schreibzugriffen
       if (we)
       begin
         case (address)
           MUL1_OFFSET: begin
-            // Schreiben des ersten Multiplikanden
             multiplicand <= write_data;
           end
           MUL2_OFFSET: begin
-            // Schreiben des zweiten Multiplikators -> Start der Multiplikation
-            multiplier <= write_data;
-            product    <= 64'd0;
-            bit_index  <= 6'd31;
-            busy       <= 1'b1;
+            multiplier  <= write_data;
+            product     <= 64'd0;
+            mul_shifted <= 32'd0;
+            bit_index   <= 6'd0;
+            busy        <= 1'b1;
           end
         endcase
       end
 
-      // Wenn busy = 1, läuft die sequentielle Multiplikation
       if (busy)
       begin
         if (multiplier[bit_index])
         begin
-          product <= product + ((64'd1 << bit_index) * multiplicand);
+          product <= product + ({32'd0, multiplicand} << bit_index);
         end
 
-        // Bitzähler reduzieren
-        if (bit_index == 0)
+        if (bit_index == 6'd31)
         begin
-          // Sobald alle Bits durch sind, ist die Multiplikation abgeschlossen
           busy <= 1'b0;
         end
         else
         begin
-          bit_index <= bit_index - 1;
+          bit_index <= bit_index + 1;
         end
       end
     end

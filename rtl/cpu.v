@@ -145,7 +145,9 @@ localparam [6:0]
     OPCODE_LOAD     = 7'b0000011,
     OPCODE_STORE    = 7'b0100011,
     OPCODE_OP_IMM   = 7'b0010011,
-    OPCODE_OP       = 7'b0110011;
+    OPCODE_OP       = 7'b0110011,
+    OPCODE_MISC_MEM = 7'b0001111,
+    OPCODE_SYSTEM   = 7'b1110011;
 
   // ---------------------------------------------------------
   // CPU-Register (PC, Zwischenspeicher etc.)
@@ -509,6 +511,22 @@ localparam [6:0]
               alu_operand1 <= 32'd0;
               alu_operand2 <= imm;
               alu_op       <= OP_ADD;
+            end
+
+            OPCODE_MISC_MEM:
+            begin
+              // FENCE: In einer nicht-ueberlappenden Pipeline ein NOP
+              alu_operand1 <= 32'd0;
+              alu_operand2 <= 32'd0;
+              alu_op       <= 4'b1111;
+            end
+
+            OPCODE_SYSTEM:
+            begin
+              // ECALL/EBREAK: Derzeit als NOP behandelt
+              alu_operand1 <= 32'd0;
+              alu_operand2 <= 32'd0;
+              alu_op       <= 4'b1111;
             end
 
             default:

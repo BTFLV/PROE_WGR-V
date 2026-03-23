@@ -184,12 +184,12 @@ module uart #(
   // ---------------------------------------------------------
   // Statusbits (bit 5:0)
   // ---------------------------------------------------------
-  // bit5 = tx_fifo_empty
-  // bit4 = tx_fifo_full
-  // bit3 = rx_fifo_empty
-  // bit2 = rx_fifo_full
-  // bit1 = uart_busy
-  // bit0 = uart_ready
+  // bit5 = uart_ready
+  // bit4 = uart_busy
+  // bit3 = rx_fifo_full
+  // bit2 = rx_fifo_empty
+  // bit1 = tx_fifo_full
+  // bit0 = tx_fifo_empty
   assign status_bits  = {uart_ready, uart_busy, rx_fifo_full, rx_fifo_empty, tx_fifo_full, tx_fifo_empty};
   
   // ---------------------------------------------------------
@@ -299,16 +299,19 @@ module uart #(
           if (tx_bd_cntr == bd_div_cnt)
           begin
             tx_bd_cntr <= {DIV_WIDTH{1'b0}};
-            uart_tx    <= tx_shift[0];
-            tx_shift   <= {1'b0, tx_shift[7:1]};
 
             if (tx_bit_id < 7)
             begin
-              tx_bit_id <= tx_bit_id + 3'b1;
-              tx_state  <= TX_DATA;
+              uart_tx    <= tx_shift[0];
+              tx_shift   <= {1'b0, tx_shift[7:1]};
+              tx_bit_id  <= tx_bit_id + 3'b1;
+              tx_state   <= TX_DATA;
             end
             else
-              tx_state <= TX_STOP;
+            begin
+              uart_tx    <= 1'b1;
+              tx_state   <= TX_STOP;
+            end
           end
           else
           begin
@@ -404,7 +407,7 @@ module uart #(
             if (rx_bd_cntr == bd_div_cnt)
             begin
               rx_bd_cntr          <= {DIV_WIDTH{1'b0}};
-              rx_shift[rx_bit_id] <= uart_rx;
+              rx_shift[rx_bit_id] <= rx_sync_2;
 
               if (rx_bit_id == 7)
                 rx_state <= RX_STOP;

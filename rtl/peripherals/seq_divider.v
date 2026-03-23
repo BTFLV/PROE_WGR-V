@@ -53,13 +53,24 @@ module seq_divider (
   // dvdend_tmp dient als Arbeitsregister (64 Bit),
   // um den Dividenden hochzuschieben und den Rest auszuarbeiten.
   // ---------------------------------------------------------
-  reg [31:0] dividend; // Gespeicherter Dividendenwert
-  reg [31:0] divisor;  // Gespeicherter Divisor
-  reg [63:0] dvdend_tmp; // Temporäre 64-Bit-Repräsentation des Dividenden
-  reg [31:0] quotient;  // Quotient
-  reg [31:0] remainder; // Rest
-  reg [ 5:0] bit_index; // Zähler für 32-Bit schrittweise Division
-  reg        busy;  // Signalisiert laufende Division
+  reg [31:0] dividend;
+  reg [31:0] divisor;
+  reg [63:0] dvdend_tmp;
+  reg [31:0] quotient;
+  reg [31:0] remainder;
+  reg [ 5:0] bit_index;
+  reg        busy;
+
+  // ---------------------------------------------------------
+  // Kombinatorische Signale für die Division (Shift + Vergleich)
+  // ---------------------------------------------------------
+  wire [63:0] shifted_tmp;
+  wire [31:0] shifted_upper;
+  wire        cmp_ge;
+
+  assign shifted_tmp   = {dvdend_tmp[62:0], 1'b0};
+  assign shifted_upper = shifted_tmp[63:32];
+  assign cmp_ge        = (shifted_upper >= divisor);
 
   // ---------------------------------------------------------
   // Lesezugriffe: abhängig vom Offset wird das passende
@@ -76,8 +87,9 @@ module seq_divider (
   // ---------------------------------------------------------
   // Sequentieller Ablauf:
   // - Schreiben von dividend und divisor startet Berechnung.
-  // - Der Divisor wird sukzessive vom oberen Teil des Dividenden
-  //   subtrahiert (wenn möglich), das Ergebnis fließt in quotient.
+  // - Restoring Division: Pro Takt wird dvdend_tmp nach links
+  //   geschoben. Ist der obere Teil >= divisor, wird subtrahiert
+  //   und das jeweilige Quotientenbit gesetzt.
   // ---------------------------------------------------------
   always @(posedge clk or negedge rst_n)
   begin
@@ -100,7 +112,6 @@ module seq_divider (
 
           END_OFFSET:
           begin
-            // Setzt den Dividenden und initialisiert das Arbeitsregister
             dividend   <= write_data;
             dvdend_tmp <= {32'd0, write_data}; 
             quotient   <= 32'd0;
@@ -109,7 +120,6 @@ module seq_divider (
 
           SOR_OFFSET:
           begin
-            // Setzt den Divisor und aktiviert die Division
             divisor    <= write_data;
             bit_index  <= 6'd31;
             busy       <= 1'b1;
@@ -118,29 +128,24 @@ module seq_divider (
         endcase
       end
 
-
       // Division in kleinen Schritten, solange busy=1
       if (busy)
       begin
-        // Jede Iteration: 
-        // 1) Schiebe das 64-Bit-Fenster nach links (dvdend_tmp << 1),
-        // 2) Schiebe quotient nach links, 
-        // 3) teste, ob Divisor subtrahierbar ist.
-        dvdend_tmp <= dvdend_tmp << 1;
-        quotient   <= quotient << 1;
-
-        // Prüfe den oberen 32-Bit-Teil gegen divisor
-        if (dvdend_tmp[63:32] >= divisor)
+        if (cmp_ge)
         begin
-          dvdend_tmp[63:32] <= dvdend_tmp[63:32] - divisor;
-          quotient[0] = 1;
+          dvdend_tmp <= {shifted_upper - divisor, shifted_tmp[31:0]};
+          quotient   <= {quotient[30:0], 1'b1};
+        end
+        else
+        begin
+          dvdend_tmp <= shifted_tmp;
+          quotient   <= {quotient[30:0], 1'b0};
         end
 
-        // Sobald alle Bits bearbeitet sind, legen wir remainder fest.
         if (bit_index == 0)
         begin
-          remainder <= dvdend_tmp[63:32];
-          busy <= 1'b0;
+          remainder <= cmp_ge ? (shifted_upper - divisor) : shifted_upper;
+          busy      <= 1'b0;
         end
         else
         begin

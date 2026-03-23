@@ -403,8 +403,13 @@ module peripheral_bus (
     if (re)
     begin
 
+      if (1'b0) begin
+        // Dummy-Zweig, damit nachfolgende ifdef-Bloecke
+        // immer als 'else if' angehaengt werden koennen.
+        read_data <= 32'h0;
+      end
 `ifdef INCLUDE_DEBUG
-      if      (debug_sel) read_data <= debug_data;
+      else if (debug_sel) read_data <= debug_data;
 `endif
 `ifdef INCLUDE_UART
       else if (uart_sel)  read_data <= uart_data;
